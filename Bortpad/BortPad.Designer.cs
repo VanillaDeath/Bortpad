@@ -88,7 +88,7 @@ namespace Bortpad
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
-            this.editor = new System.Windows.Forms.RichTextBox();
+            this.editor = new Bortpad.PlainRichTextBox();
             this.editorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editorUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.editorRedo = new System.Windows.Forms.ToolStripMenuItem();
@@ -830,7 +830,7 @@ namespace Bortpad
         internal System.Windows.Forms.ToolStripMenuItem findNextToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem findPreviousToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
-        private System.Windows.Forms.RichTextBox editor;
+        private Bortpad.PlainRichTextBox editor;
         private System.Windows.Forms.ContextMenuStrip editorContextMenu;
         private System.Windows.Forms.ToolStripMenuItem editorUndo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
