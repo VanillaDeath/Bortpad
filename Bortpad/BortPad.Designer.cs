@@ -45,6 +45,7 @@ namespace Bortpad
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,6 +75,7 @@ namespace Bortpad
             this.sendFeedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutNotepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.darkMode = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.statusBarLeft = new System.Windows.Forms.ToolStripStatusLabel();
             this.position = new System.Windows.Forms.ToolStripStatusLabel();
@@ -89,6 +91,7 @@ namespace Bortpad
             this.editor = new System.Windows.Forms.RichTextBox();
             this.editorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editorUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.editorRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.editorCut = new System.Windows.Forms.ToolStripMenuItem();
             this.editorCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,8 +103,6 @@ namespace Bortpad
             this.editorRightToLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearchWithGoogle = new System.Windows.Forms.ToolStripMenuItem();
-            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editorRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
@@ -114,7 +115,8 @@ namespace Bortpad
             this.editToolStripMenuItem,
             this.formatToolStripMenuItem,
             this.viewToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.darkMode});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -255,6 +257,15 @@ namespace Bortpad
             this.undoToolStripMenuItem.Text = "&Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
+            // redoToolStripMenuItem
+            // 
+            this.redoToolStripMenuItem.Enabled = false;
+            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.redoToolStripMenuItem.Text = "R&edo";
+            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
+            // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
@@ -347,7 +358,6 @@ namespace Bortpad
             // 
             // replaceToolStripMenuItem
             // 
-            this.replaceToolStripMenuItem.Enabled = false;
             this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
             this.replaceToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
@@ -426,7 +436,7 @@ namespace Bortpad
             this.zoomOutToolStripMenuItem,
             this.restoreDefaultZoomToolStripMenuItem});
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.zoomToolStripMenuItem.Text = "&Zoom";
             // 
             // zoomInToolStripMenuItem
@@ -462,7 +472,7 @@ namespace Bortpad
             this.statusBarToolStripMenuItem.CheckOnClick = true;
             this.statusBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
-            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.statusBarToolStripMenuItem.Text = "&Status Bar";
             this.statusBarToolStripMenuItem.Click += new System.EventHandler(this.satusBarToolStripMenuItem_Click);
             // 
@@ -503,6 +513,19 @@ namespace Bortpad
             this.aboutNotepadToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.aboutNotepadToolStripMenuItem.Text = "&About Bortpad";
             this.aboutNotepadToolStripMenuItem.Click += new System.EventHandler(this.aboutNotepadToolStripMenuItem_Click);
+            // 
+            // darkMode
+            // 
+            this.darkMode.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.darkMode.AutoSize = false;
+            this.darkMode.BackColor = System.Drawing.SystemColors.ControlText;
+            this.darkMode.ForeColor = System.Drawing.SystemColors.Control;
+            this.darkMode.Name = "darkMode";
+            this.darkMode.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
+            this.darkMode.Size = new System.Drawing.Size(20, 20);
+            this.darkMode.Text = "🌙";
+            this.darkMode.ToolTipText = "Dark Mode";
+            this.darkMode.Click += new System.EventHandler(this.darkMode_Click);
             // 
             // statusBar
             // 
@@ -644,6 +667,14 @@ namespace Bortpad
             this.editorUndo.Text = "&Undo";
             this.editorUndo.Click += new System.EventHandler(this.editorUndo_Click);
             // 
+            // editorRedo
+            // 
+            this.editorRedo.Enabled = false;
+            this.editorRedo.Name = "editorRedo";
+            this.editorRedo.Size = new System.Drawing.Size(213, 22);
+            this.editorRedo.Text = "R&edo";
+            this.editorRedo.Click += new System.EventHandler(this.editorRedo_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -717,23 +748,6 @@ namespace Bortpad
             this.editorSearchWithGoogle.Size = new System.Drawing.Size(213, 22);
             this.editorSearchWithGoogle.Text = "Search with &Google...";
             this.editorSearchWithGoogle.Click += new System.EventHandler(this.editorSearchWithGoogle_Click);
-            // 
-            // redoToolStripMenuItem
-            // 
-            this.redoToolStripMenuItem.Enabled = false;
-            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.redoToolStripMenuItem.Text = "R&edo";
-            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
-            // 
-            // editorRedo
-            // 
-            this.editorRedo.Enabled = false;
-            this.editorRedo.Name = "editorRedo";
-            this.editorRedo.Size = new System.Drawing.Size(213, 22);
-            this.editorRedo.Text = "R&edo";
-            this.editorRedo.Click += new System.EventHandler(this.editorRedo_Click);
             // 
             // BortForm
             // 
@@ -832,6 +846,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem editorSearchWithGoogle;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editorRedo;
+        private System.Windows.Forms.ToolStripMenuItem darkMode;
     }
 }
 

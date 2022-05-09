@@ -53,7 +53,6 @@
             this.lineNumber.Size = new System.Drawing.Size(223, 20);
             this.lineNumber.TabIndex = 1;
             this.lineNumber.Text = "1";
-            this.lineNumber.TextChanged += new System.EventHandler(this.lineNumber_TextChanged);
             this.lineNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             this.lineNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
@@ -72,7 +71,6 @@
             // GoToButton
             // 
             this.GoToButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.GoToButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.GoToButton.Location = new System.Drawing.Point(83, 67);
             this.GoToButton.Name = "GoToButton";
             this.GoToButton.Size = new System.Drawing.Size(75, 23);
@@ -100,6 +98,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Go To Line";
+            this.Shown += new System.EventHandler(this.GoToPrompt_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

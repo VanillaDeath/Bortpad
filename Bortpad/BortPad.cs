@@ -12,19 +12,21 @@ namespace Bortpad
 {
     public partial class BortForm : Form
     {
-        internal string programName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-        internal string searchQuery, searchReplaceString;
-        internal bool searchReverse, searchMatchCase, searchWrapAround;
         private const string defaultFilename = "Untitled";
+        internal string programName;
         private string filename;
+        private string searchQuery, searchReplaceString;
+        private bool searchReverse, searchMatchCase, searchWrapAround;
         private bool ChangesMade;
         private bool isFile;
+        private bool darkModeOn;
         private Encoding encodingSetting;
         private FindPrompt find;
         private ReplacePrompt replace;
         public BortForm(string filenameSpecified = null)
         {
             InitializeComponent();
+            programName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             isFile = filenameSpecified != null && File.Exists(filenameSpecified) ? true : false;
             ChangesMade = false;
             filename = isFile ? filenameSpecified : defaultFilename;
@@ -35,6 +37,7 @@ namespace Bortpad
             searchReverse = false;
             searchMatchCase = false;
             searchWrapAround = false;
+            darkModeOn = false;
             UpdateTitle();
         }
 
@@ -141,19 +144,30 @@ namespace Bortpad
             findToolStripMenuItem.Enabled = hasText;
             findNextToolStripMenuItem.Enabled = canRepeatFind();
             findPreviousToolStripMenuItem.Enabled = canRepeatFind();
-            replaceToolStripMenuItem.Enabled = hasText;
+            // replaceToolStripMenuItem.Enabled = hasText;
+            // goToToolStripMenuItem.Enabled = hasText;
+            // selectAllToolStripMenuItem.Enabled = hasText;
             ChangesMade = true;
             UpdatePos();
             UpdateTitle();
+        }
+
+        internal int getLineNumber(int startFrom = 1)
+        {
+            return editor.GetLineFromCharIndex(editor.SelectionStart) + startFrom;
+        }
+        internal int[] getLnCol(int startFrom = 1)
+        {
+            int line = getLineNumber(0);
+            return new int[] { line + startFrom, editor.SelectionStart - editor.GetFirstCharIndexFromLine(line) + startFrom};
         }
 
         private void UpdatePos()
         {
             if (statusBar.Visible)
             {
-                int line = editor.GetLineFromCharIndex(editor.SelectionStart);
-                int column = editor.SelectionStart - editor.GetFirstCharIndexFromLine(line);
-                position.Text = "Ln " + (line + 1) + ", Col " + (column + 1);
+                int[] pos = getLnCol();
+                position.Text = "Ln " + pos[0] + ", Col " + pos[1];
             }
         }
 
@@ -305,7 +319,10 @@ namespace Bortpad
 
         public void PageSetup()
         {
-            pageSetupDialog1.ShowDialog();
+            if (pageSetupDialog1.ShowDialog() == DialogResult.OK)
+            {
+
+            }
         }
 
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -358,13 +375,31 @@ namespace Bortpad
 
         private void GoToLine()
         {
-            GoToPrompt gt = new GoToPrompt();
-            if (gt.ShowDialog() == DialogResult.OK)
+            GoToPrompt gt = new GoToPrompt(getLineNumber());
+            gt.ShowDialog(this);
+        }
+        internal bool goToLineFromPrompt(string ln)
+        {
+            int max = editor.Lines.Length < 1 ? 1 : editor.Lines.Length;
+            if (ln != null && ln != "" && long.TryParse(ln, out long lnNum) && lnNum >= 1 && lnNum <= max && setLineNumber((int)lnNum))
             {
-                editor.Select(editor.GetFirstCharIndexFromLine(gt.LineNumber - 1), 0);
+                return true;
+            }
+            MessageBox.Show("The line number is beyond the total number of lines", programName + " - Goto Line", MessageBoxButtons.OK);
+            return false;
+        }
+        private bool setLineNumber(int lnNum)
+        {
+            try
+            {
+                editor.Select(editor.GetFirstCharIndexFromLine(lnNum - 1), 0);
                 editor.Focus();
                 editor.ScrollToCaret();
                 UpdatePos();
+                return true;
+            } catch
+            {
+                return false;
             }
         }
 
@@ -375,7 +410,6 @@ namespace Bortpad
 
         private void findInEditor()
         {
-            // find = Application.OpenForms.OfType<FindPrompt>().FirstOrDefault();
             if (find != null && find.Visible)
             {
                 find.BringToFront();
@@ -623,32 +657,43 @@ namespace Bortpad
         private void restoreDefaultZoomToolStripMenuItem_Click(object sender, EventArgs e)
         {
             editor.ZoomFactor = 1.0f;
+            UpdateZoom();
         }
 
         private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (editor.ZoomFactor < 1)
+            if (editor.ZoomFactor < 5)
             {
                 editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor + 0.1, 1));
-                return;
             }
-            if (editor.ZoomFactor < 63)
-            {
-                editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor + 1));
-            }
+            UpdateZoom();
         }
 
         private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (editor.ZoomFactor > 1)
-            {
-                editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor - 1.0));
-                return;
-            }
             if (editor.ZoomFactor >= 0.2)
             {
                 editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor - 0.1, 1));
             }
+            UpdateZoom();
+        }
+
+        private void UpdateZoom()
+        {
+            zoomLevel.Text = Math.Round(editor.ZoomFactor * 100).ToString() + "%";
+        }
+
+        private void darkMode_Click(object sender, EventArgs e)
+        {
+            darkModeOn = !darkModeOn;
+            editor.TextChanged -= textBox1_TextChanged;
+            editor.BackColor = darkModeOn ? SystemColors.WindowText : SystemColors.Window;
+            editor.ForeColor = darkModeOn ? SystemColors.Window : SystemColors.WindowText;
+            editor.TextChanged += textBox1_TextChanged;
+            darkMode.Text = darkModeOn ? "☀" : "🌙";
+            darkMode.BackColor = darkModeOn ? SystemColors.Control : SystemColors.ControlText;
+            darkMode.ForeColor = darkModeOn ? SystemColors.ControlText : SystemColors.Control;
+            darkMode.Checked = darkModeOn;
         }
 
         private int OmniIndexOf(string text, bool reverse = false, int start = 0, bool matchCase = false)

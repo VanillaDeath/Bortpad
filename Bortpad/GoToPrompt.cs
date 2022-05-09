@@ -1,15 +1,25 @@
 ﻿using System;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Bortpad
 {
     public partial class GoToPrompt : Form
     {
-        public int LineNumber { get; set; }
-        public GoToPrompt()
+        BortForm BortParent;
+        int origLineNumber;
+        ToolTip err;
+        [DllImport("user32.dll")]
+        static extern bool GetCaretPos(out Point lpPoint);
+        public GoToPrompt(int setOrigLineNumber = 0)
         {
             InitializeComponent();
-            LineNumber = int.Parse(lineNumber.Text);
+            origLineNumber = setOrigLineNumber;
+            err = new ToolTip();
+            err.IsBalloon = true;
+            err.ToolTipIcon = ToolTipIcon.Error;
+            err.ToolTipTitle = "Unacceptable Character";
         }
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -47,7 +57,10 @@ namespace Bortpad
                              char.IsPunctuation(currentKey);
 
             if (!modifier && nonNumber)
+            {
+                errorBubble();
                 e.SuppressKeyPress = true;
+            }
 
             //Handle pasted Text
             if (e.Control && e.KeyCode == Keys.V)
@@ -64,6 +77,7 @@ namespace Bortpad
                 if (strippedText != pasteText)
                 {
                     //There were non-numbers in the pasted text
+                    errorBubble();
                     e.SuppressKeyPress = true;
 
                     //OPTIONAL: Manually insert text stripped of non-numbers
@@ -80,11 +94,6 @@ namespace Bortpad
             }
         }
 
-        private void lineNumber_TextChanged(object sender, EventArgs e)
-        {
-            LineNumber = int.Parse(lineNumber.Text);
-        }
-
         private void CancelButton_Click(object sender, EventArgs e)
         {
             Close();
@@ -92,7 +101,36 @@ namespace Bortpad
 
         private void GoToButton_Click(object sender, EventArgs e)
         {
-            LineNumber = int.Parse(lineNumber.Text);
+            // LineNumber = int.Parse(lineNumber.Text);
+            if (BortParent.goToLineFromPrompt(lineNumber.Text))
+            {
+                Close();
+            } else
+            {
+                initField();
+            }
+        }
+
+        private void GoToPrompt_Shown(object sender, EventArgs e)
+        {
+            BortParent = (BortForm)Owner;
+            if (origLineNumber < 1)
+            {
+                origLineNumber = BortParent.getLineNumber();
+            }
+            initField();
+            err.Show(String.Empty, lineNumber, 0);
+        }
+
+        private void initField()
+        {
+            lineNumber.Text = origLineNumber.ToString();
+            lineNumber.SelectAll();
+        }
+        private void errorBubble()
+        {
+            GetCaretPos(out Point pt);
+            err.Show("You can only type a number here.", lineNumber, pt.X, pt.Y + 13, 10000);
         }
     }
 }
