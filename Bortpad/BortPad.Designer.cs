@@ -80,14 +80,13 @@ namespace Bortpad
             this.zoomLevel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lineReturnType = new System.Windows.Forms.ToolStripStatusLabel();
             this.encodingStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.editor = new System.Windows.Forms.TextBox();
             this.fontDlg = new System.Windows.Forms.FontDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
-            this.editor2 = new System.Windows.Forms.RichTextBox();
+            this.editor = new System.Windows.Forms.RichTextBox();
             this.editorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editorUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -101,6 +100,8 @@ namespace Bortpad
             this.editorRightToLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearchWithGoogle = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editorRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
@@ -222,6 +223,7 @@ namespace Bortpad
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoToolStripMenuItem,
+            this.redoToolStripMenuItem,
             this.toolStripMenuItem4,
             this.cutToolStripMenuItem,
             this.copyToolStripMenuItem,
@@ -245,6 +247,7 @@ namespace Bortpad
             // 
             // undoToolStripMenuItem
             // 
+            this.undoToolStripMenuItem.Enabled = false;
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
@@ -259,6 +262,7 @@ namespace Bortpad
             // 
             // cutToolStripMenuItem
             // 
+            this.cutToolStripMenuItem.Enabled = false;
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
@@ -268,6 +272,7 @@ namespace Bortpad
             // 
             // copyToolStripMenuItem
             // 
+            this.copyToolStripMenuItem.Enabled = false;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
@@ -277,6 +282,7 @@ namespace Bortpad
             // 
             // pasteToolStripMenuItem
             // 
+            this.pasteToolStripMenuItem.Enabled = false;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
@@ -286,6 +292,7 @@ namespace Bortpad
             // 
             // deleteToolStripMenuItem
             // 
+            this.deleteToolStripMenuItem.Enabled = false;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
@@ -300,6 +307,7 @@ namespace Bortpad
             // 
             // searchWithBortToolStripMenuItem
             // 
+            this.searchWithBortToolStripMenuItem.Enabled = false;
             this.searchWithBortToolStripMenuItem.Name = "searchWithBortToolStripMenuItem";
             this.searchWithBortToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.searchWithBortToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
@@ -417,37 +425,36 @@ namespace Bortpad
             this.zoomInToolStripMenuItem,
             this.zoomOutToolStripMenuItem,
             this.restoreDefaultZoomToolStripMenuItem});
-            this.zoomToolStripMenuItem.Enabled = false;
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zoomToolStripMenuItem.Text = "&Zoom";
             // 
             // zoomInToolStripMenuItem
             // 
-            this.zoomInToolStripMenuItem.Enabled = false;
             this.zoomInToolStripMenuItem.Name = "zoomInToolStripMenuItem";
             this.zoomInToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Plus";
             this.zoomInToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Oemplus)));
             this.zoomInToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.zoomInToolStripMenuItem.Text = "Zoom &In";
+            this.zoomInToolStripMenuItem.Click += new System.EventHandler(this.zoomInToolStripMenuItem_Click);
             // 
             // zoomOutToolStripMenuItem
             // 
-            this.zoomOutToolStripMenuItem.Enabled = false;
             this.zoomOutToolStripMenuItem.Name = "zoomOutToolStripMenuItem";
             this.zoomOutToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Minus";
             this.zoomOutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.OemMinus)));
             this.zoomOutToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.zoomOutToolStripMenuItem.Text = "Zoom &Out";
+            this.zoomOutToolStripMenuItem.Click += new System.EventHandler(this.zoomOutToolStripMenuItem_Click);
             // 
             // restoreDefaultZoomToolStripMenuItem
             // 
-            this.restoreDefaultZoomToolStripMenuItem.Enabled = false;
             this.restoreDefaultZoomToolStripMenuItem.Name = "restoreDefaultZoomToolStripMenuItem";
             this.restoreDefaultZoomToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.restoreDefaultZoomToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
             this.restoreDefaultZoomToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.restoreDefaultZoomToolStripMenuItem.Text = "&Restore Default Zoom";
+            this.restoreDefaultZoomToolStripMenuItem.Click += new System.EventHandler(this.restoreDefaultZoomToolStripMenuItem_Click);
             // 
             // statusBarToolStripMenuItem
             // 
@@ -455,7 +462,7 @@ namespace Bortpad
             this.statusBarToolStripMenuItem.CheckOnClick = true;
             this.statusBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
-            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.statusBarToolStripMenuItem.Text = "&Status Bar";
             this.statusBarToolStripMenuItem.Click += new System.EventHandler(this.satusBarToolStripMenuItem_Click);
             // 
@@ -552,32 +559,6 @@ namespace Bortpad
             this.encodingStatus.Text = "UTF-8";
             this.encodingStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // editor
-            // 
-            this.editor.AcceptsReturn = true;
-            this.editor.AcceptsTab = true;
-            this.editor.AllowDrop = true;
-            this.editor.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editor.HideSelection = false;
-            this.editor.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.editor.Location = new System.Drawing.Point(0, 24);
-            this.editor.MaxLength = 0;
-            this.editor.Multiline = true;
-            this.editor.Name = "editor";
-            this.editor.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.editor.Size = new System.Drawing.Size(1043, 518);
-            this.editor.TabIndex = 2;
-            this.editor.WordWrap = false;
-            this.editor.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            this.editor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.editor_KeyDown);
-            this.editor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.editor_KeyPress);
-            this.editor.KeyUp += new System.Windows.Forms.KeyEventHandler(this.editor_KeyUp);
-            this.editor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.editor_MouseDown);
-            this.editor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.editor_MouseMove);
-            this.editor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.editor_MouseUp);
-            // 
             // fontDlg
             // 
             this.fontDlg.ShowEffects = false;
@@ -611,27 +592,35 @@ namespace Bortpad
             // 
             this.pageSetupDialog1.Document = this.printDocument1;
             // 
-            // editor2
+            // editor
             // 
-            this.editor2.AcceptsTab = true;
-            this.editor2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.editor2.ContextMenuStrip = this.editorContextMenu;
-            this.editor2.DetectUrls = false;
-            this.editor2.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editor2.HideSelection = false;
-            this.editor2.Location = new System.Drawing.Point(662, 138);
-            this.editor2.Name = "editor2";
-            this.editor2.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.editor2.Size = new System.Drawing.Size(351, 351);
-            this.editor2.TabIndex = 8;
-            this.editor2.Text = "";
-            this.editor2.Visible = false;
-            this.editor2.WordWrap = false;
+            this.editor.AcceptsTab = true;
+            this.editor.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.editor.ContextMenuStrip = this.editorContextMenu;
+            this.editor.DetectUrls = false;
+            this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editor.HideSelection = false;
+            this.editor.Location = new System.Drawing.Point(0, 24);
+            this.editor.Name = "editor";
+            this.editor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
+            this.editor.Size = new System.Drawing.Size(1043, 518);
+            this.editor.TabIndex = 8;
+            this.editor.Text = "";
+            this.editor.WordWrap = false;
+            this.editor.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.editor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.editor_KeyDown);
+            this.editor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.editor_KeyPress);
+            this.editor.KeyUp += new System.Windows.Forms.KeyEventHandler(this.editor_KeyUp);
+            this.editor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.editor_MouseDown);
+            this.editor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.editor_MouseMove);
+            this.editor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.editor_MouseUp);
             // 
             // editorContextMenu
             // 
             this.editorContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editorUndo,
+            this.editorRedo,
             this.toolStripSeparator1,
             this.editorCut,
             this.editorCopy,
@@ -644,7 +633,8 @@ namespace Bortpad
             this.toolStripSeparator3,
             this.editorSearchWithGoogle});
             this.editorContextMenu.Name = "editorContextMenu";
-            this.editorContextMenu.Size = new System.Drawing.Size(214, 204);
+            this.editorContextMenu.Size = new System.Drawing.Size(214, 226);
+            this.editorContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.editorContextMenu_Opening);
             // 
             // editorUndo
             // 
@@ -652,6 +642,7 @@ namespace Bortpad
             this.editorUndo.Name = "editorUndo";
             this.editorUndo.Size = new System.Drawing.Size(213, 22);
             this.editorUndo.Text = "&Undo";
+            this.editorUndo.Click += new System.EventHandler(this.editorUndo_Click);
             // 
             // toolStripSeparator1
             // 
@@ -664,6 +655,7 @@ namespace Bortpad
             this.editorCut.Name = "editorCut";
             this.editorCut.Size = new System.Drawing.Size(213, 22);
             this.editorCut.Text = "Cu&t";
+            this.editorCut.Click += new System.EventHandler(this.editorCut_Click);
             // 
             // editorCopy
             // 
@@ -671,6 +663,7 @@ namespace Bortpad
             this.editorCopy.Name = "editorCopy";
             this.editorCopy.Size = new System.Drawing.Size(213, 22);
             this.editorCopy.Text = "&Copy";
+            this.editorCopy.Click += new System.EventHandler(this.editorCopy_Click);
             // 
             // editorPaste
             // 
@@ -678,6 +671,7 @@ namespace Bortpad
             this.editorPaste.Name = "editorPaste";
             this.editorPaste.Size = new System.Drawing.Size(213, 22);
             this.editorPaste.Text = "&Paste";
+            this.editorPaste.Click += new System.EventHandler(this.editorPaste_Click);
             // 
             // editorDelete
             // 
@@ -685,6 +679,7 @@ namespace Bortpad
             this.editorDelete.Name = "editorDelete";
             this.editorDelete.Size = new System.Drawing.Size(213, 22);
             this.editorDelete.Text = "&Delete";
+            this.editorDelete.Click += new System.EventHandler(this.editorDelete_Click);
             // 
             // toolStripSeparator2
             // 
@@ -696,6 +691,7 @@ namespace Bortpad
             this.editorSelectAll.Name = "editorSelectAll";
             this.editorSelectAll.Size = new System.Drawing.Size(213, 22);
             this.editorSelectAll.Text = "Select &All";
+            this.editorSelectAll.Click += new System.EventHandler(this.editorSelectAll_Click);
             // 
             // toolStripSeparator4
             // 
@@ -707,6 +703,7 @@ namespace Bortpad
             this.editorRightToLeft.Name = "editorRightToLeft";
             this.editorRightToLeft.Size = new System.Drawing.Size(213, 22);
             this.editorRightToLeft.Text = "&Right to left Reading order";
+            this.editorRightToLeft.Click += new System.EventHandler(this.editorRightToLeft_Click);
             // 
             // toolStripSeparator3
             // 
@@ -719,6 +716,24 @@ namespace Bortpad
             this.editorSearchWithGoogle.Name = "editorSearchWithGoogle";
             this.editorSearchWithGoogle.Size = new System.Drawing.Size(213, 22);
             this.editorSearchWithGoogle.Text = "Search with &Google...";
+            this.editorSearchWithGoogle.Click += new System.EventHandler(this.editorSearchWithGoogle_Click);
+            // 
+            // redoToolStripMenuItem
+            // 
+            this.redoToolStripMenuItem.Enabled = false;
+            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.redoToolStripMenuItem.Text = "R&edo";
+            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
+            // 
+            // editorRedo
+            // 
+            this.editorRedo.Enabled = false;
+            this.editorRedo.Name = "editorRedo";
+            this.editorRedo.Size = new System.Drawing.Size(213, 22);
+            this.editorRedo.Text = "R&edo";
+            this.editorRedo.Click += new System.EventHandler(this.editorRedo_Click);
             // 
             // BortForm
             // 
@@ -726,7 +741,6 @@ namespace Bortpad
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1043, 564);
             this.Controls.Add(this.editor);
-            this.Controls.Add(this.editor2);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.mainMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -802,8 +816,7 @@ namespace Bortpad
         internal System.Windows.Forms.ToolStripMenuItem findNextToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem findPreviousToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
-        private System.Windows.Forms.RichTextBox editor2;
-        private System.Windows.Forms.TextBox editor;
+        private System.Windows.Forms.RichTextBox editor;
         private System.Windows.Forms.ContextMenuStrip editorContextMenu;
         private System.Windows.Forms.ToolStripMenuItem editorUndo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -817,6 +830,8 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem editorRightToLeft;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem editorSearchWithGoogle;
+        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editorRedo;
     }
 }
 

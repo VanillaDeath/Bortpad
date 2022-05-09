@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Bortpad
@@ -13,7 +6,7 @@ namespace Bortpad
     public partial class GoToPrompt : Form
     {
         public int LineNumber { get; set; }
-        public GoToPrompt ()
+        public GoToPrompt()
         {
             InitializeComponent();
             LineNumber = int.Parse(lineNumber.Text);

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
-using System.Drawing.Printing;
 using System.Web;
-using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Bortpad
 {
@@ -63,7 +59,7 @@ namespace Bortpad
             // true = we're good to proceed and launch open dialog/close app/etc
             return true;
         }
-        
+
         private void NewDocument()
         {
             if (SaveConfirmPrompt(false))
@@ -256,7 +252,7 @@ namespace Bortpad
         private void timeDateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DateTime now = DateTime.Now;
-            editor.Paste(now.ToString("g"));
+            editor.SelectedText = now.ToString("g");
         }
 
         private void editor_MouseDown(object sender, MouseEventArgs e)
@@ -321,6 +317,7 @@ namespace Bortpad
             searchWithBortToolStripMenuItem.Enabled = isSelected;
             pasteToolStripMenuItem.Enabled = Clipboard.GetText().Length > 0;
             undoToolStripMenuItem.Enabled = editor.CanUndo;
+            redoToolStripMenuItem.Enabled = editor.CanRedo;
         }
 
         private void newWindowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -405,7 +402,8 @@ namespace Bortpad
             {
                 pos = OmniIndexOf(getSearchQuery(), prev, prev ? editor.Text.Length - 1 : 0, getSearchMatchCase());
                 setStatus(pos == -1 ? "" : "Found next from the " + (prev ? "bottom" : "top"));
-            } else
+            }
+            else
             {
                 setStatus();
             }
@@ -451,7 +449,8 @@ namespace Bortpad
         internal int replaceFromPrompt(string query, string replaceString, bool matchCase, bool wrapAround)
         {
             setSearchQuery(query).setReplaceString(replaceString).setSearchMatchCase(matchCase).setSearchWrapAround(wrapAround);
-            if (editor.SelectedText.Equals(query, getComparisonType(matchCase))) {
+            if (editor.SelectedText.Equals(query, getComparisonType(matchCase)))
+            {
                 editor.SelectedText = replaceString;
             }
             return findFromPrompt(query, false, matchCase, wrapAround);
@@ -556,6 +555,100 @@ namespace Bortpad
         private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start("https://stevenwilson.ca/bortpad/help");
+        }
+
+        private void editorContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bool isSelected = editor.SelectionLength > 0;
+            editorCut.Enabled = isSelected;
+            editorCopy.Enabled = isSelected;
+            editorDelete.Enabled = isSelected;
+            editorSearchWithGoogle.Enabled = isSelected;
+            editorPaste.Enabled = Clipboard.GetText().Length > 0;
+            editorUndo.Enabled = editor.CanUndo;
+            editorRedo.Enabled = editor.CanRedo;
+        }
+
+        private void editorUndo_Click(object sender, EventArgs e)
+        {
+            editor.Undo();
+        }
+
+        private void editorCut_Click(object sender, EventArgs e)
+        {
+            editor.Cut();
+        }
+
+        private void editorCopy_Click(object sender, EventArgs e)
+        {
+            editor.Copy();
+        }
+
+        private void editorPaste_Click(object sender, EventArgs e)
+        {
+            editor.Paste();
+        }
+
+        private void editorDelete_Click(object sender, EventArgs e)
+        {
+            editor.SelectedText = "";
+        }
+
+        private void editorSelectAll_Click(object sender, EventArgs e)
+        {
+            editor.SelectAll();
+        }
+
+        private void editorRightToLeft_Click(object sender, EventArgs e)
+        {
+            editor.RightToLeft = editor.RightToLeft == RightToLeft.No ? RightToLeft.Yes : RightToLeft.No;
+            editorRightToLeft.Checked = editor.RightToLeft == RightToLeft.Yes;
+        }
+
+        private void editorSearchWithGoogle_Click(object sender, EventArgs e)
+        {
+            searchWeb();
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            editor.Redo();
+        }
+
+        private void editorRedo_Click(object sender, EventArgs e)
+        {
+            editor.Redo();
+        }
+
+        private void restoreDefaultZoomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            editor.ZoomFactor = 1.0f;
+        }
+
+        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (editor.ZoomFactor < 1)
+            {
+                editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor + 0.1, 1));
+                return;
+            }
+            if (editor.ZoomFactor < 63)
+            {
+                editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor + 1));
+            }
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (editor.ZoomFactor > 1)
+            {
+                editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor - 1.0));
+                return;
+            }
+            if (editor.ZoomFactor >= 0.2)
+            {
+                editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor - 0.1, 1));
+            }
         }
 
         private int OmniIndexOf(string text, bool reverse = false, int start = 0, bool matchCase = false)
