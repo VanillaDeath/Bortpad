@@ -23,6 +23,7 @@ namespace Bortpad
         private ReplacePrompt replace;
         private string searchQuery, searchReplaceString;
         private bool searchReverse, searchMatchCase, searchWrapAround;
+
         public BortForm(string filenameSpecified = null)
         {
             InitializeComponent();
@@ -162,6 +163,19 @@ namespace Bortpad
             }
         }
 
+        private void BortForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !SaveConfirmPrompt();
+        }
+
+        private void BortForm_Shown(object sender, EventArgs e)
+        {
+            if (filename == null || !OpenDocument(false, filename))
+            {
+                NewDocument(false);
+            }
+        }
+
         private bool canRepeatFind()
         {
             return getSearchQuery().Length > 0 && editor.Text.Length > 0;
@@ -170,13 +184,6 @@ namespace Bortpad
         private void cantFind(string text)
         {
             MessageBox.Show("Cannot find \"" + text + "\"", programName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void CleanEditor()
-        {
-            editor.Clear();
-            editor.ClearUndo();
-            editor.ResetText();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -243,6 +250,20 @@ namespace Bortpad
         private void editor_MouseUp(object sender, MouseEventArgs e)
         {
             UpdatePos();
+        }
+
+        private void editor_TextChanged(object sender, EventArgs e)
+        {
+            bool hasText = editor.Text.Length > 0;
+            findToolStripMenuItem.Enabled = hasText;
+            findNextToolStripMenuItem.Enabled = canRepeatFind();
+            findPreviousToolStripMenuItem.Enabled = canRepeatFind();
+            // replaceToolStripMenuItem.Enabled = hasText;
+            // goToToolStripMenuItem.Enabled = hasText;
+            // selectAllToolStripMenuItem.Enabled = hasText;
+            ChangesMade = true;
+            UpdatePos();
+            UpdateTitle();
         }
 
         private void editorContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -325,6 +346,11 @@ namespace Bortpad
             this.Close();
         }
 
+        private void fileNotFound()
+        {
+            MessageBox.Show("The system cannot find the path specified.", programName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
         private void findInEditor()
         {
             if (find != null && find.Visible)
@@ -397,11 +423,6 @@ namespace Bortpad
             }
         }
 
-        private void BortForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = !SaveConfirmPrompt();
-        }
-
         private StringComparison getComparisonType(bool matchCase = false)
         {
             return matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
@@ -438,7 +459,7 @@ namespace Bortpad
         {
             if (!saveFirst || SaveConfirmPrompt(false))
             {
-                CleanEditor();
+                editor.Clear();
                 ChangesMade = false;
                 isFile = false;
                 filename = defaultFilename;
@@ -480,7 +501,8 @@ namespace Bortpad
                         return false;
                     }
                     filename = openFileDialog1.FileName;
-                } else if (openFilename != null)
+                }
+                else if (openFilename != null)
                 {
                     if (!File.Exists(openFilename))
                     {
@@ -488,35 +510,33 @@ namespace Bortpad
                         return false;
                     }
                     filename = openFilename;
-                } else
+                }
+                else
                 {
                     return false;
                 }
                 try
                 {
-                    CleanEditor();
+                    editor.Clear();
                     editor.Text = File.ReadAllText(filename, encodingSetting);
                     ChangesMade = false;
                     isFile = true;
                     UpdateTitle();
                     editor.Select();
                     return true;
-                } catch (FileNotFoundException)
+                }
+                catch (FileNotFoundException)
                 {
                     fileNotFound();
                     return false;
-                } catch (IOException e)
+                }
+                catch (IOException e)
                 {
                     MessageBox.Show(e.Message, programName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
             return false;
-        }
-
-        private void fileNotFound()
-        {
-            MessageBox.Show("The system cannot find the path specified.", programName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -530,6 +550,7 @@ namespace Bortpad
             {
             }
         }
+
         private void pageSetupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PageSetup();
@@ -609,6 +630,7 @@ namespace Bortpad
             // true = we're good to proceed and launch open dialog/close app/etc
             return true;
         }
+
         private bool SaveDocument(bool saveAs = false)
         {
             if (isFile && !saveAs)
@@ -684,20 +706,6 @@ namespace Bortpad
             return this;
         }
 
-        private void editor_TextChanged(object sender, EventArgs e)
-        {
-            bool hasText = editor.Text.Length > 0;
-            findToolStripMenuItem.Enabled = hasText;
-            findNextToolStripMenuItem.Enabled = canRepeatFind();
-            findPreviousToolStripMenuItem.Enabled = canRepeatFind();
-            // replaceToolStripMenuItem.Enabled = hasText;
-            // goToToolStripMenuItem.Enabled = hasText;
-            // selectAllToolStripMenuItem.Enabled = hasText;
-            ChangesMade = true;
-            UpdatePos();
-            UpdateTitle();
-        }
-
         private void timeDateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DateTime now = DateTime.Now;
@@ -729,6 +737,7 @@ namespace Bortpad
         {
             this.Text = (ChangesMade ? "*" : "") + filename + " - " + programName;
         }
+
         private void UpdateZoom()
         {
             zoomLevel.Text = Math.Round(editor.ZoomFactor * 100).ToString() + "%";
@@ -739,20 +748,12 @@ namespace Bortpad
             Process.Start("https://stevenwilson.ca/bortpad/help");
         }
 
-        private void BortForm_Shown(object sender, EventArgs e)
-        {
-            if (filename == null || !OpenDocument(false, filename))
-            {
-                NewDocument(false);
-            }
-
-        }
-
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             editor.WordWrap = !editor.WordWrap;
             wordWrapToolStripMenuItem.Checked = editor.WordWrap;
         }
+
         private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (editor.ZoomFactor < 5)

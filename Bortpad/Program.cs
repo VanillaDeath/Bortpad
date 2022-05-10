@@ -3,13 +3,13 @@ using System.Windows.Forms;
 
 namespace Bortpad
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 1 ? args[1] : null;
