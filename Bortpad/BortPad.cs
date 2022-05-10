@@ -15,14 +15,11 @@ namespace Bortpad
         internal string programName;
         private const string defaultFilename = "Untitled";
         private bool ChangesMade;
-        private bool darkModeOn;
         private Encoding encodingSetting;
         private string filename;
         private FindPrompt find;
         private bool isFile;
         private ReplacePrompt replace;
-        private string searchQuery, searchReplaceString;
-        private bool searchReverse, searchMatchCase, searchWrapAround;
 
         public BortForm(string filenameSpecified = null)
         {
@@ -31,22 +28,20 @@ namespace Bortpad
             filename = filenameSpecified;
             encodingSetting = Encoding.UTF8;
             encodingStatus.Text = encodingSetting.EncodingName;
-            searchQuery = "";
-            searchReplaceString = "";
-            searchReverse = false;
-            searchMatchCase = false;
-            searchWrapAround = false;
-            darkModeOn = false;
+            fontDlg.Font = editor.Font = getSetting<Font>("Font");
+            editor.WordWrap = getSetting<bool>("WordWrap");
+            statusBar.Visible = getSetting<bool>("StatusBar");
+            applyDarkMode(getSetting<bool>("DarkMode"));
             Text = defaultFilename + " - " + programName;
         }
 
         internal int findFromPrompt(string query, bool reverse, bool matchCase, bool wrapAround)
         {
-            setSearchQuery(query).setSearchReverse(reverse).setSearchMatchCase(matchCase).setSearchWrapAround(wrapAround);
+            setSetting("Search", query).setSetting("Up", reverse).setSetting("MatchCase", matchCase).setSetting("WrapAround", wrapAround);
             findNextToolStripMenuItem.Enabled = canRepeatFind();
             findPreviousToolStripMenuItem.Enabled = canRepeatFind();
 
-            return getSearchReverse() ? findPrev() : findNext();
+            return getSetting<bool>("Up") ? findPrev() : findNext();
         }
 
         internal int getLineNumber(int startFrom = 1)
@@ -58,31 +53,6 @@ namespace Bortpad
         {
             int line = getLineNumber(0);
             return new int[] { line + startFrom, editor.SelectionStart - editor.GetFirstCharIndexFromLine(line) + startFrom };
-        }
-
-        internal string getReplaceString()
-        {
-            return searchReplaceString;
-        }
-
-        internal bool getSearchMatchCase()
-        {
-            return searchMatchCase;
-        }
-
-        internal string getSearchQuery()
-        {
-            return searchQuery;
-        }
-
-        internal bool getSearchReverse()
-        {
-            return searchReverse;
-        }
-
-        internal bool getSearchWrapAround()
-        {
-            return searchWrapAround;
         }
 
         internal bool goToLineFromPrompt(string ln)
@@ -98,7 +68,7 @@ namespace Bortpad
 
         internal void replaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
         {
-            setSearchQuery(query).setReplaceString(replaceString).setSearchMatchCase(matchCase).setSearchWrapAround(wrapAround);
+            setSetting("Search", query).setSetting("Replace", replaceString).setSetting("MatchCase", matchCase).setSetting("WrapAround", wrapAround);
             string input = string.Format(@"({0})", System.Text.RegularExpressions.Regex.Escape(query));
             string pattern = string.Format("{0}", System.Text.RegularExpressions.Regex.Escape(replaceString));
             editor.Text = System.Text.RegularExpressions.Regex.Replace(
@@ -111,42 +81,12 @@ namespace Bortpad
 
         internal int replaceFromPrompt(string query, string replaceString, bool matchCase, bool wrapAround)
         {
-            setSearchQuery(query).setReplaceString(replaceString).setSearchMatchCase(matchCase).setSearchWrapAround(wrapAround);
+            setSetting("Search", query).setSetting("Replace", replaceString).setSetting("MatchCase", matchCase).setSetting("WrapAround", wrapAround);
             if (editor.SelectedText.Equals(query, getComparisonType(matchCase)))
             {
                 editor.SelectedText = replaceString;
             }
             return findFromPrompt(query, false, matchCase, wrapAround);
-        }
-
-        internal BortForm setReplaceString(string replaceString)
-        {
-            searchReplaceString = replaceString;
-            return this;
-        }
-
-        internal BortForm setSearchMatchCase(bool matchCase)
-        {
-            searchMatchCase = matchCase;
-            return this;
-        }
-
-        internal BortForm setSearchQuery(string query)
-        {
-            searchQuery = query;
-            return this;
-        }
-
-        internal BortForm setSearchReverse(bool reverse)
-        {
-            searchReverse = reverse;
-            return this;
-        }
-
-        internal BortForm setSearchWrapAround(bool wrapAround)
-        {
-            searchWrapAround = wrapAround;
-            return this;
         }
 
         private void aboutNotepadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -178,7 +118,7 @@ namespace Bortpad
 
         private bool canRepeatFind()
         {
-            return getSearchQuery().Length > 0 && editor.Text.Length > 0;
+            return getSetting<string>("Search").Length > 0 && editor.Text.Length > 0;
         }
 
         private void cantFind(string text)
@@ -198,7 +138,16 @@ namespace Bortpad
 
         private void darkMode_Click(object sender, EventArgs e)
         {
-            darkModeOn = !darkModeOn;
+            toggleDarkMode();
+        }
+
+        private void toggleDarkMode()
+        {
+            applyDarkMode(toggleSetting("DarkMode"));
+        }
+
+        private BortForm applyDarkMode(bool darkModeOn)
+        {
             editor.TextChanged -= editor_TextChanged;
             editor.BackColor = darkModeOn ? SystemColors.WindowText : SystemColors.Window;
             editor.ForeColor = darkModeOn ? SystemColors.Window : SystemColors.WindowText;
@@ -207,6 +156,13 @@ namespace Bortpad
             darkMode.BackColor = darkModeOn ? SystemColors.Control : SystemColors.ControlText;
             darkMode.ForeColor = darkModeOn ? SystemColors.ControlText : SystemColors.Control;
             darkMode.Checked = darkModeOn;
+            return this;
+        }
+
+        private bool toggleSetting(string key)
+        {
+            setSetting(key, !getSetting<bool>(key));
+            return getSetting<bool>(key);
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -358,7 +314,7 @@ namespace Bortpad
                 find.BringToFront();
                 return;
             }
-            find = new FindPrompt();
+            find = new FindPrompt(getSetting<string>("Search"), getSetting<bool>("Up"), getSetting<bool>("MatchCase"), getSetting<bool>("WrapAround"));
             find.Show(this);
         }
 
@@ -369,17 +325,19 @@ namespace Bortpad
 
         private int findNextPrev(bool prev = false)
         {
-            int pos = OmniIndexOf(getSearchQuery(), prev, editor.SelectionStart + (prev ? 0 : editor.SelectionLength), getSearchMatchCase());
-            if (pos == -1 && getSearchWrapAround())
+            string searchQuery = getSetting<string>("Search");
+            bool searchMatchCase = getSetting<bool>("MatchCase");
+            int pos = OmniIndexOf(searchQuery, prev, editor.SelectionStart + (prev ? 0 : editor.SelectionLength), searchMatchCase);
+            if (pos == -1 && getSetting<bool>("WrapAround"))
             {
-                pos = OmniIndexOf(getSearchQuery(), prev, prev ? editor.Text.Length - 1 : 0, getSearchMatchCase());
+                pos = OmniIndexOf(searchQuery, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
                 setStatus(pos == -1 ? "" : "Found next from the " + (prev ? "bottom" : "top"));
             }
             else
             {
                 setStatus();
             }
-            gotoResult(pos);
+            gotoResult(pos, searchQuery);
             return pos;
         }
 
@@ -403,24 +361,32 @@ namespace Bortpad
             findInEditor();
         }
 
-        private void FontDlg_Apply(object sender, EventArgs e)
+        internal BortForm setSetting<T>(string key, T value)
         {
-            editor.Font = fontDlg.Font;
+            Properties.Settings.Default[key] = value;
+            Properties.Settings.Default.Save();
+            return this;
+        }
+
+        internal T getSetting<T>(string key)
+        {
+            return (T)Convert.ChangeType(Properties.Settings.Default[key], typeof(T));
         }
 
         private void fontToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Font oldFont = editor.Font;
-            fontDlg.Font = oldFont;
-            DialogResult result = fontDlg.ShowDialog();
-            if (result == DialogResult.OK)
+            setFont();
+        }
+
+        private BortForm setFont()
+        {
+            // fontDlg.Font = editor.Font;
+            if (fontDlg.ShowDialog() == DialogResult.OK)
             {
-                FontDlg_Apply(this.AcceptButton, new System.EventArgs());
+                setSetting("Font", fontDlg.Font);
+                editor.Font = fontDlg.Font;
             }
-            else if (result == DialogResult.Cancel)
-            {
-                editor.Font = oldFont;
-            }
+            return this;
         }
 
         private StringComparison getComparisonType(bool matchCase = false)
@@ -434,19 +400,18 @@ namespace Bortpad
             gt.ShowDialog(this);
         }
 
-        private void gotoResult(int pos)
+        private void gotoResult(int pos, string q)
         {
-            string sq = getSearchQuery();
             if (pos != -1)
             {
                 editor.SelectionStart = pos;
-                editor.SelectionLength = sq.Length;
+                editor.SelectionLength = q.Length;
                 editor.ScrollToCaret();
                 UpdatePos();
             }
             else
             {
-                cantFind(sq);
+                cantFind(q);
             }
         }
 
@@ -576,13 +541,12 @@ namespace Bortpad
 
         private void replaceInEditor()
         {
-            // replace = Application.OpenForms.OfType<ReplacePrompt>().FirstOrDefault();
             if (replace != null && replace.Visible)
             {
                 replace.BringToFront();
                 return;
             }
-            replace = new ReplacePrompt();
+            replace = new ReplacePrompt(getSetting<string>("Search"), getSetting<string>("Replace"), getSetting<bool>("MatchCase"), getSetting<bool>("WrapAround"));
             replace.Show(this);
         }
 
@@ -714,8 +678,7 @@ namespace Bortpad
 
         private void ToggleStatusBar()
         {
-            statusBar.Visible = !statusBar.Visible;
-            statusBarToolStripMenuItem.Checked = statusBar.Visible;
+            statusBarToolStripMenuItem.Checked = statusBar.Visible = toggleSetting("StatusBar");
             UpdatePos();
         }
 
@@ -748,10 +711,19 @@ namespace Bortpad
             Process.Start("https://stevenwilson.ca/bortpad/help");
         }
 
+        private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            statusBarToolStripMenuItem.Checked = statusBar.Visible;
+        }
+
+        private void formatToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            wordWrapToolStripMenuItem.Checked = editor.WordWrap;
+        }
+
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            editor.WordWrap = !editor.WordWrap;
-            wordWrapToolStripMenuItem.Checked = editor.WordWrap;
+            wordWrapToolStripMenuItem.Checked = editor.WordWrap = toggleSetting("WordWrap");
         }
 
         private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)

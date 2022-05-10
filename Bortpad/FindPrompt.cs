@@ -7,9 +7,13 @@ namespace Bortpad
     {
         private BortForm BortParent;
 
-        public FindPrompt()
+        public FindPrompt(string setQuery = "", bool setUp = false, bool setMatchCase = false, bool setWrapAround = false)
         {
             InitializeComponent();
+            searchQuery.Text = setQuery;
+            up.Checked = setUp;
+            matchCase.Checked = setMatchCase;
+            wrapAround.Checked = setWrapAround;
         }
 
         private void cancel_Click(object sender, EventArgs e)
@@ -30,10 +34,6 @@ namespace Bortpad
         private void FindPrompt_Shown(object sender, EventArgs e)
         {
             BortParent = (BortForm)Owner;
-            searchQuery.Text = BortParent.getSearchQuery();
-            up.Checked = BortParent.getSearchReverse();
-            matchCase.Checked = BortParent.getSearchMatchCase();
-            wrapAround.Checked = BortParent.getSearchWrapAround();
         }
 
         private void FindPrompt_VisibleChanged(object sender, EventArgs e)
