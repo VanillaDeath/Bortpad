@@ -76,6 +76,7 @@ namespace Bortpad
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutNotepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.darkMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.holdShiftNotice = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.statusBarLeft = new System.Windows.Forms.ToolStripStatusLabel();
             this.position = new System.Windows.Forms.ToolStripStatusLabel();
@@ -88,7 +89,6 @@ namespace Bortpad
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
-            this.editor = new PlainRichTextBox();
             this.editorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editorUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.editorRedo = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,6 +103,7 @@ namespace Bortpad
             this.editorRightToLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearchWithGoogle = new System.Windows.Forms.ToolStripMenuItem();
+            this.editor = new PlainRichTextBox();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
@@ -116,7 +117,8 @@ namespace Bortpad
             this.formatToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.helpToolStripMenuItem,
-            this.darkMode});
+            this.darkMode,
+            this.holdShiftNotice});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -410,14 +412,14 @@ namespace Bortpad
             // wordWrapToolStripMenuItem
             // 
             this.wordWrapToolStripMenuItem.Name = "wordWrapToolStripMenuItem";
-            this.wordWrapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.wordWrapToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.wordWrapToolStripMenuItem.Text = "&Word Wrap";
             this.wordWrapToolStripMenuItem.Click += new System.EventHandler(this.wordWrapToolStripMenuItem_Click);
             // 
             // fontToolStripMenuItem
             // 
             this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
-            this.fontToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fontToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.fontToolStripMenuItem.Text = "&Font...";
             this.fontToolStripMenuItem.Click += new System.EventHandler(this.fontToolStripMenuItem_Click);
             // 
@@ -529,6 +531,17 @@ namespace Bortpad
             this.darkMode.ToolTipText = "Dark Mode";
             this.darkMode.Click += new System.EventHandler(this.darkMode_Click);
             // 
+            // holdShiftNotice
+            // 
+            this.holdShiftNotice.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.holdShiftNotice.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.holdShiftNotice.Image = global::Bortpad.Properties.Resources.shift;
+            this.holdShiftNotice.Name = "holdShiftNotice";
+            this.holdShiftNotice.ShortcutKeyDisplayString = "Shift";
+            this.holdShiftNotice.Size = new System.Drawing.Size(156, 20);
+            this.holdShiftNotice.Text = "Open in New Window";
+            this.holdShiftNotice.Visible = false;
+            // 
             // statusBar
             // 
             this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -615,30 +628,6 @@ namespace Bortpad
             // pageSetupDialog1
             // 
             this.pageSetupDialog1.Document = this.printDocument1;
-            // 
-            // editor
-            // 
-            this.editor.AcceptsTab = true;
-            this.editor.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.editor.ContextMenuStrip = this.editorContextMenu;
-            this.editor.DetectUrls = false;
-            this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editor.HideSelection = false;
-            this.editor.Location = new System.Drawing.Point(0, 24);
-            this.editor.Name = "editor";
-            this.editor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.editor.Size = new System.Drawing.Size(1043, 518);
-            this.editor.TabIndex = 8;
-            this.editor.Text = "";
-            this.editor.WordWrap = false;
-            this.editor.TextChanged += new System.EventHandler(this.editor_TextChanged);
-            this.editor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.editor_KeyDown);
-            this.editor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.editor_KeyPress);
-            this.editor.KeyUp += new System.Windows.Forms.KeyEventHandler(this.editor_KeyUp);
-            this.editor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.editor_MouseDown);
-            this.editor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.editor_MouseMove);
-            this.editor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.editor_MouseUp);
             // 
             // editorContextMenu
             // 
@@ -750,8 +739,35 @@ namespace Bortpad
             this.editorSearchWithGoogle.Text = "Search with &Google...";
             this.editorSearchWithGoogle.Click += new System.EventHandler(this.editorSearchWithGoogle_Click);
             // 
+            // editor
+            // 
+            this.editor.AcceptsTab = true;
+            this.editor.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.editor.ContextMenuStrip = this.editorContextMenu;
+            this.editor.DetectUrls = false;
+            this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editor.EnableAutoDragDrop = true;
+            this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editor.HideSelection = false;
+            this.editor.Location = new System.Drawing.Point(0, 24);
+            this.editor.Name = "editor";
+            this.editor.PlainTextMode = true;
+            this.editor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
+            this.editor.Size = new System.Drawing.Size(1043, 518);
+            this.editor.TabIndex = 8;
+            this.editor.Text = "";
+            this.editor.WordWrap = false;
+            this.editor.TextChanged += new System.EventHandler(this.editor_TextChanged);
+            this.editor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.editor_KeyDown);
+            this.editor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.editor_KeyPress);
+            this.editor.KeyUp += new System.Windows.Forms.KeyEventHandler(this.editor_KeyUp);
+            this.editor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.editor_MouseDown);
+            this.editor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.editor_MouseMove);
+            this.editor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.editor_MouseUp);
+            // 
             // BortForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1043, 564);
@@ -765,6 +781,10 @@ namespace Bortpad
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BortForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BortForm_FormClosed);
             this.Shown += new System.EventHandler(this.BortForm_Shown);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.BortForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.BortForm_DragOver);
+            this.DragOver += new System.Windows.Forms.DragEventHandler(this.BortForm_DragOver);
+            this.DragLeave += new System.EventHandler(this.BortForm_DragLeave);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.statusBar.ResumeLayout(false);
@@ -849,6 +869,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editorRedo;
         private System.Windows.Forms.ToolStripMenuItem darkMode;
+        private System.Windows.Forms.ToolStripMenuItem holdShiftNotice;
     }
 }
 

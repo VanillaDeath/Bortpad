@@ -434,9 +434,9 @@ namespace Bortpad
             NewDocument();
         }
 
-        private void newWindow()
+        private void newWindow(string args = null)
         {
-            Process.Start(Application.ExecutablePath);
+            Process.Start(Application.ExecutablePath, args);
         }
 
         private void newWindowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -757,6 +757,49 @@ namespace Bortpad
                 editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor - 0.1, 1));
             }
             UpdateZoom();
+        }
+
+        private void BortForm_DragDrop(object sender, DragEventArgs e)
+        {
+            holdShiftNotice.Visible = false;
+            holdShiftNotice.Image = Properties.Resources.shift;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                bool first = true;
+                foreach (string file in files)
+                {
+                    if (first && (e.KeyState & 4) != 4)
+                    {
+                        OpenDocument(true, file);
+                        first = false;
+                        continue;
+                    }
+                    newWindow(file);
+                }
+            }
+        }
+
+        private void BortForm_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                holdShiftNotice.Visible = true;
+                if ((e.KeyState & 4) != 4)
+                {
+                    e.Effect = DragDropEffects.Copy;
+                    holdShiftNotice.Image = Properties.Resources.shift;
+                    return;
+                }
+                e.Effect = DragDropEffects.Move;
+                holdShiftNotice.Image = Properties.Resources.check;
+            }
+        }
+
+        private void BortForm_DragLeave(object sender, EventArgs e)
+        {
+            holdShiftNotice.Visible = false;
+            holdShiftNotice.Image = Properties.Resources.shift;
         }
     }
 }
