@@ -37,7 +37,10 @@ namespace Bortpad
 
         internal int findFromPrompt(string query, bool reverse, bool matchCase, bool wrapAround)
         {
-            setSetting("Search", query).setSetting("Up", reverse).setSetting("MatchCase", matchCase).setSetting("WrapAround", wrapAround);
+            setSetting("Search", query)
+                .setSetting("Up", reverse)
+                .setSetting("MatchCase", matchCase)
+                .setSetting("WrapAround", wrapAround);
             findNextToolStripMenuItem.Enabled = canRepeatFind();
             findPreviousToolStripMenuItem.Enabled = canRepeatFind();
 
@@ -55,6 +58,11 @@ namespace Bortpad
             return new int[] { line + startFrom, editor.SelectionStart - editor.GetFirstCharIndexFromLine(line) + startFrom };
         }
 
+        internal T getSetting<T>(string key)
+        {
+            return (T)Convert.ChangeType(Properties.Settings.Default[key], typeof(T));
+        }
+
         internal bool goToLineFromPrompt(string ln)
         {
             int max = editor.Lines.Length < 1 ? 1 : editor.Lines.Length;
@@ -68,7 +76,10 @@ namespace Bortpad
 
         internal void replaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
         {
-            setSetting("Search", query).setSetting("Replace", replaceString).setSetting("MatchCase", matchCase).setSetting("WrapAround", wrapAround);
+            setSetting("Search", query)
+                .setSetting("Replace", replaceString)
+                .setSetting("MatchCase", matchCase)
+                .setSetting("WrapAround", wrapAround);
             string input = string.Format(@"({0})", System.Text.RegularExpressions.Regex.Escape(query));
             string pattern = string.Format("{0}", System.Text.RegularExpressions.Regex.Escape(replaceString));
             editor.Text = System.Text.RegularExpressions.Regex.Replace(
@@ -81,7 +92,10 @@ namespace Bortpad
 
         internal int replaceFromPrompt(string query, string replaceString, bool matchCase, bool wrapAround)
         {
-            setSetting("Search", query).setSetting("Replace", replaceString).setSetting("MatchCase", matchCase).setSetting("WrapAround", wrapAround);
+            setSetting("Search", query)
+                .setSetting("Replace", replaceString)
+                .setSetting("MatchCase", matchCase)
+                .setSetting("WrapAround", wrapAround);
             if (editor.SelectedText.Equals(query, getComparisonType(matchCase)))
             {
                 editor.SelectedText = replaceString;
@@ -89,10 +103,30 @@ namespace Bortpad
             return findFromPrompt(query, false, matchCase, wrapAround);
         }
 
+        internal BortForm setSetting<T>(string key, T value)
+        {
+            Properties.Settings.Default[key] = value;
+            Properties.Settings.Default.Save();
+            return this;
+        }
+
         private void aboutNotepadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             About about = new About();
             about.ShowDialog();
+        }
+
+        private BortForm applyDarkMode(bool darkModeOn)
+        {
+            editor.TextChanged -= editor_TextChanged;
+            editor.BackColor = darkModeOn ? SystemColors.WindowText : SystemColors.Window;
+            editor.ForeColor = darkModeOn ? SystemColors.Window : SystemColors.WindowText;
+            editor.TextChanged += editor_TextChanged;
+            darkMode.Text = darkModeOn ? "☀" : "🌙";
+            darkMode.BackColor = darkModeOn ? SystemColors.Control : SystemColors.ControlText;
+            darkMode.ForeColor = darkModeOn ? SystemColors.ControlText : SystemColors.Control;
+            darkMode.Checked = darkModeOn;
+            return this;
         }
 
         private void BortForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -139,30 +173,6 @@ namespace Bortpad
         private void darkMode_Click(object sender, EventArgs e)
         {
             toggleDarkMode();
-        }
-
-        private void toggleDarkMode()
-        {
-            applyDarkMode(toggleSetting("DarkMode"));
-        }
-
-        private BortForm applyDarkMode(bool darkModeOn)
-        {
-            editor.TextChanged -= editor_TextChanged;
-            editor.BackColor = darkModeOn ? SystemColors.WindowText : SystemColors.Window;
-            editor.ForeColor = darkModeOn ? SystemColors.Window : SystemColors.WindowText;
-            editor.TextChanged += editor_TextChanged;
-            darkMode.Text = darkModeOn ? "☀" : "🌙";
-            darkMode.BackColor = darkModeOn ? SystemColors.Control : SystemColors.ControlText;
-            darkMode.ForeColor = darkModeOn ? SystemColors.ControlText : SystemColors.Control;
-            darkMode.Checked = darkModeOn;
-            return this;
-        }
-
-        private bool toggleSetting(string key)
-        {
-            setSetting(key, !getSetting<bool>(key));
-            return getSetting<bool>(key);
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -299,7 +309,7 @@ namespace Bortpad
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void fileNotFound()
@@ -314,7 +324,11 @@ namespace Bortpad
                 find.BringToFront();
                 return;
             }
-            find = new FindPrompt(getSetting<string>("Search"), getSetting<bool>("Up"), getSetting<bool>("MatchCase"), getSetting<bool>("WrapAround"));
+            find = new FindPrompt(
+                getSetting<string>("Search"),
+                getSetting<bool>("Up"),
+                getSetting<bool>("MatchCase"),
+                getSetting<bool>("WrapAround"));
             find.Show(this);
         }
 
@@ -361,32 +375,14 @@ namespace Bortpad
             findInEditor();
         }
 
-        internal BortForm setSetting<T>(string key, T value)
-        {
-            Properties.Settings.Default[key] = value;
-            Properties.Settings.Default.Save();
-            return this;
-        }
-
-        internal T getSetting<T>(string key)
-        {
-            return (T)Convert.ChangeType(Properties.Settings.Default[key], typeof(T));
-        }
-
         private void fontToolStripMenuItem_Click(object sender, EventArgs e)
         {
             setFont();
         }
 
-        private BortForm setFont()
+        private void formatToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
-            // fontDlg.Font = editor.Font;
-            if (fontDlg.ShowDialog() == DialogResult.OK)
-            {
-                setSetting("Font", fontDlg.Font);
-                editor.Font = fontDlg.Font;
-            }
-            return this;
+            wordWrapToolStripMenuItem.Checked = editor.WordWrap;
         }
 
         private StringComparison getComparisonType(bool matchCase = false)
@@ -513,6 +509,7 @@ namespace Bortpad
         {
             if (pageSetupDialog1.ShowDialog() == DialogResult.OK)
             {
+                // TODO
             }
         }
 
@@ -648,6 +645,18 @@ namespace Bortpad
             Process.Start("https://stevenwilson.ca/contact");
         }
 
+        private BortForm setFont()
+        {
+            if (fontDlg.ShowDialog() == DialogResult.OK)
+            {
+                setSetting("Font", fontDlg.Font);
+                editor.TextChanged -= editor_TextChanged;
+                editor.Font = fontDlg.Font;
+                editor.TextChanged += editor_TextChanged;
+            }
+            return this;
+        }
+
         private bool setLineNumber(int lnNum)
         {
             try
@@ -674,6 +683,17 @@ namespace Bortpad
         {
             DateTime now = DateTime.Now;
             editor.SelectedText = now.ToString("g");
+        }
+
+        private void toggleDarkMode()
+        {
+            applyDarkMode(toggleSetting("DarkMode"));
+        }
+
+        private bool toggleSetting(string key)
+        {
+            setSetting(key, !getSetting<bool>(key));
+            return getSetting<bool>(key);
         }
 
         private void ToggleStatusBar()
@@ -714,11 +734,6 @@ namespace Bortpad
         private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             statusBarToolStripMenuItem.Checked = statusBar.Visible;
-        }
-
-        private void formatToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            wordWrapToolStripMenuItem.Checked = editor.WordWrap;
         }
 
         private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
