@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindPrompt));
             this.findWhat = new System.Windows.Forms.Label();
             this.searchQuery = new System.Windows.Forms.TextBox();
             this.findNextButton = new System.Windows.Forms.Button();
@@ -156,6 +157,7 @@
             this.Controls.Add(this.searchQuery);
             this.Controls.Add(this.findWhat);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FindPrompt";

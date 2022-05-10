@@ -32,6 +32,7 @@ namespace Bortpad
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
+            // MessageBox.Show(e.KeyCode + " " + (char)e.KeyCode); // DEBUG
             //Allow navigation keyboard arrows
             switch (e.KeyCode)
             {
@@ -42,6 +43,16 @@ namespace Bortpad
                 case Keys.PageUp:
                 case Keys.PageDown:
                 case Keys.Delete:
+                case Keys.NumPad0:
+                case Keys.NumPad1:
+                case Keys.NumPad2:
+                case Keys.NumPad3:
+                case Keys.NumPad4:
+                case Keys.NumPad5:
+                case Keys.NumPad6:
+                case Keys.NumPad7:
+                case Keys.NumPad8:
+                case Keys.NumPad9:
                     e.SuppressKeyPress = false;
                     return;
                 default:
@@ -79,15 +90,6 @@ namespace Bortpad
                     //There were non-numbers in the pasted text
                     errorBubble();
                     e.SuppressKeyPress = true;
-
-                    //OPTIONAL: Manually insert text stripped of non-numbers
-                    TextBox me = (TextBox)sender;
-                    int start = me.SelectionStart;
-                    string newTxt = me.Text;
-                    newTxt = newTxt.Remove(me.SelectionStart, me.SelectionLength); //remove highlighted text
-                    newTxt = newTxt.Insert(me.SelectionStart, strippedText); //paste
-                    me.Text = newTxt;
-                    me.SelectionStart = start + strippedText.Length;
                 }
                 else
                     e.SuppressKeyPress = false;

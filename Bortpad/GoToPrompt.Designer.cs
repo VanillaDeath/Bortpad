@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GoToPrompt));
             this.lineNumberLabel = new System.Windows.Forms.Label();
-            this.lineNumber = new System.Windows.Forms.TextBox();
+            this.lineNumber = new NumBox();
             this.CancelBtn = new System.Windows.Forms.Button();
             this.GoToButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -91,6 +92,7 @@
             this.Controls.Add(this.lineNumber);
             this.Controls.Add(this.lineNumberLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "GoToPrompt";
@@ -107,7 +109,7 @@
         #endregion
 
         private System.Windows.Forms.Label lineNumberLabel;
-        private System.Windows.Forms.TextBox lineNumber;
+        private NumBox lineNumber;
         private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.Button GoToButton;
     }
