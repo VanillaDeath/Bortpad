@@ -631,7 +631,7 @@ namespace Bortpad
             this.editor.TabIndex = 8;
             this.editor.Text = "";
             this.editor.WordWrap = false;
-            this.editor.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.editor.TextChanged += new System.EventHandler(this.editor_TextChanged);
             this.editor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.editor_KeyDown);
             this.editor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.editor_KeyPress);
             this.editor.KeyUp += new System.Windows.Forms.KeyEventHandler(this.editor_KeyUp);
@@ -761,8 +761,9 @@ namespace Bortpad
             this.MainMenuStrip = this.mainMenu;
             this.Name = "BortForm";
             this.Text = "Bortpad";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BortForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BortForm_FormClosed);
+            this.Shown += new System.EventHandler(this.BortForm_Shown);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.statusBar.ResumeLayout(false);

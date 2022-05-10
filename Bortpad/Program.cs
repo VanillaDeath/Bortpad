@@ -12,19 +12,12 @@ namespace Bortpad
         static void Main()
         {
             string[] args = Environment.GetCommandLineArgs();
-            string filename = null;
-            if (args.Length > 1)
-            {
-                filename = args[1];
-            }
+            string filename = args.Length > 1 ? args[1] : null;
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            BortForm form = new BortForm(filename);
-            form.Show();
-
-            Application.Run();
+            Application.Run(new BortForm(filename));
         }
     }
 }
