@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GoToPrompt));
             this.lineNumberLabel = new System.Windows.Forms.Label();
-            this.lineNumber = new NumBox();
             this.CancelBtn = new System.Windows.Forms.Button();
             this.GoToButton = new System.Windows.Forms.Button();
+            this.lineNumber = new NumBox();
             this.SuspendLayout();
             // 
             // lineNumberLabel
@@ -43,19 +43,6 @@
             this.lineNumberLabel.Size = new System.Drawing.Size(68, 13);
             this.lineNumberLabel.TabIndex = 0;
             this.lineNumberLabel.Text = "&Line number:";
-            // 
-            // lineNumber
-            // 
-            this.lineNumber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lineNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lineNumber.Location = new System.Drawing.Point(16, 30);
-            this.lineNumber.Name = "lineNumber";
-            this.lineNumber.Size = new System.Drawing.Size(223, 20);
-            this.lineNumber.TabIndex = 1;
-            this.lineNumber.Text = "1";
-            this.lineNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
-            this.lineNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // CancelBtn
             // 
@@ -79,6 +66,17 @@
             this.GoToButton.Text = "Go To";
             this.GoToButton.UseVisualStyleBackColor = true;
             this.GoToButton.Click += new System.EventHandler(this.GoToButton_Click);
+            // 
+            // lineNumber
+            // 
+            this.lineNumber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lineNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lineNumber.Location = new System.Drawing.Point(16, 30);
+            this.lineNumber.Name = "lineNumber";
+            this.lineNumber.Size = new System.Drawing.Size(223, 20);
+            this.lineNumber.TabIndex = 1;
+            this.lineNumber.Text = "1";
             // 
             // GoToPrompt
             // 
