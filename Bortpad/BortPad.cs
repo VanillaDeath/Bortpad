@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -110,6 +111,34 @@ namespace Bortpad
             return this;
         }
 
+        private static void colorSwap(Control item, bool mode)
+        {
+            item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
+            item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
+        }
+
+        private static void colorSwapItem(ToolStripMenuItem item, bool mode)
+        {
+            item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
+            item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
+        }
+
+        private static StringComparison getComparisonType(bool matchCase = false)
+        {
+            return matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+        }
+
+        private static void newWindow(string args = null)
+        {
+            Process.Start(Application.ExecutablePath, args);
+        }
+
+        private static int OmniIndexOf(string needle, string haystack, bool reverse = false, int start = 0, bool matchCase = false)
+        {
+            StringComparison sc = getComparisonType(matchCase);
+            return reverse ? haystack.LastIndexOf(needle, start, sc) : haystack.IndexOf(needle, start, sc);
+        }
+
         private void aboutNotepadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             About about = new About();
@@ -123,10 +152,54 @@ namespace Bortpad
             editor.ForeColor = darkModeOn ? SystemColors.Window : SystemColors.WindowText;
             editor.TextChanged += editor_TextChanged;
             darkMode.Text = darkModeOn ? "☀" : "🌙";
-            darkMode.BackColor = darkModeOn ? SystemColors.Control : SystemColors.ControlText;
-            darkMode.ForeColor = darkModeOn ? SystemColors.ControlText : SystemColors.Control;
+            colorSwapItem(darkMode, !darkModeOn);
+            colorSwap(statusBar, darkModeOn);
+
             darkMode.Checked = darkModeOn;
             return this;
+        }
+
+        private void BortForm_DragDrop(object sender, DragEventArgs e)
+        {
+            holdShiftNotice.Visible = false;
+            holdShiftNotice.Image = Properties.Resources.shift;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                bool first = true;
+                foreach (string file in files)
+                {
+                    if (first && (e.KeyState & 4) != 4)
+                    {
+                        OpenDocument(true, file);
+                        first = false;
+                        continue;
+                    }
+                    newWindow(file);
+                }
+            }
+        }
+
+        private void BortForm_DragLeave(object sender, EventArgs e)
+        {
+            holdShiftNotice.Visible = false;
+            holdShiftNotice.Image = Properties.Resources.shift;
+        }
+
+        private void BortForm_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                holdShiftNotice.Visible = true;
+                if ((e.KeyState & 4) != 4)
+                {
+                    e.Effect = DragDropEffects.Copy;
+                    holdShiftNotice.Image = Properties.Resources.shift;
+                    return;
+                }
+                e.Effect = DragDropEffects.Move;
+                holdShiftNotice.Image = Properties.Resources.check;
+            }
         }
 
         private void BortForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -341,10 +414,10 @@ namespace Bortpad
         {
             string searchQuery = getSetting<string>("Search");
             bool searchMatchCase = getSetting<bool>("MatchCase");
-            int pos = OmniIndexOf(searchQuery, prev, editor.SelectionStart + (prev ? 0 : editor.SelectionLength), searchMatchCase);
+            int pos = OmniIndexOf(searchQuery, editor.Text, prev, editor.SelectionStart + (prev ? 0 : editor.SelectionLength), searchMatchCase);
             if (pos == -1 && getSetting<bool>("WrapAround"))
             {
-                pos = OmniIndexOf(searchQuery, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
+                pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
                 setStatus(pos == -1 ? "" : "Found next from the " + (prev ? "bottom" : "top"));
             }
             else
@@ -383,11 +456,6 @@ namespace Bortpad
         private void formatToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             wordWrapToolStripMenuItem.Checked = editor.WordWrap;
-        }
-
-        private StringComparison getComparisonType(bool matchCase = false)
-        {
-            return matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
         }
 
         private void GoToLine()
@@ -434,20 +502,9 @@ namespace Bortpad
             NewDocument();
         }
 
-        private void newWindow(string args = null)
-        {
-            Process.Start(Application.ExecutablePath, args);
-        }
-
         private void newWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             newWindow();
-        }
-
-        private int OmniIndexOf(string text, bool reverse = false, int start = 0, bool matchCase = false)
-        {
-            StringComparison sc = getComparisonType(matchCase);
-            return reverse ? editor.Text.LastIndexOf(text, start, sc) : editor.Text.IndexOf(text, start, sc);
         }
 
         private bool OpenDocument(bool saveFirst = true, string openFilename = null)
@@ -757,49 +814,6 @@ namespace Bortpad
                 editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor - 0.1, 1));
             }
             UpdateZoom();
-        }
-
-        private void BortForm_DragDrop(object sender, DragEventArgs e)
-        {
-            holdShiftNotice.Visible = false;
-            holdShiftNotice.Image = Properties.Resources.shift;
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                bool first = true;
-                foreach (string file in files)
-                {
-                    if (first && (e.KeyState & 4) != 4)
-                    {
-                        OpenDocument(true, file);
-                        first = false;
-                        continue;
-                    }
-                    newWindow(file);
-                }
-            }
-        }
-
-        private void BortForm_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                holdShiftNotice.Visible = true;
-                if ((e.KeyState & 4) != 4)
-                {
-                    e.Effect = DragDropEffects.Copy;
-                    holdShiftNotice.Image = Properties.Resources.shift;
-                    return;
-                }
-                e.Effect = DragDropEffects.Move;
-                holdShiftNotice.Image = Properties.Resources.check;
-            }
-        }
-
-        private void BortForm_DragLeave(object sender, EventArgs e)
-        {
-            holdShiftNotice.Visible = false;
-            holdShiftNotice.Image = Properties.Resources.shift;
         }
     }
 }

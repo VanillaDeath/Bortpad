@@ -559,9 +559,8 @@ namespace Bortpad
             // 
             // statusBarLeft
             // 
-            this.statusBarLeft.Enabled = false;
             this.statusBarLeft.Name = "statusBarLeft";
-            this.statusBarLeft.Size = new System.Drawing.Size(638, 17);
+            this.statusBarLeft.Size = new System.Drawing.Size(607, 17);
             this.statusBarLeft.Spring = true;
             this.statusBarLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 

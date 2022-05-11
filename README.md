@@ -8,6 +8,7 @@ It is primarily a C# learning project for myself.
 🔁 Redo  
 🔍 Search with Google instead of the other one  
 🌙 Simple dark mode  
+📚 Multi-file drag-and-drop to open
 
 
 ## Missing Features
@@ -33,5 +34,6 @@ Bortpad is a C# WinForms application, built to closely match the built-in *Windo
 - A simple **dark mode** that swaps the editor pallette is implemented (setting maintained between uses).  
 - Search web for selection is hard-coded to *Google* instead of a competitor's search engine.  
 - Supports command-line argument to open file.  
+- Supports text drag-and-drop on editor, file drag-and-drop on window.  
 - All language strings are hard-coded in English-only for now.  
 - Printing is still a work in progress.  
