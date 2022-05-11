@@ -37,3 +37,12 @@ Bortpad is a C# WinForms application, built to closely match the built-in *Windo
 - Supports text drag-and-drop on editor, file drag-and-drop on window.  
 - All language strings are hard-coded in English-only for now.  
 - Printing is still a work in progress.  
+
+---
+
+## Releases
+* ### [v1.0.0](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.0)
+> Initial release.  
+
+
+[All Releases](https://github.com/VanillaDeath/Bortpad/releases)
