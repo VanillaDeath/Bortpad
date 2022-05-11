@@ -122,7 +122,7 @@ namespace Bortpad
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.mainMenu.Size = new System.Drawing.Size(1043, 24);
+            this.mainMenu.Size = new System.Drawing.Size(1008, 24);
             this.mainMenu.TabIndex = 0;
             this.mainMenu.Text = "Main Menu";
             // 
@@ -550,17 +550,17 @@ namespace Bortpad
             this.zoomLevel,
             this.lineReturnType,
             this.encodingStatus});
-            this.statusBar.Location = new System.Drawing.Point(0, 542);
+            this.statusBar.Location = new System.Drawing.Point(0, 539);
             this.statusBar.Name = "statusBar";
             this.statusBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.statusBar.Size = new System.Drawing.Size(1043, 22);
+            this.statusBar.Size = new System.Drawing.Size(1008, 22);
             this.statusBar.TabIndex = 1;
             this.statusBar.Text = "statusStrip1";
             // 
             // statusBarLeft
             // 
             this.statusBarLeft.Name = "statusBarLeft";
-            this.statusBarLeft.Size = new System.Drawing.Size(607, 17);
+            this.statusBarLeft.Size = new System.Drawing.Size(603, 17);
             this.statusBarLeft.Spring = true;
             this.statusBarLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -752,7 +752,7 @@ namespace Bortpad
             this.editor.Name = "editor";
             this.editor.PlainTextMode = true;
             this.editor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.editor.Size = new System.Drawing.Size(1043, 518);
+            this.editor.Size = new System.Drawing.Size(1008, 515);
             this.editor.TabIndex = 8;
             this.editor.Text = "";
             this.editor.WordWrap = false;
@@ -769,7 +769,7 @@ namespace Bortpad
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1043, 564);
+            this.ClientSize = new System.Drawing.Size(1008, 561);
             this.Controls.Add(this.editor);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.mainMenu);

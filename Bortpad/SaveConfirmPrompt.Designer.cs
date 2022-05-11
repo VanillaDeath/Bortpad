@@ -34,13 +34,15 @@ namespace Bortpad
             this.DontSaveButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.SaveQuestion = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // CancelBtn
             // 
             this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(326, 86);
+            this.CancelBtn.Location = new System.Drawing.Point(280, 10);
             this.CancelBtn.Name = "CancelBtn";
             this.CancelBtn.Size = new System.Drawing.Size(75, 23);
             this.CancelBtn.TabIndex = 2;
@@ -51,7 +53,7 @@ namespace Bortpad
             // 
             this.DontSaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.DontSaveButton.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.DontSaveButton.Location = new System.Drawing.Point(245, 86);
+            this.DontSaveButton.Location = new System.Drawing.Point(199, 10);
             this.DontSaveButton.Name = "DontSaveButton";
             this.DontSaveButton.Size = new System.Drawing.Size(75, 23);
             this.DontSaveButton.TabIndex = 1;
@@ -62,7 +64,7 @@ namespace Bortpad
             // 
             this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.SaveButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.SaveButton.Location = new System.Drawing.Point(164, 86);
+            this.SaveButton.Location = new System.Drawing.Point(118, 10);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(75, 23);
             this.SaveButton.TabIndex = 0;
@@ -71,13 +73,29 @@ namespace Bortpad
             // 
             // SaveQuestion
             // 
+            this.SaveQuestion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.SaveQuestion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SaveQuestion.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.SaveQuestion.Location = new System.Drawing.Point(13, 13);
+            this.SaveQuestion.Location = new System.Drawing.Point(12, 9);
             this.SaveQuestion.Name = "SaveQuestion";
-            this.SaveQuestion.Size = new System.Drawing.Size(388, 70);
+            this.SaveQuestion.Size = new System.Drawing.Size(343, 52);
             this.SaveQuestion.TabIndex = 3;
-            this.SaveQuestion.Text = "Do you want to save changes to {filename}?";
+            this.SaveQuestion.Text = "Do you want to save changes to Untitled?";
+            this.SaveQuestion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.CancelBtn);
+            this.panel1.Controls.Add(this.DontSaveButton);
+            this.panel1.Controls.Add(this.SaveButton);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 74);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(367, 45);
+            this.panel1.TabIndex = 4;
             // 
             // SaveConfirmPrompt
             // 
@@ -85,12 +103,11 @@ namespace Bortpad
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.CancelBtn;
-            this.ClientSize = new System.Drawing.Size(413, 121);
+            this.ClientSize = new System.Drawing.Size(367, 119);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.SaveQuestion);
-            this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.DontSaveButton);
-            this.Controls.Add(this.CancelBtn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -102,6 +119,7 @@ namespace Bortpad
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Bortpad";
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -112,5 +130,6 @@ namespace Bortpad
         private System.Windows.Forms.Button DontSaveButton;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Label SaveQuestion;
+        private System.Windows.Forms.Panel panel1;
     }
 }

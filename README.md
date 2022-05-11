@@ -8,7 +8,7 @@ It is primarily a C# learning project for myself.
 🔁 Redo  
 🔍 Search with Google instead of the other one  
 🌙 Simple dark mode  
-📚 Multi-file drag-and-drop to open
+📚 Multi-file drag-and-drop to open  
 
 
 ## Missing Features

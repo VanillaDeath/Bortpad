@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Windows.Forms;
@@ -19,6 +19,7 @@ namespace Bortpad
         private Encoding encodingSetting;
         private string filename;
         private FindPrompt find;
+        private string hash;
         private bool isFile;
         private ReplacePrompt replace;
 
@@ -34,6 +35,49 @@ namespace Bortpad
             statusBar.Visible = getSetting<bool>("StatusBar");
             applyDarkMode(getSetting<bool>("DarkMode"));
             Text = defaultFilename + " - " + programName;
+        }
+
+        public static void colorSwap(Control item, bool mode)
+        {
+            item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
+            item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
+        }
+
+        public static void colorSwapItem(ToolStripMenuItem item, bool mode)
+        {
+            item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
+            item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
+        }
+
+        public static StringComparison getComparisonType(bool matchCase = false)
+        {
+            return matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+        }
+
+        public static byte[] GetHash(string inputString)
+        {
+            using (HashAlgorithm algorithm = MD5.Create())
+                return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+        }
+
+        public static string GetHashString(string inputString)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in GetHash(inputString))
+                sb.Append(b.ToString("X2"));
+
+            return sb.ToString();
+        }
+
+        public static void newWindow(string args = null)
+        {
+            Process.Start(Application.ExecutablePath, args);
+        }
+
+        public static int OmniIndexOf(string needle, string haystack, bool reverse = false, int start = 0, bool matchCase = false)
+        {
+            StringComparison sc = getComparisonType(matchCase);
+            return reverse ? haystack.LastIndexOf(needle, start, sc) : haystack.IndexOf(needle, start, sc);
         }
 
         internal int findFromPrompt(string query, bool reverse, bool matchCase, bool wrapAround)
@@ -109,34 +153,6 @@ namespace Bortpad
             Properties.Settings.Default[key] = value;
             Properties.Settings.Default.Save();
             return this;
-        }
-
-        private static void colorSwap(Control item, bool mode)
-        {
-            item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
-            item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
-        }
-
-        private static void colorSwapItem(ToolStripMenuItem item, bool mode)
-        {
-            item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
-            item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
-        }
-
-        private static StringComparison getComparisonType(bool matchCase = false)
-        {
-            return matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
-        }
-
-        private static void newWindow(string args = null)
-        {
-            Process.Start(Application.ExecutablePath, args);
-        }
-
-        private static int OmniIndexOf(string needle, string haystack, bool reverse = false, int start = 0, bool matchCase = false)
-        {
-            StringComparison sc = getComparisonType(matchCase);
-            return reverse ? haystack.LastIndexOf(needle, start, sc) : haystack.IndexOf(needle, start, sc);
         }
 
         private void aboutNotepadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -300,9 +316,16 @@ namespace Bortpad
             // replaceToolStripMenuItem.Enabled = hasText;
             // goToToolStripMenuItem.Enabled = hasText;
             // selectAllToolStripMenuItem.Enabled = hasText;
-            ChangesMade = true;
             UpdatePos();
-            UpdateTitle();
+            if (getChangesMade())
+            {
+                if (!editor.CanUndo && hash == GetHashString(editor.Text))
+                {
+                    setChangesMade(false);
+                }
+                return;
+            }
+            setChangesMade(true);
         }
 
         private void editorContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -458,6 +481,11 @@ namespace Bortpad
             wordWrapToolStripMenuItem.Checked = editor.WordWrap;
         }
 
+        private bool getChangesMade()
+        {
+            return ChangesMade;
+        }
+
         private void GoToLine()
         {
             GoToPrompt gt = new GoToPrompt(getLineNumber());
@@ -489,10 +517,10 @@ namespace Bortpad
             if (!saveFirst || SaveConfirmPrompt(false))
             {
                 editor.Clear();
-                ChangesMade = false;
                 isFile = false;
                 filename = defaultFilename;
-                UpdateTitle();
+                setHash();
+                setChangesMade(false);
                 editor.Select();
             }
         }
@@ -537,9 +565,9 @@ namespace Bortpad
                 {
                     editor.Clear();
                     editor.Text = File.ReadAllText(filename, encodingSetting);
-                    ChangesMade = false;
                     isFile = true;
-                    UpdateTitle();
+                    setHash();
+                    setChangesMade(false);
                     editor.Select();
                     return true;
                 }
@@ -654,8 +682,8 @@ namespace Bortpad
             if (isFile && !saveAs)
             {
                 File.WriteAllText(filename, editor.Text, encodingSetting);
-                ChangesMade = false;
-                UpdateTitle();
+                setHash();
+                setChangesMade(false);
                 return true;
             }
             else
@@ -665,8 +693,8 @@ namespace Bortpad
                     filename = saveFileDialog1.FileName;
                     File.WriteAllText(filename, editor.Text, encodingSetting);
                     isFile = true;
-                    ChangesMade = false;
-                    UpdateTitle();
+                    setHash();
+                    setChangesMade(false);
                     return true;
                 }
             }
@@ -702,6 +730,13 @@ namespace Bortpad
             Process.Start("https://stevenwilson.ca/contact");
         }
 
+        private BortForm setChangesMade(bool changed)
+        {
+            ChangesMade = changed;
+            UpdateTitle();
+            return this;
+        }
+
         private BortForm setFont()
         {
             if (fontDlg.ShowDialog() == DialogResult.OK)
@@ -711,6 +746,12 @@ namespace Bortpad
                 editor.Font = fontDlg.Font;
                 editor.TextChanged += editor_TextChanged;
             }
+            return this;
+        }
+
+        private BortForm setHash()
+        {
+            hash = GetHashString(editor.Text);
             return this;
         }
 
