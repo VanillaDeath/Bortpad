@@ -23,7 +23,7 @@ namespace Bortpad
 
         private int findNext()
         {
-            return BortParent.findFromPrompt(searchQuery.Text, false, matchCase.Checked, wrapAround.Checked);
+            return BortParent.FindFromPrompt(searchQuery.Text, false, matchCase.Checked, wrapAround.Checked);
         }
 
         private void findNext_Click(object sender, EventArgs e)
@@ -46,12 +46,12 @@ namespace Bortpad
 
         private int replace()
         {
-            return BortParent.replaceFromPrompt(searchQuery.Text, replaceWith.Text, matchCase.Checked, wrapAround.Checked);
+            return BortParent.ReplaceFromPrompt(searchQuery.Text, replaceWith.Text, matchCase.Checked, wrapAround.Checked);
         }
 
         private void replaceAll()
         {
-            BortParent.replaceAll(searchQuery.Text, replaceWith.Text, matchCase.Checked, wrapAround.Checked);
+            BortParent.ReplaceAll(searchQuery.Text, replaceWith.Text, matchCase.Checked, wrapAround.Checked);
         }
 
         private void replaceAllButton_Click(object sender, EventArgs e)

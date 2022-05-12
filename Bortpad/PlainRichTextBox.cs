@@ -1,30 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-class PlainRichTextBox : RichTextBox
+internal class PlainRichTextBox : RichTextBox
 {
-    const int WM_USER = 0x400;
-    const int EM_SETTEXTMODE = WM_USER + 89;
-    const int EM_GETTEXTMODE = WM_USER + 90;
+    private const int WM_USER = 0x400;
+    private const int EM_SETTEXTMODE = WM_USER + 89;
+    private const int EM_GETTEXTMODE = WM_USER + 90;
 
     // EM_SETTEXTMODE/EM_GETTEXTMODE flags
-    const int TM_PLAINTEXT = 1;
-    const int TM_RICHTEXT = 2;          // Default behavior 
-    const int TM_SINGLELEVELUNDO = 4;
-    const int TM_MULTILEVELUNDO = 8;    // Default behavior 
-    const int TM_SINGLECODEPAGE = 16;
-    const int TM_MULTICODEPAGE = 32;    // Default behavior 
+    private const int TM_PLAINTEXT = 1;
+
+    private const int TM_RICHTEXT = 2;          // Default behavior
+    private const int TM_SINGLELEVELUNDO = 4;
+    private const int TM_MULTILEVELUNDO = 8;    // Default behavior
+    private const int TM_SINGLECODEPAGE = 16;
+    private const int TM_MULTICODEPAGE = 32;    // Default behavior
 
     [DllImport("user32.dll")]
-    static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
+    private static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
 
-    bool m_PlainTextMode;
+    private bool m_PlainTextMode;
+
+    public event EventHandler CursorPositionChanged;
 
     // If this property doesn't work for you from the designer for some reason
     // (for example framework version...) then set this property from outside
@@ -32,8 +36,6 @@ class PlainRichTextBox : RichTextBox
     // attributes and set the Property from your component initializer code
     // that runs after the designer's code.
     [DefaultValue(false)]
-    //[Browsable(false)]
-    //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool PlainTextMode
     {
         get
@@ -57,5 +59,80 @@ class PlainRichTextBox : RichTextBox
         // handle before calling the base method.
         PlainTextMode = m_PlainTextMode;
         base.OnHandleCreated(e);
+    }
+
+    protected virtual void OnCursorPositionChanged(EventArgs e)
+    {
+        if (CursorPositionChanged != null)
+            CursorPositionChanged(this, e);
+    }
+
+    protected override void OnSelectionChanged(EventArgs e)
+    {
+        if (SelectionLength == 0)
+            OnCursorPositionChanged(e);
+        else
+            base.OnSelectionChanged(e);
+    }
+
+    public int CurrentColumn
+    {
+        get { return CursorPosition.Column(this, SelectionStart); }
+    }
+
+    public int CurrentLine
+    {
+        get { return CursorPosition.Line(this, SelectionStart); }
+    }
+
+    public int CurrentPosition
+    {
+        get { return this.SelectionStart; }
+    }
+
+    public int SelectionEnd
+    {
+        get { return SelectionStart + SelectionLength; }
+    }
+}
+
+internal class CursorPosition
+{
+    [System.Runtime.InteropServices.DllImport("user32")]
+    public static extern int GetCaretPos(ref Point lpPoint);
+
+    private static int GetCorrection(RichTextBox e, int index)
+    {
+        Point pt1 = Point.Empty;
+        GetCaretPos(ref pt1);
+        Point pt2 = e.GetPositionFromCharIndex(index);
+
+        if (pt1 != pt2)
+            return 1;
+        else
+            return 0;
+    }
+
+    public static int Line(RichTextBox e, int index)
+    {
+        int correction = GetCorrection(e, index);
+        int ln = e.GetLineFromCharIndex(index) - correction + 1;
+        return ln < 1 ? 1 : ln;
+    }
+
+    public static int Column(RichTextBox e, int index1)
+    {
+        int correction = GetCorrection(e, index1);
+        Point p = e.GetPositionFromCharIndex(index1 - correction);
+
+        if (p.X == 1)
+            return 1;
+
+        p.X = 0;
+        int index2 = e.GetCharIndexFromPosition(p);
+
+        int col = index1 - index2 + 1;
+
+        return col;
     }
 }

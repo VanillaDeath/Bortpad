@@ -23,7 +23,7 @@ namespace Bortpad
 
         private int findNext()
         {
-            return BortParent.findFromPrompt(searchQuery.Text, up.Checked, matchCase.Checked, wrapAround.Checked);
+            return BortParent.FindFromPrompt(searchQuery.Text, up.Checked, matchCase.Checked, wrapAround.Checked);
         }
 
         private void findNext_Click(object sender, EventArgs e)

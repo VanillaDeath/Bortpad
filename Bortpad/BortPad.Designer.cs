@@ -123,7 +123,7 @@ namespace Bortpad
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.mainMenu.Size = new System.Drawing.Size(1008, 24);
-            this.mainMenu.TabIndex = 0;
+            this.mainMenu.TabIndex = 1;
             this.mainMenu.Text = "Main Menu";
             // 
             // fileToolStripMenuItem
@@ -150,7 +150,7 @@ namespace Bortpad
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.newToolStripMenuItem.Text = "&New";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.New_Click);
             // 
             // newWindowToolStripMenuItem
             // 
@@ -160,7 +160,7 @@ namespace Bortpad
             | System.Windows.Forms.Keys.N)));
             this.newWindowToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.newWindowToolStripMenuItem.Text = "New &Window";
-            this.newWindowToolStripMenuItem.Click += new System.EventHandler(this.newWindowToolStripMenuItem_Click);
+            this.newWindowToolStripMenuItem.Click += new System.EventHandler(this.NewWindow_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -169,7 +169,7 @@ namespace Bortpad
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.openToolStripMenuItem.Text = "&Open...";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.Open_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -178,7 +178,7 @@ namespace Bortpad
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.saveToolStripMenuItem.Text = "&Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.Save_Click);
             // 
             // saveAsToolStripMenuItem
             // 
@@ -188,7 +188,7 @@ namespace Bortpad
             | System.Windows.Forms.Keys.S)));
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.saveAsToolStripMenuItem.Text = "Save &As...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAs_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -200,7 +200,7 @@ namespace Bortpad
             this.pageSetupToolStripMenuItem.Name = "pageSetupToolStripMenuItem";
             this.pageSetupToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.pageSetupToolStripMenuItem.Text = "Page Set&up...";
-            this.pageSetupToolStripMenuItem.Click += new System.EventHandler(this.pageSetupToolStripMenuItem_Click);
+            this.pageSetupToolStripMenuItem.Click += new System.EventHandler(this.PageSetup);
             // 
             // printToolStripMenuItem
             // 
@@ -209,7 +209,7 @@ namespace Bortpad
             this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.printToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.printToolStripMenuItem.Text = "&Print...";
-            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+            this.printToolStripMenuItem.Click += new System.EventHandler(this.Print);
             // 
             // toolStripMenuItem2
             // 
@@ -221,7 +221,7 @@ namespace Bortpad
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.Exit_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -246,8 +246,8 @@ namespace Bortpad
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "&Edit";
-            this.editToolStripMenuItem.DropDownClosed += new System.EventHandler(this.editToolStripMenuItem_DropDownClosed);
-            this.editToolStripMenuItem.DropDownOpening += new System.EventHandler(this.editToolStripMenuItem_DropDownOpening);
+            this.editToolStripMenuItem.DropDownClosed += new System.EventHandler(this.Edit_DropDownClosed);
+            this.editToolStripMenuItem.DropDownOpening += new System.EventHandler(this.Edit_DropDownOpening);
             // 
             // undoToolStripMenuItem
             // 
@@ -257,7 +257,7 @@ namespace Bortpad
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.undoToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.undoToolStripMenuItem.Text = "&Undo";
-            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.Undo);
             // 
             // redoToolStripMenuItem
             // 
@@ -266,7 +266,7 @@ namespace Bortpad
             this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.redoToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.redoToolStripMenuItem.Text = "R&edo";
-            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
+            this.redoToolStripMenuItem.Click += new System.EventHandler(this.Redo);
             // 
             // toolStripMenuItem4
             // 
@@ -281,7 +281,7 @@ namespace Bortpad
             this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.cutToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.cutToolStripMenuItem.Text = "Cu&t";
-            this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.Cut);
             // 
             // copyToolStripMenuItem
             // 
@@ -291,7 +291,7 @@ namespace Bortpad
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.Copy);
             // 
             // pasteToolStripMenuItem
             // 
@@ -301,7 +301,7 @@ namespace Bortpad
             this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             this.pasteToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.pasteToolStripMenuItem.Text = "&Paste";
-            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.Paste);
             // 
             // deleteToolStripMenuItem
             // 
@@ -311,7 +311,7 @@ namespace Bortpad
             this.deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.deleteToolStripMenuItem.Text = "De&lete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete);
             // 
             // toolStripMenuItem5
             // 
@@ -326,7 +326,7 @@ namespace Bortpad
             this.searchWithBortToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.searchWithBortToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.searchWithBortToolStripMenuItem.Text = "&Search with Google...";
-            this.searchWithBortToolStripMenuItem.Click += new System.EventHandler(this.searchWithBortToolStripMenuItem_Click);
+            this.searchWithBortToolStripMenuItem.Click += new System.EventHandler(this.SearchWeb);
             // 
             // findToolStripMenuItem
             // 
@@ -336,7 +336,7 @@ namespace Bortpad
             this.findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.findToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.findToolStripMenuItem.Text = "&Find...";
-            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
+            this.findToolStripMenuItem.Click += new System.EventHandler(this.Find);
             // 
             // findNextToolStripMenuItem
             // 
@@ -346,7 +346,7 @@ namespace Bortpad
             this.findNextToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
             this.findNextToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.findNextToolStripMenuItem.Text = "Find &Next";
-            this.findNextToolStripMenuItem.Click += new System.EventHandler(this.findNextToolStripMenuItem_Click);
+            this.findNextToolStripMenuItem.Click += new System.EventHandler(this.FindNext_Click);
             // 
             // findPreviousToolStripMenuItem
             // 
@@ -356,7 +356,7 @@ namespace Bortpad
             this.findPreviousToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F3)));
             this.findPreviousToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.findPreviousToolStripMenuItem.Text = "Find Pre&vious";
-            this.findPreviousToolStripMenuItem.Click += new System.EventHandler(this.findPreviousToolStripMenuItem_Click);
+            this.findPreviousToolStripMenuItem.Click += new System.EventHandler(this.FindPrevious_Click);
             // 
             // replaceToolStripMenuItem
             // 
@@ -365,7 +365,7 @@ namespace Bortpad
             this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.replaceToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.replaceToolStripMenuItem.Text = "&Replace...";
-            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
+            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.Replace_Click);
             // 
             // goToToolStripMenuItem
             // 
@@ -374,7 +374,7 @@ namespace Bortpad
             this.goToToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
             this.goToToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.goToToolStripMenuItem.Text = "&Go To...";
-            this.goToToolStripMenuItem.Click += new System.EventHandler(this.goToToolStripMenuItem_Click);
+            this.goToToolStripMenuItem.Click += new System.EventHandler(this.GoToLine);
             // 
             // toolStripMenuItem6
             // 
@@ -388,7 +388,7 @@ namespace Bortpad
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.selectAllToolStripMenuItem.Text = "Select &All";
-            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.SelectAll);
             // 
             // timeDateToolStripMenuItem
             // 
@@ -397,7 +397,7 @@ namespace Bortpad
             this.timeDateToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.timeDateToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.timeDateToolStripMenuItem.Text = "Time/&Date";
-            this.timeDateToolStripMenuItem.Click += new System.EventHandler(this.timeDateToolStripMenuItem_Click);
+            this.timeDateToolStripMenuItem.Click += new System.EventHandler(this.TimeDate_Click);
             // 
             // formatToolStripMenuItem
             // 
@@ -407,21 +407,21 @@ namespace Bortpad
             this.formatToolStripMenuItem.Name = "formatToolStripMenuItem";
             this.formatToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.formatToolStripMenuItem.Text = "F&ormat";
-            this.formatToolStripMenuItem.DropDownOpening += new System.EventHandler(this.formatToolStripMenuItem_DropDownOpening);
+            this.formatToolStripMenuItem.DropDownOpening += new System.EventHandler(this.Format_DropDownOpening);
             // 
             // wordWrapToolStripMenuItem
             // 
             this.wordWrapToolStripMenuItem.Name = "wordWrapToolStripMenuItem";
             this.wordWrapToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.wordWrapToolStripMenuItem.Text = "&Word Wrap";
-            this.wordWrapToolStripMenuItem.Click += new System.EventHandler(this.wordWrapToolStripMenuItem_Click);
+            this.wordWrapToolStripMenuItem.Click += new System.EventHandler(this.WordWrap_Click);
             // 
             // fontToolStripMenuItem
             // 
             this.fontToolStripMenuItem.Name = "fontToolStripMenuItem";
             this.fontToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.fontToolStripMenuItem.Text = "&Font...";
-            this.fontToolStripMenuItem.Click += new System.EventHandler(this.fontToolStripMenuItem_Click);
+            this.fontToolStripMenuItem.Click += new System.EventHandler(this.SetFont);
             // 
             // viewToolStripMenuItem
             // 
@@ -431,7 +431,7 @@ namespace Bortpad
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
-            this.viewToolStripMenuItem.DropDownOpening += new System.EventHandler(this.viewToolStripMenuItem_DropDownOpening);
+            this.viewToolStripMenuItem.DropDownOpening += new System.EventHandler(this.View_DropDownOpening);
             // 
             // zoomToolStripMenuItem
             // 
@@ -450,7 +450,7 @@ namespace Bortpad
             this.zoomInToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Oemplus)));
             this.zoomInToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.zoomInToolStripMenuItem.Text = "Zoom &In";
-            this.zoomInToolStripMenuItem.Click += new System.EventHandler(this.zoomInToolStripMenuItem_Click);
+            this.zoomInToolStripMenuItem.Click += new System.EventHandler(this.ZoomIn_Click);
             // 
             // zoomOutToolStripMenuItem
             // 
@@ -459,7 +459,7 @@ namespace Bortpad
             this.zoomOutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.OemMinus)));
             this.zoomOutToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.zoomOutToolStripMenuItem.Text = "Zoom &Out";
-            this.zoomOutToolStripMenuItem.Click += new System.EventHandler(this.zoomOutToolStripMenuItem_Click);
+            this.zoomOutToolStripMenuItem.Click += new System.EventHandler(this.ZoomOut_Click);
             // 
             // restoreDefaultZoomToolStripMenuItem
             // 
@@ -468,7 +468,7 @@ namespace Bortpad
             this.restoreDefaultZoomToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
             this.restoreDefaultZoomToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.restoreDefaultZoomToolStripMenuItem.Text = "&Restore Default Zoom";
-            this.restoreDefaultZoomToolStripMenuItem.Click += new System.EventHandler(this.restoreDefaultZoomToolStripMenuItem_Click);
+            this.restoreDefaultZoomToolStripMenuItem.Click += new System.EventHandler(this.RestoreDefaultZoom_Click);
             // 
             // statusBarToolStripMenuItem
             // 
@@ -478,7 +478,7 @@ namespace Bortpad
             this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
             this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.statusBarToolStripMenuItem.Text = "&Status Bar";
-            this.statusBarToolStripMenuItem.Click += new System.EventHandler(this.satusBarToolStripMenuItem_Click);
+            this.statusBarToolStripMenuItem.Click += new System.EventHandler(this.StatusBar_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -497,14 +497,14 @@ namespace Bortpad
             this.viewHelpToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.viewHelpToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.viewHelpToolStripMenuItem.Text = "View &Help";
-            this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
+            this.viewHelpToolStripMenuItem.Click += new System.EventHandler(this.ViewHelp_Click);
             // 
             // sendFeedbackToolStripMenuItem
             // 
             this.sendFeedbackToolStripMenuItem.Name = "sendFeedbackToolStripMenuItem";
             this.sendFeedbackToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.sendFeedbackToolStripMenuItem.Text = "Send &Feedback";
-            this.sendFeedbackToolStripMenuItem.Click += new System.EventHandler(this.sendFeedbackToolStripMenuItem_Click);
+            this.sendFeedbackToolStripMenuItem.Click += new System.EventHandler(this.SendFeedback_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -516,7 +516,7 @@ namespace Bortpad
             this.aboutNotepadToolStripMenuItem.Name = "aboutNotepadToolStripMenuItem";
             this.aboutNotepadToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.aboutNotepadToolStripMenuItem.Text = "&About Bortpad";
-            this.aboutNotepadToolStripMenuItem.Click += new System.EventHandler(this.aboutNotepadToolStripMenuItem_Click);
+            this.aboutNotepadToolStripMenuItem.Click += new System.EventHandler(this.About);
             // 
             // darkMode
             // 
@@ -529,7 +529,7 @@ namespace Bortpad
             this.darkMode.Size = new System.Drawing.Size(20, 20);
             this.darkMode.Text = "🌙";
             this.darkMode.ToolTipText = "Dark Mode";
-            this.darkMode.Click += new System.EventHandler(this.darkMode_Click);
+            this.darkMode.Click += new System.EventHandler(this.ToggleDarkMode);
             // 
             // holdShiftNotice
             // 
@@ -554,7 +554,7 @@ namespace Bortpad
             this.statusBar.Name = "statusBar";
             this.statusBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.statusBar.Size = new System.Drawing.Size(1008, 22);
-            this.statusBar.TabIndex = 1;
+            this.statusBar.TabIndex = 2;
             this.statusBar.Text = "statusStrip1";
             // 
             // statusBarLeft
@@ -615,12 +615,11 @@ namespace Bortpad
             // 
             // printDocument1
             // 
-            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.document_PrintPage);
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintPage);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.DefaultExt = "txt";
-            this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Text Files|*.txt|All files|*.*";
             this.openFileDialog1.Title = "Open File...";
             // 
@@ -646,7 +645,7 @@ namespace Bortpad
             this.editorSearchWithGoogle});
             this.editorContextMenu.Name = "editorContextMenu";
             this.editorContextMenu.Size = new System.Drawing.Size(214, 226);
-            this.editorContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.editorContextMenu_Opening);
+            this.editorContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenu_Opening);
             // 
             // editorUndo
             // 
@@ -654,7 +653,7 @@ namespace Bortpad
             this.editorUndo.Name = "editorUndo";
             this.editorUndo.Size = new System.Drawing.Size(213, 22);
             this.editorUndo.Text = "&Undo";
-            this.editorUndo.Click += new System.EventHandler(this.editorUndo_Click);
+            this.editorUndo.Click += new System.EventHandler(this.Undo);
             // 
             // editorRedo
             // 
@@ -662,7 +661,7 @@ namespace Bortpad
             this.editorRedo.Name = "editorRedo";
             this.editorRedo.Size = new System.Drawing.Size(213, 22);
             this.editorRedo.Text = "R&edo";
-            this.editorRedo.Click += new System.EventHandler(this.editorRedo_Click);
+            this.editorRedo.Click += new System.EventHandler(this.Redo);
             // 
             // toolStripSeparator1
             // 
@@ -675,7 +674,7 @@ namespace Bortpad
             this.editorCut.Name = "editorCut";
             this.editorCut.Size = new System.Drawing.Size(213, 22);
             this.editorCut.Text = "Cu&t";
-            this.editorCut.Click += new System.EventHandler(this.editorCut_Click);
+            this.editorCut.Click += new System.EventHandler(this.Cut);
             // 
             // editorCopy
             // 
@@ -683,7 +682,7 @@ namespace Bortpad
             this.editorCopy.Name = "editorCopy";
             this.editorCopy.Size = new System.Drawing.Size(213, 22);
             this.editorCopy.Text = "&Copy";
-            this.editorCopy.Click += new System.EventHandler(this.editorCopy_Click);
+            this.editorCopy.Click += new System.EventHandler(this.Copy);
             // 
             // editorPaste
             // 
@@ -691,7 +690,7 @@ namespace Bortpad
             this.editorPaste.Name = "editorPaste";
             this.editorPaste.Size = new System.Drawing.Size(213, 22);
             this.editorPaste.Text = "&Paste";
-            this.editorPaste.Click += new System.EventHandler(this.editorPaste_Click);
+            this.editorPaste.Click += new System.EventHandler(this.Paste);
             // 
             // editorDelete
             // 
@@ -699,7 +698,7 @@ namespace Bortpad
             this.editorDelete.Name = "editorDelete";
             this.editorDelete.Size = new System.Drawing.Size(213, 22);
             this.editorDelete.Text = "&Delete";
-            this.editorDelete.Click += new System.EventHandler(this.editorDelete_Click);
+            this.editorDelete.Click += new System.EventHandler(this.Delete);
             // 
             // toolStripSeparator2
             // 
@@ -711,7 +710,7 @@ namespace Bortpad
             this.editorSelectAll.Name = "editorSelectAll";
             this.editorSelectAll.Size = new System.Drawing.Size(213, 22);
             this.editorSelectAll.Text = "Select &All";
-            this.editorSelectAll.Click += new System.EventHandler(this.editorSelectAll_Click);
+            this.editorSelectAll.Click += new System.EventHandler(this.SelectAll);
             // 
             // toolStripSeparator4
             // 
@@ -723,7 +722,7 @@ namespace Bortpad
             this.editorRightToLeft.Name = "editorRightToLeft";
             this.editorRightToLeft.Size = new System.Drawing.Size(213, 22);
             this.editorRightToLeft.Text = "&Right to left Reading order";
-            this.editorRightToLeft.Click += new System.EventHandler(this.editorRightToLeft_Click);
+            this.editorRightToLeft.Click += new System.EventHandler(this.RightToLeft_Click);
             // 
             // toolStripSeparator3
             // 
@@ -736,7 +735,7 @@ namespace Bortpad
             this.editorSearchWithGoogle.Name = "editorSearchWithGoogle";
             this.editorSearchWithGoogle.Size = new System.Drawing.Size(213, 22);
             this.editorSearchWithGoogle.Text = "Search with &Google...";
-            this.editorSearchWithGoogle.Click += new System.EventHandler(this.editorSearchWithGoogle_Click);
+            this.editorSearchWithGoogle.Click += new System.EventHandler(this.SearchWeb);
             // 
             // editor
             // 
@@ -750,19 +749,14 @@ namespace Bortpad
             this.editor.HideSelection = false;
             this.editor.Location = new System.Drawing.Point(0, 24);
             this.editor.Name = "editor";
-            this.editor.PlainTextMode = true;
             this.editor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
             this.editor.Size = new System.Drawing.Size(1008, 515);
-            this.editor.TabIndex = 8;
+            this.editor.TabIndex = 0;
             this.editor.Text = "";
             this.editor.WordWrap = false;
-            this.editor.TextChanged += new System.EventHandler(this.editor_TextChanged);
-            this.editor.KeyDown += new System.Windows.Forms.KeyEventHandler(this.editor_KeyDown);
-            this.editor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.editor_KeyPress);
-            this.editor.KeyUp += new System.Windows.Forms.KeyEventHandler(this.editor_KeyUp);
-            this.editor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.editor_MouseDown);
-            this.editor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.editor_MouseMove);
-            this.editor.MouseUp += new System.Windows.Forms.MouseEventHandler(this.editor_MouseUp);
+            this.editor.CursorPositionChanged += new System.EventHandler(this.CursorPositionChanged);
+            this.editor.SelectionChanged += new System.EventHandler(this.SelectionChanged);
+            this.editor.TextChanged += new System.EventHandler(this.Modified);
             // 
             // BortForm
             // 

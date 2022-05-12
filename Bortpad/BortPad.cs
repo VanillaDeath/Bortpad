@@ -13,118 +13,189 @@ namespace Bortpad
 {
     public partial class BortForm : Form
     {
-        internal string programName;
-        private const string defaultFilename = "Untitled";
-        private bool ChangesMade;
-        private Encoding encodingSetting;
-        private string filename;
-        private FindPrompt find;
-        private string hash;
-        private bool isFile;
-        private ReplacePrompt replace;
+        internal const string _DEFAULT_FILENAME = "Untitled";
+        private bool _changesMade;
+        private Encoding _encodingSetting;
+        private string _filename;
+        private FindPrompt _find;
+        private ReplacePrompt _replace;
 
         public BortForm(string filenameSpecified = null)
         {
             InitializeComponent();
-            programName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-            filename = filenameSpecified;
-            encodingSetting = Encoding.UTF8;
-            encodingStatus.Text = encodingSetting.EncodingName;
-            fontDlg.Font = editor.Font = getSetting<Font>("Font");
-            editor.WordWrap = getSetting<bool>("WordWrap");
-            statusBar.Visible = getSetting<bool>("StatusBar");
-            applyDarkMode(getSetting<bool>("DarkMode"));
-            Text = defaultFilename + " - " + programName;
+            FileName = filenameSpecified;
+            _encodingSetting = Encoding.UTF8;
+            encodingStatus.Text = _encodingSetting.EncodingName;
+            fontDlg.Font = editor.Font = GetSetting<Font>("Font");
+            editor.WordWrap = GetSetting<bool>("WordWrap");
+            statusBar.Visible = GetSetting<bool>("StatusBar");
+            ApplyDarkMode(GetSetting<bool>("DarkMode"));
+            Text = _DEFAULT_FILENAME + " - " + ProgramName;
         }
 
-        public static void colorSwap(Control item, bool mode)
+        public bool ChangesMade
         {
-            item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
-            item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
+            get { return _changesMade; }
+            private set
+            {
+                _changesMade = value;
+                UpdateTitle();
+            }
         }
 
-        public static void colorSwapItem(ToolStripMenuItem item, bool mode)
+        public int Col
         {
-            item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
-            item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
+            get;
+            private set;
         }
 
-        public static StringComparison getComparisonType(bool matchCase = false)
+        public int End
         {
-            return matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+            get;
+            private set;
         }
 
-        public static byte[] GetHash(string inputString)
+        public string FileName
+        {
+            get { return _filename != null ? _filename : _DEFAULT_FILENAME; }
+            private set
+            {
+                if (value != null && !File.Exists(value))
+                {
+                    // _filename = null;
+                    throw new FileNotFoundException();
+                }
+                _filename = value;
+            }
+        }
+
+        public string Hash
+        {
+            get;
+            private set;
+        }
+
+        public bool HasText
+        {
+            get { return editor.Text.Length > 0; }
+        }
+
+        public bool IsFile
+        {
+            get { return _filename != null && File.Exists(_filename); }
+        }
+
+        public int Length
+        {
+            get;
+            private set;
+        }
+
+        public int Ln
+        {
+            get;
+            private set;
+        }
+
+        public int NumLines
+        {
+            get { return editor.Lines.Length < 1 ? 1 : editor.Lines.Length; }
+        }
+
+        public int Pos
+        {
+            get;
+            private set;
+        }
+
+        public string ProgramName
+        {
+            get;
+        } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+
+        public int Start
+        {
+            get;
+            private set;
+        }
+
+        public static byte[] CalculateHash(string inputString)
         {
             using (HashAlgorithm algorithm = MD5.Create())
                 return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
         }
 
-        public static string GetHashString(string inputString)
+        public static string CalculateHashString(string inputString)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (byte b in GetHash(inputString))
+            foreach (byte b in CalculateHash(inputString))
                 sb.Append(b.ToString("X2"));
 
             return sb.ToString();
         }
 
-        public static void newWindow(string args = null)
+        public static void ColorSwap(Control item, bool mode)
+        {
+            item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
+            item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
+        }
+
+        public static void ColorSwapItem(ToolStripMenuItem item, bool mode)
+        {
+            item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
+            item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
+        }
+
+        public static StringComparison GetComparisonType(bool matchCase = false)
+        {
+            return matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+        }
+
+        public static void NewWindow(string args = null)
         {
             Process.Start(Application.ExecutablePath, args);
         }
 
         public static int OmniIndexOf(string needle, string haystack, bool reverse = false, int start = 0, bool matchCase = false)
         {
-            StringComparison sc = getComparisonType(matchCase);
+            StringComparison sc = GetComparisonType(matchCase);
             return reverse ? haystack.LastIndexOf(needle, start, sc) : haystack.IndexOf(needle, start, sc);
         }
 
-        internal int findFromPrompt(string query, bool reverse, bool matchCase, bool wrapAround)
+        internal int FindFromPrompt(string query, bool reverse, bool matchCase, bool wrapAround)
         {
-            setSetting("Search", query)
-                .setSetting("Up", reverse)
-                .setSetting("MatchCase", matchCase)
-                .setSetting("WrapAround", wrapAround);
-            findNextToolStripMenuItem.Enabled = canRepeatFind();
-            findPreviousToolStripMenuItem.Enabled = canRepeatFind();
+            SetSetting("Search", query)
+                .SetSetting("Up", reverse)
+                .SetSetting("MatchCase", matchCase)
+                .SetSetting("WrapAround", wrapAround);
+            findNextToolStripMenuItem.Enabled = CanRepeatFind();
+            findPreviousToolStripMenuItem.Enabled = CanRepeatFind();
 
-            return getSetting<bool>("Up") ? findPrev() : findNext();
+            return GetSetting<bool>("Up") ? FindPrev() : FindNext();
         }
 
-        internal int getLineNumber(int startFrom = 1)
-        {
-            return editor.GetLineFromCharIndex(editor.SelectionStart) + startFrom;
-        }
-
-        internal int[] getLnCol(int startFrom = 1)
-        {
-            int line = getLineNumber(0);
-            return new int[] { line + startFrom, editor.SelectionStart - editor.GetFirstCharIndexFromLine(line) + startFrom };
-        }
-
-        internal T getSetting<T>(string key)
+        internal T GetSetting<T>(string key)
         {
             return (T)Convert.ChangeType(Properties.Settings.Default[key], typeof(T));
         }
 
-        internal bool goToLineFromPrompt(string ln)
+        internal bool GoToLineFromPrompt(string ln)
         {
-            int max = editor.Lines.Length < 1 ? 1 : editor.Lines.Length;
-            if (ln != null && ln != "" && long.TryParse(ln, out long lnNum) && lnNum >= 1 && lnNum <= max && setLineNumber((int)lnNum))
+            if (ln != null && ln != "" && long.TryParse(ln, out long lnNum) && lnNum >= 1 && lnNum <= NumLines)
             {
+                Ln = (int)lnNum;
                 return true;
             }
-            MessageBox.Show("The line number is beyond the total number of lines", programName + " - Goto Line", MessageBoxButtons.OK);
+            MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
             return false;
         }
 
-        internal void replaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
+        internal void ReplaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
         {
-            setSetting("Search", query)
-                .setSetting("Replace", replaceString)
-                .setSetting("MatchCase", matchCase)
-                .setSetting("WrapAround", wrapAround);
+            SetSetting("Search", query)
+                .SetSetting("Replace", replaceString)
+                .SetSetting("MatchCase", matchCase)
+                .SetSetting("WrapAround", wrapAround);
             string input = string.Format(@"({0})", System.Text.RegularExpressions.Regex.Escape(query));
             string pattern = string.Format("{0}", System.Text.RegularExpressions.Regex.Escape(replaceString));
             editor.Text = System.Text.RegularExpressions.Regex.Replace(
@@ -135,41 +206,41 @@ namespace Bortpad
                 );
         }
 
-        internal int replaceFromPrompt(string query, string replaceString, bool matchCase, bool wrapAround)
+        internal int ReplaceFromPrompt(string query, string replaceString, bool matchCase, bool wrapAround)
         {
-            setSetting("Search", query)
-                .setSetting("Replace", replaceString)
-                .setSetting("MatchCase", matchCase)
-                .setSetting("WrapAround", wrapAround);
-            if (editor.SelectedText.Equals(query, getComparisonType(matchCase)))
+            SetSetting("Search", query)
+                .SetSetting("Replace", replaceString)
+                .SetSetting("MatchCase", matchCase)
+                .SetSetting("WrapAround", wrapAround);
+            if (editor.SelectedText.Equals(query, GetComparisonType(matchCase)))
             {
                 editor.SelectedText = replaceString;
             }
-            return findFromPrompt(query, false, matchCase, wrapAround);
+            return FindFromPrompt(query, false, matchCase, wrapAround);
         }
 
-        internal BortForm setSetting<T>(string key, T value)
+        internal BortForm SetSetting<T>(string key, T value)
         {
             Properties.Settings.Default[key] = value;
             Properties.Settings.Default.Save();
             return this;
         }
 
-        private void aboutNotepadToolStripMenuItem_Click(object sender, EventArgs e)
+        private void About(object sender, EventArgs e)
         {
             About about = new About();
             about.ShowDialog();
         }
 
-        private BortForm applyDarkMode(bool darkModeOn)
+        private BortForm ApplyDarkMode(bool darkModeOn)
         {
-            editor.TextChanged -= editor_TextChanged;
+            editor.TextChanged -= Modified;
             editor.BackColor = darkModeOn ? SystemColors.WindowText : SystemColors.Window;
             editor.ForeColor = darkModeOn ? SystemColors.Window : SystemColors.WindowText;
-            editor.TextChanged += editor_TextChanged;
+            editor.TextChanged += Modified;
             darkMode.Text = darkModeOn ? "☀" : "🌙";
-            colorSwapItem(darkMode, !darkModeOn);
-            colorSwap(statusBar, darkModeOn);
+            ColorSwapItem(darkMode, !darkModeOn);
+            ColorSwap(statusBar, darkModeOn);
 
             darkMode.Checked = darkModeOn;
             return this;
@@ -191,7 +262,7 @@ namespace Bortpad
                         first = false;
                         continue;
                     }
-                    newWindow(file);
+                    NewWindow(file);
                 }
             }
         }
@@ -233,102 +304,23 @@ namespace Bortpad
 
         private void BortForm_Shown(object sender, EventArgs e)
         {
-            if (filename == null || !OpenDocument(false, filename))
+            if (!IsFile || !OpenDocument(false, FileName))
             {
                 NewDocument(false);
             }
         }
 
-        private bool canRepeatFind()
+        private bool CanRepeatFind()
         {
-            return getSetting<string>("Search").Length > 0 && editor.Text.Length > 0;
+            return GetSetting<string>("Search").Length > 0 && editor.Text.Length > 0;
         }
 
-        private void cantFind(string text)
+        private void CantFind(string text)
         {
-            MessageBox.Show("Cannot find \"" + text + "\"", programName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Cannot find \"" + text + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            editor.Copy();
-        }
-
-        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            editor.Cut();
-        }
-
-        private void darkMode_Click(object sender, EventArgs e)
-        {
-            toggleDarkMode();
-        }
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            editor.SelectedText = "";
-        }
-
-        private void document_PrintPage(object sender, PrintPageEventArgs e)
-        {
-            e.Graphics.DrawString(editor.Text, editor.Font, Brushes.Black, 20, 20);
-        }
-
-        private void editor_KeyDown(object sender, KeyEventArgs e)
-        {
-            UpdatePos();
-        }
-
-        private void editor_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            UpdatePos();
-        }
-
-        private void editor_KeyUp(object sender, KeyEventArgs e)
-        {
-            UpdatePos();
-        }
-
-        private void editor_MouseDown(object sender, MouseEventArgs e)
-        {
-            UpdatePos();
-        }
-
-        private void editor_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                UpdatePos();
-            }
-        }
-
-        private void editor_MouseUp(object sender, MouseEventArgs e)
-        {
-            UpdatePos();
-        }
-
-        private void editor_TextChanged(object sender, EventArgs e)
-        {
-            bool hasText = editor.Text.Length > 0;
-            findToolStripMenuItem.Enabled = hasText;
-            findNextToolStripMenuItem.Enabled = canRepeatFind();
-            findPreviousToolStripMenuItem.Enabled = canRepeatFind();
-            // replaceToolStripMenuItem.Enabled = hasText;
-            // goToToolStripMenuItem.Enabled = hasText;
-            // selectAllToolStripMenuItem.Enabled = hasText;
-            UpdatePos();
-            if (getChangesMade())
-            {
-                if (!editor.CanUndo && hash == GetHashString(editor.Text))
-                {
-                    setChangesMade(false);
-                }
-                return;
-            }
-            setChangesMade(true);
-        }
-
-        private void editorContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             bool isSelected = editor.SelectionLength > 0;
             editorCut.Enabled = isSelected;
@@ -340,58 +332,35 @@ namespace Bortpad
             editorRedo.Enabled = editor.CanRedo;
         }
 
-        private void editorCopy_Click(object sender, EventArgs e)
+        private void Copy(object sender, EventArgs e)
         {
             editor.Copy();
         }
 
-        private void editorCut_Click(object sender, EventArgs e)
+        private void CursorPositionChanged(object sender, EventArgs e)
+        {
+            Ln = editor.CurrentLine;
+            Col = editor.CurrentColumn;
+            Pos = editor.CurrentPosition;
+            UpdatePos();
+        }
+
+        private void Cut(object sender, EventArgs e)
         {
             editor.Cut();
         }
 
-        private void editorDelete_Click(object sender, EventArgs e)
+        private void Delete(object sender, EventArgs e)
         {
             editor.SelectedText = "";
         }
 
-        private void editorPaste_Click(object sender, EventArgs e)
-        {
-            editor.Paste();
-        }
-
-        private void editorRedo_Click(object sender, EventArgs e)
-        {
-            editor.Redo();
-        }
-
-        private void editorRightToLeft_Click(object sender, EventArgs e)
-        {
-            editor.RightToLeft = editor.RightToLeft == RightToLeft.No ? RightToLeft.Yes : RightToLeft.No;
-            editorRightToLeft.Checked = editor.RightToLeft == RightToLeft.Yes;
-        }
-
-        private void editorSearchWithGoogle_Click(object sender, EventArgs e)
-        {
-            searchWeb();
-        }
-
-        private void editorSelectAll_Click(object sender, EventArgs e)
-        {
-            editor.SelectAll();
-        }
-
-        private void editorUndo_Click(object sender, EventArgs e)
-        {
-            editor.Undo();
-        }
-
-        private void editToolStripMenuItem_DropDownClosed(object sender, EventArgs e)
+        private void Edit_DropDownClosed(object sender, EventArgs e)
         {
             searchWithBortToolStripMenuItem.Enabled = true;
         }
 
-        private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        private void Edit_DropDownOpening(object sender, EventArgs e)
         {
             bool isSelected = editor.SelectionLength > 0;
             cutToolStripMenuItem.Enabled = isSelected;
@@ -403,96 +372,81 @@ namespace Bortpad
             redoToolStripMenuItem.Enabled = editor.CanRedo;
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Exit_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void fileNotFound()
+        private void FileNotFound()
         {
-            MessageBox.Show("The system cannot find the path specified.", programName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("The system cannot find the path specified.", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        private void findInEditor()
+        private void Find(object sender, EventArgs e)
         {
-            if (find != null && find.Visible)
+            if (_find != null && _find.Visible)
             {
-                find.BringToFront();
+                _find.BringToFront();
                 return;
             }
-            find = new FindPrompt(
-                getSetting<string>("Search"),
-                getSetting<bool>("Up"),
-                getSetting<bool>("MatchCase"),
-                getSetting<bool>("WrapAround"));
-            find.Show(this);
+            _find = new FindPrompt(
+                GetSetting<string>("Search"),
+                GetSetting<bool>("Up"),
+                GetSetting<bool>("MatchCase"),
+                GetSetting<bool>("WrapAround"));
+            _find.Show(this);
         }
 
-        private int findNext()
+        private int FindNext()
         {
-            return findNextPrev(false);
+            return FindNextPrev(false);
         }
 
-        private int findNextPrev(bool prev = false)
+        private void FindNext_Click(object sender, EventArgs e)
         {
-            string searchQuery = getSetting<string>("Search");
-            bool searchMatchCase = getSetting<bool>("MatchCase");
+            FindNext();
+        }
+
+        private int FindNextPrev(bool prev = false)
+        {
+            string searchQuery = GetSetting<string>("Search");
+            bool searchMatchCase = GetSetting<bool>("MatchCase");
             int pos = OmniIndexOf(searchQuery, editor.Text, prev, editor.SelectionStart + (prev ? 0 : editor.SelectionLength), searchMatchCase);
-            if (pos == -1 && getSetting<bool>("WrapAround"))
+            if (pos == -1 && GetSetting<bool>("WrapAround"))
             {
                 pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
-                setStatus(pos == -1 ? "" : "Found next from the " + (prev ? "bottom" : "top"));
+                SetStatus(pos == -1 ? "" : "Found next from the " + (prev ? "bottom" : "top"));
             }
             else
             {
-                setStatus();
+                SetStatus();
             }
-            gotoResult(pos, searchQuery);
+            HighlightResult(pos, searchQuery);
             return pos;
         }
 
-        private void findNextToolStripMenuItem_Click(object sender, EventArgs e)
+        private int FindPrev()
         {
-            findNext();
+            return FindNextPrev(true);
         }
 
-        private int findPrev()
+        private void FindPrevious_Click(object sender, EventArgs e)
         {
-            return findNextPrev(true);
+            FindPrev();
         }
 
-        private void findPreviousToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            findPrev();
-        }
-
-        private void findToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            findInEditor();
-        }
-
-        private void fontToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            setFont();
-        }
-
-        private void formatToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        private void Format_DropDownOpening(object sender, EventArgs e)
         {
             wordWrapToolStripMenuItem.Checked = editor.WordWrap;
         }
 
-        private bool getChangesMade()
+        private void GoToLine(object sender, EventArgs e)
         {
-            return ChangesMade;
-        }
-
-        private void GoToLine()
-        {
-            GoToPrompt gt = new GoToPrompt(getLineNumber());
+            GoToPrompt gt = new GoToPrompt(Ln);
             gt.ShowDialog(this);
         }
 
-        private void gotoResult(int pos, string q)
+        private void HighlightResult(int pos, string q)
         {
             if (pos != -1)
             {
@@ -503,13 +457,33 @@ namespace Bortpad
             }
             else
             {
-                cantFind(q);
+                CantFind(q);
             }
         }
 
-        private void goToToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Modified(object sender, EventArgs e)
         {
-            GoToLine();
+            findToolStripMenuItem.Enabled = HasText;
+            findNextToolStripMenuItem.Enabled = CanRepeatFind();
+            findPreviousToolStripMenuItem.Enabled = CanRepeatFind();
+            // replaceToolStripMenuItem.Enabled = HasText;
+            // goToToolStripMenuItem.Enabled = HasText;
+            // selectAllToolStripMenuItem.Enabled = HasText;
+            // UpdatePos();
+            if (ChangesMade)
+            {
+                if (!editor.CanUndo && Hash == CalculateHashString(editor.Text))
+                {
+                    ChangesMade = false;
+                }
+                return;
+            }
+            ChangesMade = true;
+        }
+
+        private void New_Click(object sender, EventArgs e)
+        {
+            NewDocument();
         }
 
         private void NewDocument(bool saveFirst = true)
@@ -517,80 +491,67 @@ namespace Bortpad
             if (!saveFirst || SaveConfirmPrompt(false))
             {
                 editor.Clear();
-                isFile = false;
-                filename = defaultFilename;
-                setHash();
-                setChangesMade(false);
+                FileName = null;
+                SetHash();
+                ChangesMade = false;
                 editor.Select();
             }
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewWindow_Click(object sender, EventArgs e)
         {
-            NewDocument();
+            NewWindow();
         }
 
-        private void newWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Open_Click(object sender, EventArgs e)
         {
-            newWindow();
+            OpenDocument();
         }
 
         private bool OpenDocument(bool saveFirst = true, string openFilename = null)
         {
             if (!saveFirst || SaveConfirmPrompt(false))
             {
-                if (openFilename == null && openFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    if (!File.Exists(openFileDialog1.FileName))
-                    {
-                        fileNotFound();
-                        return false;
-                    }
-                    filename = openFileDialog1.FileName;
-                }
-                else if (openFilename != null)
-                {
-                    if (!File.Exists(openFilename))
-                    {
-                        fileNotFound();
-                        return false;
-                    }
-                    filename = openFilename;
-                }
-                else
-                {
-                    return false;
-                }
                 try
                 {
+                    if (openFilename != null)
+                    {
+                        // Filename as param, set
+                        FileName = openFilename;
+                    }
+                    else if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        // No filename as param, get filename from Open Dialog
+                        FileName = openFileDialog1.FileName;
+                    }
+                    else
+                    {
+                        // No filename as param, Open Dialog cancelled, then abort
+                        return false;
+                    }
                     editor.Clear();
-                    editor.Text = File.ReadAllText(filename, encodingSetting);
-                    isFile = true;
-                    setHash();
-                    setChangesMade(false);
+                    editor.Text = File.ReadAllText(FileName, _encodingSetting);
+                    SetHash();
+                    ChangesMade = false;
                     editor.Select();
                     return true;
                 }
                 catch (FileNotFoundException)
                 {
-                    fileNotFound();
+                    FileNotFound();
                     return false;
                 }
                 catch (IOException e)
                 {
-                    MessageBox.Show(e.Message, programName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
+            // User clicked Cancel on SaveConfirmPrompt
             return false;
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenDocument();
-        }
-
-        private void PageSetup()
+        private void PageSetup(object sender, EventArgs e)
         {
             if (pageSetupDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -598,17 +559,12 @@ namespace Bortpad
             }
         }
 
-        private void pageSetupToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PageSetup();
-        }
-
-        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Paste(object sender, EventArgs e)
         {
             editor.Paste();
         }
 
-        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Print(object sender, EventArgs e)
         {
             if (printDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -616,39 +572,50 @@ namespace Bortpad
             }
         }
 
-        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PrintPage(object sender, PrintPageEventArgs e)
+        {
+            e.Graphics.DrawString(editor.Text, editor.Font, Brushes.Black, 20, 20);
+        }
+
+        private void Redo(object sender, EventArgs e)
         {
             editor.Redo();
         }
 
-        private void replaceInEditor()
+        private void Replace_Click(object sender, EventArgs e)
         {
-            if (replace != null && replace.Visible)
+            ReplaceReplace();
+        }
+
+        private void ReplaceReplace()
+        {
+            if (_replace != null && _replace.Visible)
             {
-                replace.BringToFront();
+                _replace.BringToFront();
                 return;
             }
-            replace = new ReplacePrompt(getSetting<string>("Search"), getSetting<string>("Replace"), getSetting<bool>("MatchCase"), getSetting<bool>("WrapAround"));
-            replace.Show(this);
+            _replace = new ReplacePrompt(GetSetting<string>("Search"), GetSetting<string>("Replace"), GetSetting<bool>("MatchCase"), GetSetting<bool>("WrapAround"));
+            _replace.Show(this);
         }
 
-        private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            replaceInEditor();
-        }
-
-        private void restoreDefaultZoomToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RestoreDefaultZoom_Click(object sender, EventArgs e)
         {
             editor.ZoomFactor = 1.0f;
             UpdateZoom();
         }
 
-        private void satusBarToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RightToLeft_Click(object sender, EventArgs e)
         {
-            ToggleStatusBar();
+            editor.RightToLeft = editor.RightToLeft == RightToLeft.No ? RightToLeft.Yes : RightToLeft.No;
+            editorRightToLeft.Checked = editor.RightToLeft == RightToLeft.Yes;
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Save_Click(object sender, EventArgs e)
+        {
+            SaveDocument();
+        }
+
+        private void SaveAs_Click(object sender, EventArgs e)
         {
             SaveDocument(true);
         }
@@ -657,7 +624,7 @@ namespace Bortpad
         {
             if (force || ChangesMade)
             {
-                SaveConfirmPrompt SCP = new SaveConfirmPrompt(filename);
+                SaveConfirmPrompt SCP = new SaveConfirmPrompt(FileName);
                 SCP.ShowDialog();
                 switch (SCP.DialogResult)
                 {
@@ -679,128 +646,107 @@ namespace Bortpad
 
         private bool SaveDocument(bool saveAs = false)
         {
-            if (isFile && !saveAs)
+            if (IsFile && !saveAs)
             {
-                File.WriteAllText(filename, editor.Text, encodingSetting);
-                setHash();
-                setChangesMade(false);
+                File.WriteAllText(FileName, editor.Text, _encodingSetting);
+                SetHash();
+                ChangesMade = false;
                 return true;
             }
             else
             {
+                saveFileDialog1.FileName = Path.GetFileName(FileName);
+                saveFileDialog1.InitialDirectory = Path.GetDirectoryName(FileName);
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    filename = saveFileDialog1.FileName;
-                    File.WriteAllText(filename, editor.Text, encodingSetting);
-                    isFile = true;
-                    setHash();
-                    setChangesMade(false);
+                    FileName = saveFileDialog1.FileName;
+                    File.WriteAllText(FileName, editor.Text, _encodingSetting);
+                    SetHash();
+                    ChangesMade = false;
                     return true;
                 }
             }
             return false;
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveDocument();
-        }
-
-        private void searchWeb()
+        private void SearchWeb(object sender, EventArgs e)
         {
             if (editor.SelectionLength > 0)
             {
-                string searchString = editor.SelectedText;
                 Process.Start("https://google.com/search?q=" + HttpUtility.UrlEncode(editor.SelectedText));
             }
         }
 
-        private void searchWithBortToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            searchWeb();
-        }
-
-        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SelectAll(object sender, EventArgs e)
         {
             editor.SelectAll();
         }
 
-        private void sendFeedbackToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SelectionChanged(object sender, EventArgs e)
+        {
+            Start = editor.SelectionStart;
+            End = editor.SelectionEnd;
+            Length = editor.SelectionLength;
+            UpdatePos();
+        }
+
+        private void SendFeedback_Click(object sender, EventArgs e)
         {
             Process.Start("https://stevenwilson.ca/contact");
         }
 
-        private BortForm setChangesMade(bool changed)
-        {
-            ChangesMade = changed;
-            UpdateTitle();
-            return this;
-        }
-
-        private BortForm setFont()
+        private void SetFont(object sender, EventArgs e)
         {
             if (fontDlg.ShowDialog() == DialogResult.OK)
             {
-                setSetting("Font", fontDlg.Font);
-                editor.TextChanged -= editor_TextChanged;
+                SetSetting("Font", fontDlg.Font);
+                editor.TextChanged -= Modified;
                 editor.Font = fontDlg.Font;
-                editor.TextChanged += editor_TextChanged;
+                editor.TextChanged += Modified;
             }
+        }
+
+        private BortForm SetHash()
+        {
+            Hash = CalculateHashString(editor.Text);
             return this;
         }
 
-        private BortForm setHash()
-        {
-            hash = GetHashString(editor.Text);
-            return this;
-        }
-
-        private bool setLineNumber(int lnNum)
-        {
-            try
-            {
-                editor.Select(editor.GetFirstCharIndexFromLine(lnNum - 1), 0);
-                editor.Focus();
-                editor.ScrollToCaret();
-                UpdatePos();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private BortForm setStatus(string text = "")
+        private BortForm SetStatus(string text = "")
         {
             statusBarLeft.Text = text;
             return this;
         }
 
-        private void timeDateToolStripMenuItem_Click(object sender, EventArgs e)
+        private void StatusBar_Click(object sender, EventArgs e)
+        {
+            ToggleStatusBar();
+        }
+
+        private void TimeDate_Click(object sender, EventArgs e)
         {
             DateTime now = DateTime.Now;
             editor.SelectedText = now.ToString("g");
         }
 
-        private void toggleDarkMode()
+        private void ToggleDarkMode(object sender, EventArgs e)
         {
-            applyDarkMode(toggleSetting("DarkMode"));
+            ApplyDarkMode(ToggleSetting("DarkMode"));
         }
 
-        private bool toggleSetting(string key)
+        private bool ToggleSetting(string key)
         {
-            setSetting(key, !getSetting<bool>(key));
-            return getSetting<bool>(key);
+            SetSetting(key, !GetSetting<bool>(key));
+            return GetSetting<bool>(key);
         }
 
         private void ToggleStatusBar()
         {
-            statusBarToolStripMenuItem.Checked = statusBar.Visible = toggleSetting("StatusBar");
+            statusBarToolStripMenuItem.Checked = statusBar.Visible = ToggleSetting("StatusBar");
             UpdatePos();
         }
 
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Undo(object sender, EventArgs e)
         {
             editor.Undo();
         }
@@ -809,14 +755,13 @@ namespace Bortpad
         {
             if (statusBar.Visible)
             {
-                int[] pos = getLnCol();
-                position.Text = "Ln " + pos[0] + ", Col " + pos[1];
+                position.Text = "Ln " + Ln + ", Col " + Col;
             }
         }
 
         private void UpdateTitle()
         {
-            this.Text = (ChangesMade ? "*" : "") + filename + " - " + programName;
+            this.Text = (ChangesMade ? "*" : "") + FileName + " - " + ProgramName;
         }
 
         private void UpdateZoom()
@@ -824,22 +769,22 @@ namespace Bortpad
             zoomLevel.Text = Math.Round(editor.ZoomFactor * 100).ToString() + "%";
         }
 
-        private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://stevenwilson.ca/bortpad/help");
-        }
-
-        private void viewToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        private void View_DropDownOpening(object sender, EventArgs e)
         {
             statusBarToolStripMenuItem.Checked = statusBar.Visible;
         }
 
-        private void wordWrapToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ViewHelp_Click(object sender, EventArgs e)
         {
-            wordWrapToolStripMenuItem.Checked = editor.WordWrap = toggleSetting("WordWrap");
+            Process.Start("https://stevenwilson.ca/bortpad/help");
         }
 
-        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        private void WordWrap_Click(object sender, EventArgs e)
+        {
+            wordWrapToolStripMenuItem.Checked = editor.WordWrap = ToggleSetting("WordWrap");
+        }
+
+        private void ZoomIn_Click(object sender, EventArgs e)
         {
             if (editor.ZoomFactor < 5)
             {
@@ -848,7 +793,7 @@ namespace Bortpad
             UpdateZoom();
         }
 
-        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ZoomOut_Click(object sender, EventArgs e)
         {
             if (editor.ZoomFactor >= 0.2)
             {

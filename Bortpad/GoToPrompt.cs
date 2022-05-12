@@ -7,6 +7,7 @@ namespace Bortpad
     {
         private BortForm BortParent;
         private int origLineNumber;
+
         public GoToPrompt(int setOrigLineNumber = 0)
         {
             InitializeComponent();
@@ -20,10 +21,11 @@ namespace Bortpad
 
         private void GoToButton_Click(object sender, EventArgs e)
         {
-            if (BortParent.goToLineFromPrompt(lineNumber.Text))
+            if (BortParent.GoToLineFromPrompt(lineNumber.Text))
             {
                 Close();
-            } else
+            }
+            else
             {
                 initField();
             }
@@ -34,7 +36,7 @@ namespace Bortpad
             BortParent = (BortForm)Owner;
             if (origLineNumber < 1)
             {
-                origLineNumber = BortParent.getLineNumber();
+                origLineNumber = BortParent.Ln;
             }
             initField();
         }
