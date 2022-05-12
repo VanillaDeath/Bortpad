@@ -15,6 +15,7 @@ namespace Bortpad
             string filename = args.Length > 1 ? args[1] : null;
 
             Application.EnableVisualStyles();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.SetCompatibleTextRenderingDefault(false);
 
             Application.Run(new BortForm(filename));

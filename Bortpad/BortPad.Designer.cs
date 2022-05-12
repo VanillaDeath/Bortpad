@@ -104,6 +104,7 @@ namespace Bortpad
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearchWithGoogle = new System.Windows.Forms.ToolStripMenuItem();
             this.editor = new PlainRichTextBox();
+            this.scintilla1 = new ScintillaNET.Scintilla();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
@@ -121,8 +122,9 @@ namespace Bortpad
             this.holdShiftNotice});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
+            this.mainMenu.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
             this.mainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.mainMenu.Size = new System.Drawing.Size(1008, 24);
+            this.mainMenu.Size = new System.Drawing.Size(1176, 24);
             this.mainMenu.TabIndex = 1;
             this.mainMenu.Text = "Main Menu";
             // 
@@ -534,7 +536,7 @@ namespace Bortpad
             // holdShiftNotice
             // 
             this.holdShiftNotice.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.holdShiftNotice.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.holdShiftNotice.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.holdShiftNotice.Image = global::Bortpad.Properties.Resources.shift;
             this.holdShiftNotice.Name = "holdShiftNotice";
             this.holdShiftNotice.ShortcutKeyDisplayString = "Shift";
@@ -550,17 +552,18 @@ namespace Bortpad
             this.zoomLevel,
             this.lineReturnType,
             this.encodingStatus});
-            this.statusBar.Location = new System.Drawing.Point(0, 539);
+            this.statusBar.Location = new System.Drawing.Point(0, 625);
             this.statusBar.Name = "statusBar";
+            this.statusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
             this.statusBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.statusBar.Size = new System.Drawing.Size(1008, 22);
+            this.statusBar.Size = new System.Drawing.Size(1176, 22);
             this.statusBar.TabIndex = 2;
             this.statusBar.Text = "statusStrip1";
             // 
             // statusBarLeft
             // 
             this.statusBarLeft.Name = "statusBarLeft";
-            this.statusBarLeft.Size = new System.Drawing.Size(603, 17);
+            this.statusBarLeft.Size = new System.Drawing.Size(769, 17);
             this.statusBarLeft.Spring = true;
             this.statusBarLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -743,14 +746,14 @@ namespace Bortpad
             this.editor.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.editor.ContextMenuStrip = this.editorContextMenu;
             this.editor.DetectUrls = false;
-            this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.editor.EnableAutoDragDrop = true;
-            this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.editor.HideSelection = false;
-            this.editor.Location = new System.Drawing.Point(0, 24);
+            this.editor.Location = new System.Drawing.Point(0, 28);
+            this.editor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.editor.Name = "editor";
             this.editor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.editor.Size = new System.Drawing.Size(1008, 515);
+            this.editor.Size = new System.Drawing.Size(537, 429);
             this.editor.TabIndex = 0;
             this.editor.Text = "";
             this.editor.WordWrap = false;
@@ -758,17 +761,35 @@ namespace Bortpad
             this.editor.SelectionChanged += new System.EventHandler(this.SelectionChanged);
             this.editor.TextChanged += new System.EventHandler(this.Modified);
             // 
+            // scintilla1
+            // 
+            this.scintilla1.AutoCMaxHeight = 9;
+            this.scintilla1.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.Disabled;
+            this.scintilla1.CaretLineBackColor = System.Drawing.Color.Black;
+            this.scintilla1.LexerName = null;
+            this.scintilla1.Location = new System.Drawing.Point(694, 91);
+            this.scintilla1.Name = "scintilla1";
+            this.scintilla1.ScrollWidth = 49;
+            this.scintilla1.Size = new System.Drawing.Size(200, 100);
+            this.scintilla1.TabIndents = true;
+            this.scintilla1.TabIndex = 3;
+            this.scintilla1.Text = "scintilla1";
+            this.scintilla1.UseRightToLeftReadingLayout = false;
+            this.scintilla1.WrapMode = ScintillaNET.WrapMode.None;
+            // 
             // BortForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 561);
+            this.ClientSize = new System.Drawing.Size(1176, 647);
+            this.Controls.Add(this.scintilla1);
             this.Controls.Add(this.editor);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.mainMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenu;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "BortForm";
             this.Text = "Bortpad";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BortForm_FormClosing);
@@ -863,6 +884,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem editorRedo;
         private System.Windows.Forms.ToolStripMenuItem darkMode;
         private System.Windows.Forms.ToolStripMenuItem holdShiftNotice;
+        private ScintillaNET.Scintilla scintilla1;
     }
 }
 

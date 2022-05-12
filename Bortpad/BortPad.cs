@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 using System.Windows.Forms;
 
 namespace Bortpad
@@ -673,7 +673,7 @@ namespace Bortpad
         {
             if (editor.SelectionLength > 0)
             {
-                Process.Start("https://google.com/search?q=" + HttpUtility.UrlEncode(editor.SelectedText));
+                Process.Start("https://google.com/search?q=" + WebUtility.UrlEncode(editor.SelectedText));
             }
         }
 
