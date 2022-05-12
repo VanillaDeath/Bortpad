@@ -782,6 +782,7 @@ namespace Bortpad
         private void WordWrap_Click(object sender, EventArgs e)
         {
             wordWrapToolStripMenuItem.Checked = editor.WordWrap = ToggleSetting("WordWrap");
+            UpdatePos();
         }
 
         private void ZoomIn_Click(object sender, EventArgs e)

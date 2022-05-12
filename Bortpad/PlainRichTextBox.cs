@@ -13,6 +13,8 @@ internal class PlainRichTextBox : RichTextBox
     private const int WM_USER = 0x400;
     private const int EM_SETTEXTMODE = WM_USER + 89;
     private const int EM_GETTEXTMODE = WM_USER + 90;
+    private const int EM_LINELENGTH = 0x00c1;
+    private const int EM_LINEINDEX = 0x00bb;
 
     // EM_SETTEXTMODE/EM_GETTEXTMODE flags
     private const int TM_PLAINTEXT = 1;
@@ -35,6 +37,8 @@ internal class PlainRichTextBox : RichTextBox
     // the designer then uncomment the Browsable and DesignerSerializationVisibility
     // attributes and set the Property from your component initializer code
     // that runs after the designer's code.
+    //  [Browsable(false)]
+    //  [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [DefaultValue(false)]
     public bool PlainTextMode
     {
@@ -50,6 +54,22 @@ internal class PlainRichTextBox : RichTextBox
                 IntPtr mode = value ? (IntPtr)TM_PLAINTEXT : (IntPtr)TM_RICHTEXT;
                 SendMessage(Handle, EM_SETTEXTMODE, mode, IntPtr.Zero);
             }
+        }
+    }
+
+    public int LineLength
+    {
+        get
+        {
+            return (int)SendMessage(Handle, EM_LINELENGTH, (IntPtr)LineIndex, IntPtr.Zero);
+        }
+    }
+
+    public int LineIndex
+    {
+        get
+        {
+            return (int)SendMessage(Handle, EM_LINEINDEX, (IntPtr)(-1), IntPtr.Zero);
         }
     }
 
@@ -101,7 +121,7 @@ internal class CursorPosition
     [System.Runtime.InteropServices.DllImport("user32")]
     public static extern int GetCaretPos(ref Point lpPoint);
 
-    private static int GetCorrection(RichTextBox e, int index)
+    private static int GetCorrection(PlainRichTextBox e, int index)
     {
         Point pt1 = Point.Empty;
         GetCaretPos(ref pt1);
@@ -113,14 +133,14 @@ internal class CursorPosition
             return 0;
     }
 
-    public static int Line(RichTextBox e, int index)
+    public static int Line(PlainRichTextBox e, int index)
     {
         int correction = GetCorrection(e, index);
-        int ln = e.GetLineFromCharIndex(index) - correction + 1;
-        return ln < 1 ? 1 : ln;
+        int ln = e.GetLineFromCharIndex(index) - correction;
+        return ln < 0 ? 1 : ln + 1;
     }
 
-    public static int Column(RichTextBox e, int index1)
+    public static int Column(PlainRichTextBox e, int index1)
     {
         int correction = GetCorrection(e, index1);
         Point p = e.GetPositionFromCharIndex(index1 - correction);
@@ -131,8 +151,8 @@ internal class CursorPosition
         p.X = 0;
         int index2 = e.GetCharIndexFromPosition(p);
 
-        int col = index1 - index2 + 1;
+        int col = index1 - index2;
 
-        return col;
+        return col + 1;
     }
 }
