@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScintillaNET;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -15,6 +16,7 @@ namespace Bortpad
     {
         internal const string _DEFAULT_FILENAME = "Untitled";
         private bool _changesMade;
+        private int _ln, _col;
         private Encoding _encodingSetting;
         private string _filename;
         private FindPrompt _find;
@@ -27,7 +29,7 @@ namespace Bortpad
             _encodingSetting = Encoding.UTF8;
             encodingStatus.Text = _encodingSetting.EncodingName;
             fontDlg.Font = editor.Font = GetSetting<Font>("Font");
-            editor.WordWrap = GetSetting<bool>("WordWrap");
+            editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
             statusBar.Visible = GetSetting<bool>("StatusBar");
             ApplyDarkMode(GetSetting<bool>("DarkMode"));
             Text = _DEFAULT_FILENAME + " - " + ProgramName;
@@ -45,8 +47,14 @@ namespace Bortpad
 
         public int Col
         {
-            get;
-            private set;
+            get
+            {
+                return _col + 1;
+            }
+            private set
+            {
+                _col = value;
+            }
         }
 
         public int End
@@ -93,13 +101,19 @@ namespace Bortpad
 
         public int Ln
         {
-            get;
-            private set;
+            get
+            {
+                return _ln + 1;
+            }
+            private set
+            {
+                _ln = value;
+            }
         }
 
         public int NumLines
         {
-            get { return editor.Lines.Length < 1 ? 1 : editor.Lines.Length; }
+            get { return editor.Lines.Count < 1 ? 1 : editor.Lines.Count; }
         }
 
         public int Pos
@@ -214,7 +228,7 @@ namespace Bortpad
                 .SetSetting("WrapAround", wrapAround);
             if (editor.SelectedText.Equals(query, GetComparisonType(matchCase)))
             {
-                editor.SelectedText = replaceString;
+                editor.ReplaceSelection(replaceString);
             }
             return FindFromPrompt(query, false, matchCase, wrapAround);
         }
@@ -340,7 +354,7 @@ namespace Bortpad
         private void CursorPositionChanged(object sender, EventArgs e)
         {
             Ln = editor.CurrentLine;
-            Col = editor.CurrentColumn;
+            Col = editor.GetColumn(editor.CurrentPosition);
             Pos = editor.CurrentPosition;
             UpdatePos();
         }
@@ -352,7 +366,7 @@ namespace Bortpad
 
         private void Delete(object sender, EventArgs e)
         {
-            editor.SelectedText = "";
+            editor.ReplaceSelection("");
         }
 
         private void Edit_DropDownClosed(object sender, EventArgs e)
@@ -437,7 +451,7 @@ namespace Bortpad
 
         private void Format_DropDownOpening(object sender, EventArgs e)
         {
-            wordWrapToolStripMenuItem.Checked = editor.WordWrap;
+            wordWrapToolStripMenuItem.Checked = editor.WrapMode == WrapMode.Word;
         }
 
         private void GoToLine(object sender, EventArgs e)
@@ -451,8 +465,8 @@ namespace Bortpad
             if (pos != -1)
             {
                 editor.SelectionStart = pos;
-                editor.SelectionLength = q.Length;
-                editor.ScrollToCaret();
+                editor.SetSelection(pos, pos + q.Length);
+                editor.ScrollCaret();
                 UpdatePos();
             }
             else
@@ -600,7 +614,7 @@ namespace Bortpad
 
         private void RestoreDefaultZoom_Click(object sender, EventArgs e)
         {
-            editor.ZoomFactor = 1.0f;
+            editor.Zoom = 1;
             UpdateZoom();
         }
 
@@ -682,14 +696,6 @@ namespace Bortpad
             editor.SelectAll();
         }
 
-        private void SelectionChanged(object sender, EventArgs e)
-        {
-            Start = editor.SelectionStart;
-            End = editor.SelectionEnd;
-            Length = editor.SelectionLength;
-            UpdatePos();
-        }
-
         private void SendFeedback_Click(object sender, EventArgs e)
         {
             Process.Start("https://stevenwilson.ca/contact");
@@ -726,7 +732,7 @@ namespace Bortpad
         private void TimeDate_Click(object sender, EventArgs e)
         {
             DateTime now = DateTime.Now;
-            editor.SelectedText = now.ToString("g");
+            editor.ReplaceSelection(now.ToString("g"));
         }
 
         private void ToggleDarkMode(object sender, EventArgs e)
@@ -766,7 +772,7 @@ namespace Bortpad
 
         private void UpdateZoom()
         {
-            zoomLevel.Text = Math.Round(editor.ZoomFactor * 100).ToString() + "%";
+            zoomLevel.Text = Math.Round((decimal)editor.Zoom * 100).ToString() + "%";
         }
 
         private void View_DropDownOpening(object sender, EventArgs e)
@@ -781,25 +787,19 @@ namespace Bortpad
 
         private void WordWrap_Click(object sender, EventArgs e)
         {
-            wordWrapToolStripMenuItem.Checked = editor.WordWrap = ToggleSetting("WordWrap");
+            editor.WrapMode = (wordWrapToolStripMenuItem.Checked = ToggleSetting("WordWrap")) ? WrapMode.Word : WrapMode.None;
             UpdatePos();
         }
 
         private void ZoomIn_Click(object sender, EventArgs e)
         {
-            if (editor.ZoomFactor < 5)
-            {
-                editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor + 0.1, 1));
-            }
+            editor.ZoomIn();
             UpdateZoom();
         }
 
         private void ZoomOut_Click(object sender, EventArgs e)
         {
-            if (editor.ZoomFactor >= 0.2)
-            {
-                editor.ZoomFactor = (float)(Math.Round(editor.ZoomFactor - 0.1, 1));
-            }
+            editor.ZoomOut();
             UpdateZoom();
         }
     }

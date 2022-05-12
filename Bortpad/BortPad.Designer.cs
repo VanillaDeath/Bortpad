@@ -103,8 +103,7 @@ namespace Bortpad
             this.editorRightToLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearchWithGoogle = new System.Windows.Forms.ToolStripMenuItem();
-            this.editor = new PlainRichTextBox();
-            this.scintilla1 = new ScintillaNET.Scintilla();
+            this.editor = new BortScintilla();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
@@ -742,40 +741,24 @@ namespace Bortpad
             // 
             // editor
             // 
-            this.editor.AcceptsTab = true;
-            this.editor.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.editor.ContextMenuStrip = this.editorContextMenu;
-            this.editor.DetectUrls = false;
-            this.editor.EnableAutoDragDrop = true;
+            this.editor.AutoCMaxHeight = 9;
+            this.editor.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.Disabled;
+            this.editor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.editor.CaretLineBackColor = System.Drawing.Color.White;
+            this.editor.CaretLineVisible = true;
+            this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.editor.HideSelection = false;
-            this.editor.Location = new System.Drawing.Point(0, 28);
-            this.editor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.editor.LexerName = null;
+            this.editor.Location = new System.Drawing.Point(0, 24);
             this.editor.Name = "editor";
-            this.editor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.editor.Size = new System.Drawing.Size(537, 429);
+            this.editor.ScrollWidth = 49;
+            this.editor.Size = new System.Drawing.Size(1176, 601);
+            this.editor.TabIndents = true;
             this.editor.TabIndex = 0;
-            this.editor.Text = "";
-            this.editor.WordWrap = false;
-            this.editor.CursorPositionChanged += new System.EventHandler(this.CursorPositionChanged);
-            this.editor.SelectionChanged += new System.EventHandler(this.SelectionChanged);
+            this.editor.UseRightToLeftReadingLayout = false;
+            this.editor.WrapMode = ScintillaNET.WrapMode.None;
             this.editor.TextChanged += new System.EventHandler(this.Modified);
-            // 
-            // scintilla1
-            // 
-            this.scintilla1.AutoCMaxHeight = 9;
-            this.scintilla1.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.Disabled;
-            this.scintilla1.CaretLineBackColor = System.Drawing.Color.Black;
-            this.scintilla1.LexerName = null;
-            this.scintilla1.Location = new System.Drawing.Point(694, 91);
-            this.scintilla1.Name = "scintilla1";
-            this.scintilla1.ScrollWidth = 49;
-            this.scintilla1.Size = new System.Drawing.Size(200, 100);
-            this.scintilla1.TabIndents = true;
-            this.scintilla1.TabIndex = 3;
-            this.scintilla1.Text = "scintilla1";
-            this.scintilla1.UseRightToLeftReadingLayout = false;
-            this.scintilla1.WrapMode = ScintillaNET.WrapMode.None;
+            this.editor.UpdateUI += new System.EventHandler<ScintillaNET.UpdateUIEventArgs>(this.CursorPositionChanged);
             // 
             // BortForm
             // 
@@ -783,7 +766,6 @@ namespace Bortpad
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1176, 647);
-            this.Controls.Add(this.scintilla1);
             this.Controls.Add(this.editor);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.mainMenu);
@@ -866,7 +848,6 @@ namespace Bortpad
         internal System.Windows.Forms.ToolStripMenuItem findNextToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem findPreviousToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
-        private PlainRichTextBox editor;
         private System.Windows.Forms.ContextMenuStrip editorContextMenu;
         private System.Windows.Forms.ToolStripMenuItem editorUndo;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -884,7 +865,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem editorRedo;
         private System.Windows.Forms.ToolStripMenuItem darkMode;
         private System.Windows.Forms.ToolStripMenuItem holdShiftNotice;
-        private ScintillaNET.Scintilla scintilla1;
+        private Bortpad.BortScintilla editor;
     }
 }
 
