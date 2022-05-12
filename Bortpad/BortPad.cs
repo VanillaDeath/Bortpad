@@ -57,12 +57,6 @@ namespace Bortpad
             }
         }
 
-        public int End
-        {
-            get;
-            private set;
-        }
-
         public string FileName
         {
             get { return _filename != null ? _filename : _DEFAULT_FILENAME; }
@@ -93,12 +87,6 @@ namespace Bortpad
             get { return _filename != null && File.Exists(_filename); }
         }
 
-        public int Length
-        {
-            get;
-            private set;
-        }
-
         public int Ln
         {
             get
@@ -126,12 +114,6 @@ namespace Bortpad
         {
             get;
         } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-
-        public int Start
-        {
-            get;
-            private set;
-        }
 
         public static byte[] CalculateHash(string inputString)
         {
@@ -248,10 +230,12 @@ namespace Bortpad
 
         private BortForm ApplyDarkMode(bool darkModeOn)
         {
-            editor.TextChanged -= Modified;
-            editor.BackColor = darkModeOn ? SystemColors.WindowText : SystemColors.Window;
-            editor.ForeColor = darkModeOn ? SystemColors.Window : SystemColors.WindowText;
-            editor.TextChanged += Modified;
+            editor.Styles[Style.Default].BackColor = darkModeOn ? Color.Black : Color.White;
+            editor.Styles[Style.Default].ForeColor = darkModeOn ? Color.White : Color.Black;
+            editor.StyleClearAll();
+            editor.CaretForeColor = darkModeOn ? Color.White : Color.Black;
+            editor.CaretLineBackColor = darkModeOn ? Color.Black : Color.White;
+            editor.CaretLineBackColorAlpha = 256;
             darkMode.Text = darkModeOn ? "☀" : "🌙";
             ColorSwapItem(darkMode, !darkModeOn);
             ColorSwap(statusBar, darkModeOn);
@@ -366,7 +350,7 @@ namespace Bortpad
 
         private void Delete(object sender, EventArgs e)
         {
-            editor.ReplaceSelection("");
+            editor.Clear();
         }
 
         private void Edit_DropDownClosed(object sender, EventArgs e)
@@ -504,7 +488,8 @@ namespace Bortpad
         {
             if (!saveFirst || SaveConfirmPrompt(false))
             {
-                editor.Clear();
+                editor.ClearAll();
+                editor.EmptyUndoBuffer();
                 FileName = null;
                 SetHash();
                 ChangesMade = false;
@@ -545,6 +530,7 @@ namespace Bortpad
                     }
                     editor.Clear();
                     editor.Text = File.ReadAllText(FileName, _encodingSetting);
+                    editor.EmptyUndoBuffer();
                     SetHash();
                     ChangesMade = false;
                     editor.Select();
@@ -706,9 +692,8 @@ namespace Bortpad
             if (fontDlg.ShowDialog() == DialogResult.OK)
             {
                 SetSetting("Font", fontDlg.Font);
-                editor.TextChanged -= Modified;
                 editor.Font = fontDlg.Font;
-                editor.TextChanged += Modified;
+                editor.StyleClearAll();
             }
         }
 

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bortpad
+﻿namespace Bortpad
 {
     public class BortScintilla : ScintillaNET.Scintilla
     {
+        private const int STYLE_DEFAULT = 32;
+
+        // [DllImport("user32.dll")]
+        // private static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
         public BortScintilla() : base()
         {
         }

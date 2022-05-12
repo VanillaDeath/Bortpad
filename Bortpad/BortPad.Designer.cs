@@ -103,7 +103,7 @@ namespace Bortpad
             this.editorRightToLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearchWithGoogle = new System.Windows.Forms.ToolStripMenuItem();
-            this.editor = new BortScintilla();
+            this.editor = new Bortpad.BortScintilla();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
@@ -757,8 +757,8 @@ namespace Bortpad
             this.editor.TabIndex = 0;
             this.editor.UseRightToLeftReadingLayout = false;
             this.editor.WrapMode = ScintillaNET.WrapMode.None;
-            this.editor.TextChanged += new System.EventHandler(this.Modified);
             this.editor.UpdateUI += new System.EventHandler<ScintillaNET.UpdateUIEventArgs>(this.CursorPositionChanged);
+            this.editor.TextChanged += new System.EventHandler(this.Modified);
             // 
             // BortForm
             // 
