@@ -310,7 +310,7 @@ namespace Bortpad
 
         private bool CanRepeatFind()
         {
-            return GetSetting<string>("Search").Length > 0 && editor.Text.Length > 0;
+            return GetSetting<string>("Search").Length > 0 && HasText;
         }
 
         private void CantFind(string text)
@@ -325,7 +325,7 @@ namespace Bortpad
             editorCopy.Enabled = isSelected;
             editorDelete.Enabled = isSelected;
             editorSearchWithGoogle.Enabled = isSelected;
-            editorPaste.Enabled = Clipboard.GetText().Length > 0;
+            editorPaste.Enabled = editor.CanPaste;
             editorUndo.Enabled = editor.CanUndo;
             editorRedo.Enabled = editor.CanRedo;
         }
@@ -365,7 +365,7 @@ namespace Bortpad
             copyToolStripMenuItem.Enabled = isSelected;
             deleteToolStripMenuItem.Enabled = isSelected;
             searchWithBortToolStripMenuItem.Enabled = isSelected;
-            pasteToolStripMenuItem.Enabled = Clipboard.GetText().Length > 0;
+            pasteToolStripMenuItem.Enabled = editor.CanPaste;
             undoToolStripMenuItem.Enabled = editor.CanUndo;
             redoToolStripMenuItem.Enabled = editor.CanRedo;
         }
