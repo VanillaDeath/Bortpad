@@ -16,32 +16,36 @@ namespace Bortpad
 {
     public partial class BortForm : Form
     {
+        // UTF-8
+        internal const int _DEFAULT_CODEPAGE = 65001;
+
+        internal const string _DEFAULT_CONFIG_FILE = "Bortpad.cfg";
         internal const string _DEFAULT_FILENAME = "Untitled";
+        internal const string _DEFAULT_FONT = "Consolas, 11.25pt";
         internal const string _DEFAULT_SECTION = "General";
         private bool _changesMade;
-        private int _ln, _col;
         private Encoding _encodingSetting;
         private string _filename;
         private FindPrompt _find;
+        private int _ln, _col;
         private ReplacePrompt _replace;
 
-        public BortForm(Configuration config, string filenameSpecified = null)
+        public BortForm(string filenameSpecified = null)
         {
             InitializeComponent();
-            Settings = config;
+
+            ConfigFile = ProgramName + ".cfg";
+            Settings = LoadSettings(ConfigFile);
+
             FileName = filenameSpecified;
+
             EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
-            SetEncodingStatus(EncodingSetting);
             fontDlg.Font = editor.Font = GetSetting<Font>("Font");
             editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
             statusBar.Visible = GetSetting<bool>("StatusBar");
             ApplyDarkMode(GetSetting<bool>("DarkMode"));
-            Text = _DEFAULT_FILENAME + " - " + ProgramName;
-        }
 
-        public Configuration Settings
-        {
-            get; private set;
+            Text = _DEFAULT_FILENAME + " - " + ProgramName;
         }
 
         public bool ChangesMade
@@ -63,6 +67,24 @@ namespace Bortpad
             private set
             {
                 _col = value;
+            }
+        }
+
+        public String ConfigFile
+        {
+            get; private set;
+        }
+
+        public Encoding EncodingSetting
+        {
+            get
+            {
+                return _encodingSetting;
+            }
+            private set
+            {
+                _encodingSetting = value != null ? value : Encoding.GetEncoding(GetSetting<int>("DefaultEncoding"));
+                SetEncodingStatus(_encodingSetting);
             }
         }
 
@@ -124,17 +146,9 @@ namespace Bortpad
             get;
         } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
-        public Encoding EncodingSetting
+        public Configuration Settings
         {
-            get
-            {
-                return _encodingSetting;
-            }
-            private set
-            {
-                _encodingSetting = value != null ? value : Encoding.GetEncoding(GetSetting<int>("DefaultEncoding"));
-                SetEncodingStatus(_encodingSetting);
-            }
+            get; private set;
         }
 
         public static byte[] CalculateHash(string inputString)
@@ -208,6 +222,31 @@ namespace Bortpad
             return false;
         }
 
+        internal Configuration LoadSettings(string configFile = _DEFAULT_CONFIG_FILE)
+        {
+            Configuration settings;
+            if (File.Exists(configFile))
+            {
+                settings = Configuration.LoadFromFile(configFile);
+            }
+            else
+            {
+                settings = new Configuration();
+                SetSetting("DefaultEncoding", _DEFAULT_CODEPAGE, null, false);
+                SetSetting("Font", _DEFAULT_FONT, null, false);
+                SetSetting("StatusBar", true, null, false);
+                SetSetting("WordWrap", false, null, false);
+                SetSetting("DarkMode", false, null, false);
+                SetSetting("Search", "", "Find", false);
+                SetSetting("Replace", "", "Find", false);
+                SetSetting("Up", false, "Find", false);
+                SetSetting("MatchCase", false, "Find", false);
+                SetSetting("WrapAround", false, "Find", false);
+                SaveSettings(configFile);
+            }
+            return settings;
+        }
+
         internal void ReplaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
         {
             SetSetting("Search", query, "Find")
@@ -237,11 +276,16 @@ namespace Bortpad
             return FindFromPrompt(query, false, matchCase, wrapAround);
         }
 
-        internal BortForm SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION)
+        internal BortForm SaveSettings(string configFile = _DEFAULT_CONFIG_FILE)
+        {
+            Settings.SaveToFile(ConfigFile);
+            return this;
+        }
+
+        internal BortForm SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION, bool save = true, string configFile = _DEFAULT_CONFIG_FILE)
         {
             Settings[section][key].SetValue(value);
-            Settings.SaveToFile(Program._CONFIG_FILE);
-            return this;
+            return save ? SaveSettings(configFile) : this;
         }
 
         private void About(object sender, EventArgs e)
@@ -585,13 +629,6 @@ namespace Bortpad
             }
         }
 
-        private BortForm SetEncodingStatus(Encoding encoding, bool detected = false, float confidence = 1)
-        {
-            encodingStatus.Text = encoding.EncodingName;
-            encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
-            return this;
-        }
-
         private void Paste(object sender, EventArgs e)
         {
             editor.Paste();
@@ -718,6 +755,13 @@ namespace Bortpad
         private void SendFeedback_Click(object sender, EventArgs e)
         {
             Process.Start("https://stevenwilson.ca/contact");
+        }
+
+        private BortForm SetEncodingStatus(Encoding encoding, bool detected = false, float confidence = 1)
+        {
+            encodingStatus.Text = encoding.EncodingName;
+            encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
+            return this;
         }
 
         private void SetFont(object sender, EventArgs e)

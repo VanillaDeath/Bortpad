@@ -319,10 +319,10 @@ namespace Bortpad
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(222, 6);
             // 
-            // searchWithBortToolStripMenuItem
+            // searchWithGoogleToolStripMenuItem
             // 
             this.searchWithGoogleToolStripMenuItem.Enabled = false;
-            this.searchWithGoogleToolStripMenuItem.Name = "searchWithBortToolStripMenuItem";
+            this.searchWithGoogleToolStripMenuItem.Name = "searchWithGoogleToolStripMenuItem";
             this.searchWithGoogleToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.searchWithGoogleToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.searchWithGoogleToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
@@ -563,7 +563,7 @@ namespace Bortpad
             // statusBarLeft
             // 
             this.statusBarLeft.Name = "statusBarLeft";
-            this.statusBarLeft.Size = new System.Drawing.Size(738, 17);
+            this.statusBarLeft.Size = new System.Drawing.Size(769, 17);
             this.statusBarLeft.Spring = true;
             this.statusBarLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
