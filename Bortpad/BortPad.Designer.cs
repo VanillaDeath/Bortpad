@@ -52,7 +52,7 @@ namespace Bortpad
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.searchWithBortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchWithGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.findNextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.findPreviousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -235,7 +235,7 @@ namespace Bortpad
             this.pasteToolStripMenuItem,
             this.deleteToolStripMenuItem,
             this.toolStripMenuItem5,
-            this.searchWithBortToolStripMenuItem,
+            this.searchWithGoogleToolStripMenuItem,
             this.findToolStripMenuItem,
             this.findNextToolStripMenuItem,
             this.findPreviousToolStripMenuItem,
@@ -321,13 +321,13 @@ namespace Bortpad
             // 
             // searchWithBortToolStripMenuItem
             // 
-            this.searchWithBortToolStripMenuItem.Enabled = false;
-            this.searchWithBortToolStripMenuItem.Name = "searchWithBortToolStripMenuItem";
-            this.searchWithBortToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.searchWithBortToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.searchWithBortToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.searchWithBortToolStripMenuItem.Text = "&Search with Google...";
-            this.searchWithBortToolStripMenuItem.Click += new System.EventHandler(this.SearchWeb);
+            this.searchWithGoogleToolStripMenuItem.Enabled = false;
+            this.searchWithGoogleToolStripMenuItem.Name = "searchWithBortToolStripMenuItem";
+            this.searchWithGoogleToolStripMenuItem.ShortcutKeyDisplayString = "";
+            this.searchWithGoogleToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.searchWithGoogleToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.searchWithGoogleToolStripMenuItem.Text = "&Search with Google...";
+            this.searchWithGoogleToolStripMenuItem.Click += new System.EventHandler(this.SearchWeb);
             // 
             // findToolStripMenuItem
             // 
@@ -825,7 +825,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem searchWithBortToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem searchWithGoogleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem goToToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;

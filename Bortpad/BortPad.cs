@@ -1,4 +1,5 @@
 ﻿using ScintillaNET;
+using SharpConfig;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -16,26 +17,31 @@ namespace Bortpad
     public partial class BortForm : Form
     {
         internal const string _DEFAULT_FILENAME = "Untitled";
+        internal const string _DEFAULT_SECTION = "General";
         private bool _changesMade;
         private int _ln, _col;
-
         private Encoding _encodingSetting;
         private string _filename;
-
         private FindPrompt _find;
         private ReplacePrompt _replace;
 
-        public BortForm(string filenameSpecified = null)
+        public BortForm(Configuration config, string filenameSpecified = null)
         {
             InitializeComponent();
+            Settings = config;
             FileName = filenameSpecified;
-            EncodingSetting = Encoding.GetEncoding(GetSetting<string>("DefaultEncoding")); // Default for new files
+            EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
             SetEncodingStatus(EncodingSetting);
             fontDlg.Font = editor.Font = GetSetting<Font>("Font");
             editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
             statusBar.Visible = GetSetting<bool>("StatusBar");
             ApplyDarkMode(GetSetting<bool>("DarkMode"));
             Text = _DEFAULT_FILENAME + " - " + ProgramName;
+        }
+
+        public Configuration Settings
+        {
+            get; private set;
         }
 
         public bool ChangesMade
@@ -126,7 +132,7 @@ namespace Bortpad
             }
             private set
             {
-                _encodingSetting = value != null ? value : Encoding.GetEncoding(GetSetting<string>("DefaultEncoding"));
+                _encodingSetting = value != null ? value : Encoding.GetEncoding(GetSetting<int>("DefaultEncoding"));
                 SetEncodingStatus(_encodingSetting);
             }
         }
@@ -176,19 +182,19 @@ namespace Bortpad
 
         internal int FindFromPrompt(string query, bool reverse, bool matchCase, bool wrapAround)
         {
-            SetSetting("Search", query)
-                .SetSetting("Up", reverse)
-                .SetSetting("MatchCase", matchCase)
-                .SetSetting("WrapAround", wrapAround);
+            SetSetting("Search", query, "Find")
+                .SetSetting("Up", reverse, "Find")
+                .SetSetting("MatchCase", matchCase, "Find")
+                .SetSetting("WrapAround", wrapAround, "Find");
             findNextToolStripMenuItem.Enabled = CanRepeatFind();
             findPreviousToolStripMenuItem.Enabled = CanRepeatFind();
 
-            return GetSetting<bool>("Up") ? FindPrev() : FindNext();
+            return GetSetting<bool>("Up", "Find") ? FindPrev() : FindNext();
         }
 
-        internal T GetSetting<T>(string key)
+        internal T GetSetting<T>(string key, string section = _DEFAULT_SECTION)
         {
-            return (T)Convert.ChangeType(Properties.Settings.Default[key], typeof(T));
+            return (T)Settings[section][key].GetValue<T>();
         }
 
         internal bool GoToLineFromPrompt(string ln)
@@ -204,10 +210,10 @@ namespace Bortpad
 
         internal void ReplaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
         {
-            SetSetting("Search", query)
-                .SetSetting("Replace", replaceString)
-                .SetSetting("MatchCase", matchCase)
-                .SetSetting("WrapAround", wrapAround);
+            SetSetting("Search", query, "Find")
+                .SetSetting("Replace", replaceString, "Find")
+                .SetSetting("MatchCase", matchCase, "Find")
+                .SetSetting("WrapAround", wrapAround, "Find");
             string input = string.Format(@"({0})", System.Text.RegularExpressions.Regex.Escape(query));
             string pattern = string.Format("{0}", System.Text.RegularExpressions.Regex.Escape(replaceString));
             editor.Text = System.Text.RegularExpressions.Regex.Replace(
@@ -220,10 +226,10 @@ namespace Bortpad
 
         internal int ReplaceFromPrompt(string query, string replaceString, bool matchCase, bool wrapAround)
         {
-            SetSetting("Search", query)
-                .SetSetting("Replace", replaceString)
-                .SetSetting("MatchCase", matchCase)
-                .SetSetting("WrapAround", wrapAround);
+            SetSetting("Search", query, "Find")
+                .SetSetting("Replace", replaceString, "Find")
+                .SetSetting("MatchCase", matchCase, "Find")
+                .SetSetting("WrapAround", wrapAround, "Find");
             if (editor.SelectedText.Equals(query, GetComparisonType(matchCase)))
             {
                 editor.ReplaceSelection(replaceString);
@@ -231,10 +237,10 @@ namespace Bortpad
             return FindFromPrompt(query, false, matchCase, wrapAround);
         }
 
-        internal BortForm SetSetting<T>(string key, T value)
+        internal BortForm SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION)
         {
-            Properties.Settings.Default[key] = value;
-            Properties.Settings.Default.Save();
+            Settings[section][key].SetValue(value);
+            Settings.SaveToFile(Program._CONFIG_FILE);
             return this;
         }
 
@@ -326,7 +332,7 @@ namespace Bortpad
 
         private bool CanRepeatFind()
         {
-            return GetSetting<string>("Search").Length > 0 && HasText;
+            return GetSetting<string>("Search", "Find").Length > 0 && HasText;
         }
 
         private void CantFind(string text)
@@ -371,7 +377,7 @@ namespace Bortpad
 
         private void Edit_DropDownClosed(object sender, EventArgs e)
         {
-            searchWithBortToolStripMenuItem.Enabled = true;
+            searchWithGoogleToolStripMenuItem.Enabled = true;
         }
 
         private void Edit_DropDownOpening(object sender, EventArgs e)
@@ -380,7 +386,7 @@ namespace Bortpad
             cutToolStripMenuItem.Enabled = isSelected;
             copyToolStripMenuItem.Enabled = isSelected;
             deleteToolStripMenuItem.Enabled = isSelected;
-            searchWithBortToolStripMenuItem.Enabled = isSelected;
+            searchWithGoogleToolStripMenuItem.Enabled = isSelected;
             pasteToolStripMenuItem.Enabled = editor.CanPaste;
             undoToolStripMenuItem.Enabled = editor.CanUndo;
             redoToolStripMenuItem.Enabled = editor.CanRedo;
@@ -404,10 +410,10 @@ namespace Bortpad
                 return;
             }
             _find = new FindPrompt(
-                GetSetting<string>("Search"),
-                GetSetting<bool>("Up"),
-                GetSetting<bool>("MatchCase"),
-                GetSetting<bool>("WrapAround"));
+                GetSetting<string>("Search", "Find"),
+                GetSetting<bool>("Up", "Find"),
+                GetSetting<bool>("MatchCase", "Find"),
+                GetSetting<bool>("WrapAround", "Find"));
             _find.Show(this);
         }
 
@@ -423,10 +429,10 @@ namespace Bortpad
 
         private int FindNextPrev(bool prev = false)
         {
-            string searchQuery = GetSetting<string>("Search");
-            bool searchMatchCase = GetSetting<bool>("MatchCase");
+            string searchQuery = GetSetting<string>("Search", "Find");
+            bool searchMatchCase = GetSetting<bool>("MatchCase", "Find");
             int pos = OmniIndexOf(searchQuery, editor.Text, prev, editor.SelectionStart + (prev ? 0 : editor.SelectionLength), searchMatchCase);
-            if (pos == -1 && GetSetting<bool>("WrapAround"))
+            if (pos == -1 && GetSetting<bool>("WrapAround", "Find"))
             {
                 pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
                 SetStatus(pos == -1 ? "" : "Found next from the " + (prev ? "bottom" : "top"));
@@ -621,7 +627,7 @@ namespace Bortpad
                 _replace.BringToFront();
                 return;
             }
-            _replace = new ReplacePrompt(GetSetting<string>("Search"), GetSetting<string>("Replace"), GetSetting<bool>("MatchCase"), GetSetting<bool>("WrapAround"));
+            _replace = new ReplacePrompt(GetSetting<string>("Search", "Find"), GetSetting<string>("Replace", "Find"), GetSetting<bool>("MatchCase", "Find"), GetSetting<bool>("WrapAround", "Find"));
             _replace.Show(this);
         }
 
