@@ -9,6 +9,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using UtfUnknown;
 
 namespace Bortpad
 {
@@ -17,8 +18,10 @@ namespace Bortpad
         internal const string _DEFAULT_FILENAME = "Untitled";
         private bool _changesMade;
         private int _ln, _col;
+
         private Encoding _encodingSetting;
         private string _filename;
+
         private FindPrompt _find;
         private ReplacePrompt _replace;
 
@@ -26,8 +29,8 @@ namespace Bortpad
         {
             InitializeComponent();
             FileName = filenameSpecified;
-            _encodingSetting = Encoding.UTF8;
-            encodingStatus.Text = _encodingSetting.EncodingName;
+            EncodingSetting = Encoding.GetEncoding(GetSetting<string>("DefaultEncoding")); // Default for new files
+            SetEncodingStatus(EncodingSetting);
             fontDlg.Font = editor.Font = GetSetting<Font>("Font");
             editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
             statusBar.Visible = GetSetting<bool>("StatusBar");
@@ -114,6 +117,19 @@ namespace Bortpad
         {
             get;
         } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+
+        public Encoding EncodingSetting
+        {
+            get
+            {
+                return _encodingSetting;
+            }
+            private set
+            {
+                _encodingSetting = value != null ? value : Encoding.GetEncoding(GetSetting<string>("DefaultEncoding"));
+                SetEncodingStatus(_encodingSetting);
+            }
+        }
 
         public static byte[] CalculateHash(string inputString)
         {
@@ -491,6 +507,7 @@ namespace Bortpad
                 editor.ClearAll();
                 editor.EmptyUndoBuffer();
                 FileName = null;
+                EncodingSetting = null;
                 SetHash();
                 ChangesMade = false;
                 editor.Select();
@@ -529,7 +546,10 @@ namespace Bortpad
                         return false;
                     }
                     editor.Clear();
-                    editor.Text = File.ReadAllText(FileName, _encodingSetting);
+                    DetectionDetail getEncoding = CharsetDetector.DetectFromFile(FileName).Detected;
+                    EncodingSetting = getEncoding != null ? getEncoding.Encoding : null;
+                    editor.Text = File.ReadAllText(FileName, EncodingSetting);
+                    SetEncodingStatus(EncodingSetting, true, getEncoding != null ? getEncoding.Confidence : 0);
                     editor.EmptyUndoBuffer();
                     SetHash();
                     ChangesMade = false;
@@ -541,7 +561,7 @@ namespace Bortpad
                     FileNotFound();
                     return false;
                 }
-                catch (IOException e)
+                catch (Exception e)
                 {
                     MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -557,6 +577,13 @@ namespace Bortpad
             {
                 // TODO
             }
+        }
+
+        private BortForm SetEncodingStatus(Encoding encoding, bool detected = false, float confidence = 1)
+        {
+            encodingStatus.Text = encoding.EncodingName;
+            encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
+            return this;
         }
 
         private void Paste(object sender, EventArgs e)
@@ -600,7 +627,7 @@ namespace Bortpad
 
         private void RestoreDefaultZoom_Click(object sender, EventArgs e)
         {
-            editor.Zoom = 1;
+            editor.Zoom = 0;
             UpdateZoom();
         }
 
@@ -648,7 +675,7 @@ namespace Bortpad
         {
             if (IsFile && !saveAs)
             {
-                File.WriteAllText(FileName, editor.Text, _encodingSetting);
+                File.WriteAllText(FileName, editor.Text, EncodingSetting);
                 SetHash();
                 ChangesMade = false;
                 return true;
@@ -660,7 +687,7 @@ namespace Bortpad
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     FileName = saveFileDialog1.FileName;
-                    File.WriteAllText(FileName, editor.Text, _encodingSetting);
+                    File.WriteAllText(FileName, editor.Text, EncodingSetting);
                     SetHash();
                     ChangesMade = false;
                     return true;
@@ -757,7 +784,7 @@ namespace Bortpad
 
         private void UpdateZoom()
         {
-            zoomLevel.Text = Math.Round((decimal)editor.Zoom * 100).ToString() + "%";
+            zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
         }
 
         private void View_DropDownOpening(object sender, EventArgs e)
@@ -778,14 +805,20 @@ namespace Bortpad
 
         private void ZoomIn_Click(object sender, EventArgs e)
         {
-            editor.ZoomIn();
-            UpdateZoom();
+            if (editor.Zoom < 50)
+            {
+                editor.ZoomIn();
+                UpdateZoom();
+            }
         }
 
         private void ZoomOut_Click(object sender, EventArgs e)
         {
-            editor.ZoomOut();
-            UpdateZoom();
+            if (editor.Zoom > -9)
+            {
+                editor.ZoomOut();
+                UpdateZoom();
+            }
         }
     }
 }

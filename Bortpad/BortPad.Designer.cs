@@ -555,6 +555,7 @@ namespace Bortpad
             this.statusBar.Name = "statusBar";
             this.statusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
             this.statusBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.statusBar.ShowItemToolTips = true;
             this.statusBar.Size = new System.Drawing.Size(1176, 22);
             this.statusBar.TabIndex = 2;
             this.statusBar.Text = "statusStrip1";
@@ -562,7 +563,7 @@ namespace Bortpad
             // statusBarLeft
             // 
             this.statusBarLeft.Name = "statusBarLeft";
-            this.statusBarLeft.Size = new System.Drawing.Size(769, 17);
+            this.statusBarLeft.Size = new System.Drawing.Size(738, 17);
             this.statusBarLeft.Spring = true;
             this.statusBarLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -743,7 +744,7 @@ namespace Bortpad
             // 
             this.editor.AutoCMaxHeight = 9;
             this.editor.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.Disabled;
-            this.editor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.editor.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.editor.CaretLineBackColor = System.Drawing.Color.White;
             this.editor.CaretLineVisible = true;
             this.editor.Dock = System.Windows.Forms.DockStyle.Fill;

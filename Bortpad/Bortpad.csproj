@@ -32,10 +32,18 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <StartupObject>Bortpad.Program</StartupObject>
+    <Title>Bortpad</Title>
+    <PackageIcon>bortpad.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="NumBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ScintillaNET\Scintilla.NET\Scintilla.NET.csproj" />
+    <ProjectReference Include="..\..\UTF-unknown\src\UTF-unknown.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
@@ -72,5 +81,15 @@
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Resources\bortpad.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 </Project>

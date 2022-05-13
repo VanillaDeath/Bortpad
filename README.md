@@ -13,7 +13,6 @@ It is primarily a C# learning project for myself.
 
 ## Missing Features
 🌍 Localization  
-🔤 Support for non-UTF-8 character encodings  
 
 
 ## Known Issues
@@ -26,7 +25,7 @@ It is primarily a C# learning project for myself.
 ## Technical Details
 Bortpad is a C# WinForms application, built to closely match the built-in *Windows 10* text editor.  
 - Like its inspiration, Bortpad supports **basic file editing** (New, Open, Save), changing the textbox font, text zoom, word wrap, a basic status bar, and simple find and replace functions.  
-- It uses a specialized version of the **RichTextBox** control that disables rich text, but maintains text zoom, multiple undo levels, and redo functionality. Currently it is hard-coded to use UTF-8 encoding only.  
+- It uses the **[Scintilla.NET](https://github.com/VPKSoft/ScintillaNET) component** for text editing.  
 - The **status bar** shows line number, column number, zoom level, etc.  
 - **Find and replace** dialogs are non-modal but stay in front, as expected.  
 - The **Go To** prompt uses a specialized version of the **TextBox** control that only accepts numeric input, and displays a balloon-tip when other characters are entered.  
@@ -41,8 +40,13 @@ Bortpad is a C# WinForms application, built to closely match the built-in *Windo
 ---
 
 ## Releases
+* ### [v1.0.1](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.1)
+> * Converted custom RichTextBox implementation to Scintilla.NET component, much better to work with.
+> * Using C# Properties
+> * Text encoding detection working (thanks to [Mozilla's UTF-unknown project](https://github.com/CharsetDetector/UTF-unknown))
 * ### [v1.0.0](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.0)
 > Initial release.  
+
 
 
 [All Releases](https://github.com/VanillaDeath/Bortpad/releases)

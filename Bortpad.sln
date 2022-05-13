@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScintillaNET FindReplaceDia
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScintillaNET", "..\ScintillaNET\ScintillaNET\ScintillaNET.csproj", "{2FB155AE-B1BA-44AB-A670-794DE6635AAA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UTF-unknown", "..\UTF-unknown\src\UTF-unknown.csproj", "{8DB2A4FD-A9E8-456D-B1C2-11BF434C07F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2FB155AE-B1BA-44AB-A670-794DE6635AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FB155AE-B1BA-44AB-A670-794DE6635AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FB155AE-B1BA-44AB-A670-794DE6635AAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DB2A4FD-A9E8-456D-B1C2-11BF434C07F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DB2A4FD-A9E8-456D-B1C2-11BF434C07F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DB2A4FD-A9E8-456D-B1C2-11BF434C07F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DB2A4FD-A9E8-456D-B1C2-11BF434C07F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
