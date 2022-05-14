@@ -35,7 +35,7 @@ namespace Bortpad
             InitializeComponent();
 
             ConfigFile = ProgramName + ".cfg";
-            Settings = LoadSettings(ConfigFile);
+            LoadSettings(ConfigFile);
 
             FileName = filenameSpecified;
 
@@ -222,21 +222,20 @@ namespace Bortpad
             return false;
         }
 
-        internal Configuration LoadSettings(string configFile = _DEFAULT_CONFIG_FILE)
+        internal BortForm LoadSettings(string configFile = _DEFAULT_CONFIG_FILE)
         {
-            Configuration settings;
             if (File.Exists(configFile))
             {
-                settings = Configuration.LoadFromFile(configFile);
+                Settings = Configuration.LoadFromFile(configFile);
             }
             else
             {
-                settings = new Configuration();
-                SetSetting("DefaultEncoding", _DEFAULT_CODEPAGE, null, false);
-                SetSetting("Font", _DEFAULT_FONT, null, false);
-                SetSetting("StatusBar", true, null, false);
-                SetSetting("WordWrap", false, null, false);
-                SetSetting("DarkMode", false, null, false);
+                Settings = new Configuration();
+                SetSetting("DefaultEncoding", _DEFAULT_CODEPAGE, save: false);
+                SetSetting("Font", _DEFAULT_FONT, save: false);
+                SetSetting("StatusBar", true, save: false);
+                SetSetting("WordWrap", false, save: false);
+                SetSetting("DarkMode", false, save: false);
                 SetSetting("Search", "", "Find", false);
                 SetSetting("Replace", "", "Find", false);
                 SetSetting("Up", false, "Find", false);
@@ -244,7 +243,7 @@ namespace Bortpad
                 SetSetting("WrapAround", false, "Find", false);
                 SaveSettings(configFile);
             }
-            return settings;
+            return this;
         }
 
         internal void ReplaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
@@ -556,6 +555,7 @@ namespace Bortpad
             {
                 editor.ClearAll();
                 editor.EmptyUndoBuffer();
+
                 FileName = null;
                 EncodingSetting = null;
                 SetHash();
