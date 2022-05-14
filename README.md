@@ -40,6 +40,10 @@ Bortpad is a C# WinForms application, built to closely match the built-in *Windo
 ---
 
 ## Releases
+* ### [v1.0.2](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.2)
+> * Converted from legacy App.config API (built into .NET Framework) to [SharpConfig project](https://github.com/cemdervis/SharpConfig) (.NET Core compatible)
+> * Built as single exe
+> * Fixes and improvements
 * ### [v1.0.1](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.1)
 > * Converted custom RichTextBox implementation to Scintilla.NET component, much better to work with.
 > * Using C# Properties
