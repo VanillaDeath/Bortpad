@@ -420,12 +420,12 @@ namespace Bortpad
             redoToolStripMenuItem.Enabled = editor.CanRedo;
         }
 
-        private void editor_SavePointLeft(object sender, EventArgs e)
+        private void SavePointLeft(object sender, EventArgs e)
         {
             UpdateTitle();
         }
 
-        private void editor_SavePointReached(object sender, EventArgs e)
+        private void SavePointReached(object sender, EventArgs e)
         {
             UpdateTitle();
         }
@@ -664,8 +664,8 @@ namespace Bortpad
 
         private void RightToLeft_Click(object sender, EventArgs e)
         {
-            editor.RightToLeft = editor.RightToLeft == RightToLeft.No ? RightToLeft.Yes : RightToLeft.No;
-            editorRightToLeft.Checked = editor.RightToLeft == RightToLeft.Yes;
+            // editor.RightToLeft = editor.RightToLeft == RightToLeft.No ? RightToLeft.Yes : RightToLeft.No;
+            // editorRightToLeft.Checked = editor.RightToLeft == RightToLeft.Yes;
         }
 
         private void Save_Click(object sender, EventArgs e)

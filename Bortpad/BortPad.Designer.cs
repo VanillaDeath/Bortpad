@@ -99,8 +99,6 @@ namespace Bortpad
             this.editorDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSelectAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.editorRightToLeft = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearchWithGoogle = new System.Windows.Forms.ToolStripMenuItem();
             this.editor = new Bortpad.BortScintilla();
@@ -642,19 +640,17 @@ namespace Bortpad
             this.editorDelete,
             this.toolStripSeparator2,
             this.editorSelectAll,
-            this.toolStripSeparator4,
-            this.editorRightToLeft,
             this.toolStripSeparator3,
             this.editorSearchWithGoogle});
             this.editorContextMenu.Name = "editorContextMenu";
-            this.editorContextMenu.Size = new System.Drawing.Size(214, 226);
+            this.editorContextMenu.Size = new System.Drawing.Size(186, 220);
             this.editorContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenu_Opening);
             // 
             // editorUndo
             // 
             this.editorUndo.Enabled = false;
             this.editorUndo.Name = "editorUndo";
-            this.editorUndo.Size = new System.Drawing.Size(213, 22);
+            this.editorUndo.Size = new System.Drawing.Size(185, 22);
             this.editorUndo.Text = "&Undo";
             this.editorUndo.Click += new System.EventHandler(this.Undo);
             // 
@@ -662,20 +658,20 @@ namespace Bortpad
             // 
             this.editorRedo.Enabled = false;
             this.editorRedo.Name = "editorRedo";
-            this.editorRedo.Size = new System.Drawing.Size(213, 22);
+            this.editorRedo.Size = new System.Drawing.Size(185, 22);
             this.editorRedo.Text = "R&edo";
             this.editorRedo.Click += new System.EventHandler(this.Redo);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(210, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(182, 6);
             // 
             // editorCut
             // 
             this.editorCut.Enabled = false;
             this.editorCut.Name = "editorCut";
-            this.editorCut.Size = new System.Drawing.Size(213, 22);
+            this.editorCut.Size = new System.Drawing.Size(185, 22);
             this.editorCut.Text = "Cu&t";
             this.editorCut.Click += new System.EventHandler(this.Cut);
             // 
@@ -683,7 +679,7 @@ namespace Bortpad
             // 
             this.editorCopy.Enabled = false;
             this.editorCopy.Name = "editorCopy";
-            this.editorCopy.Size = new System.Drawing.Size(213, 22);
+            this.editorCopy.Size = new System.Drawing.Size(185, 22);
             this.editorCopy.Text = "&Copy";
             this.editorCopy.Click += new System.EventHandler(this.Copy);
             // 
@@ -691,7 +687,7 @@ namespace Bortpad
             // 
             this.editorPaste.Enabled = false;
             this.editorPaste.Name = "editorPaste";
-            this.editorPaste.Size = new System.Drawing.Size(213, 22);
+            this.editorPaste.Size = new System.Drawing.Size(185, 22);
             this.editorPaste.Text = "&Paste";
             this.editorPaste.Click += new System.EventHandler(this.Paste);
             // 
@@ -699,67 +695,58 @@ namespace Bortpad
             // 
             this.editorDelete.Enabled = false;
             this.editorDelete.Name = "editorDelete";
-            this.editorDelete.Size = new System.Drawing.Size(213, 22);
+            this.editorDelete.Size = new System.Drawing.Size(185, 22);
             this.editorDelete.Text = "&Delete";
             this.editorDelete.Click += new System.EventHandler(this.Delete);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(210, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(182, 6);
             // 
             // editorSelectAll
             // 
             this.editorSelectAll.Name = "editorSelectAll";
-            this.editorSelectAll.Size = new System.Drawing.Size(213, 22);
+            this.editorSelectAll.Size = new System.Drawing.Size(185, 22);
             this.editorSelectAll.Text = "Select &All";
             this.editorSelectAll.Click += new System.EventHandler(this.SelectAll);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(210, 6);
-            // 
-            // editorRightToLeft
-            // 
-            this.editorRightToLeft.Name = "editorRightToLeft";
-            this.editorRightToLeft.Size = new System.Drawing.Size(213, 22);
-            this.editorRightToLeft.Text = "&Right to left Reading order";
-            this.editorRightToLeft.Click += new System.EventHandler(this.RightToLeft_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(210, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(182, 6);
             // 
             // editorSearchWithGoogle
             // 
             this.editorSearchWithGoogle.Enabled = false;
             this.editorSearchWithGoogle.Name = "editorSearchWithGoogle";
-            this.editorSearchWithGoogle.Size = new System.Drawing.Size(213, 22);
+            this.editorSearchWithGoogle.Size = new System.Drawing.Size(185, 22);
             this.editorSearchWithGoogle.Text = "Search with &Google...";
             this.editorSearchWithGoogle.Click += new System.EventHandler(this.SearchWeb);
             // 
             // editor
             // 
             this.editor.AutoCMaxHeight = 9;
-            this.editor.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.Disabled;
+            this.editor.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.LeftToRight;
             this.editor.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.editor.CaretLineBackColor = System.Drawing.Color.White;
+            this.editor.BufferedDraw = false;
+            this.editor.CaretLineBackColor = System.Drawing.Color.Black;
             this.editor.CaretLineVisible = true;
+            this.editor.ContextMenuStrip = this.editorContextMenu;
             this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.editor.Font = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.editor.LexerName = null;
             this.editor.Location = new System.Drawing.Point(0, 24);
             this.editor.Name = "editor";
-            this.editor.ScrollWidth = 49;
+            this.editor.ScrollWidth = 1;
             this.editor.Size = new System.Drawing.Size(1176, 601);
             this.editor.TabIndents = true;
             this.editor.TabIndex = 0;
+            this.editor.Technology = ScintillaNET.Technology.DirectWrite;
             this.editor.UseRightToLeftReadingLayout = false;
             this.editor.WrapMode = ScintillaNET.WrapMode.None;
-            this.editor.SavePointLeft += new System.EventHandler<System.EventArgs>(this.editor_SavePointLeft);
-            this.editor.SavePointReached += new System.EventHandler<System.EventArgs>(this.editor_SavePointReached);
+            this.editor.SavePointLeft += new System.EventHandler<System.EventArgs>(this.SavePointLeft);
+            this.editor.SavePointReached += new System.EventHandler<System.EventArgs>(this.SavePointReached);
             this.editor.UpdateUI += new System.EventHandler<ScintillaNET.UpdateUIEventArgs>(this.CursorPositionChanged);
             this.editor.TextChanged += new System.EventHandler(this.Modified);
             // 
@@ -860,8 +847,6 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem editorDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem editorSelectAll;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripMenuItem editorRightToLeft;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem editorSearchWithGoogle;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
