@@ -110,6 +110,11 @@ namespace Bortpad
             }
         }
 
+        public FileInfo OpenFilesInfo
+        {
+            get; private set;
+        }
+
         public bool HasText
         {
             get { return editor.Text.Length > 0; }
@@ -542,7 +547,9 @@ namespace Bortpad
                 editor.EmptyUndoBuffer();
 
                 FileName = null;
+                OpenFilesInfo = null;
                 EncodingSetting = null;
+                editor.ReadOnly = false;
                 editor.SetSavePoint();
                 editor.Select();
             }
@@ -578,13 +585,16 @@ namespace Bortpad
                     }
                     if (File.Exists(openFilename))
                     {
-                        editor.Clear();
+                        OpenFilesInfo = new FileInfo(openFilename);
                         DetectionDetail getEncoding = CharsetDetector.DetectFromFile(openFilename).Detected;
                         EncodingSetting = getEncoding != null ? getEncoding.Encoding : null;
+                        editor.ReadOnly = false;
+                        editor.Clear();
                         editor.Text = File.ReadAllText(openFilename, EncodingSetting);
                         SetEncodingStatus(EncodingSetting, true, getEncoding != null ? getEncoding.Confidence : 0);
                         editor.EmptyUndoBuffer();
                         FileName = openFilename;
+                        editor.ReadOnly = OpenFilesInfo.IsReadOnly;
                         editor.SetSavePoint();
                         editor.Select();
                         return true;
@@ -659,7 +669,6 @@ namespace Bortpad
         private void RestoreDefaultZoom_Click(object sender, EventArgs e)
         {
             editor.Zoom = 0;
-            UpdateZoom();
         }
 
         private void RightToLeft_Click(object sender, EventArgs e)
@@ -670,6 +679,11 @@ namespace Bortpad
 
         private void Save_Click(object sender, EventArgs e)
         {
+            if (IsFile && OpenFilesInfo.IsReadOnly)
+            {
+                SaveConfirmPrompt(true);
+                return;
+            }
             SaveDocument();
         }
 
@@ -682,9 +696,29 @@ namespace Bortpad
         {
             if (force || editor.Modified)
             {
-                SaveConfirmPrompt SCP = new SaveConfirmPrompt(FileName);
-                SCP.ShowDialog();
-                switch (SCP.DialogResult)
+                if (IsFile && OpenFilesInfo.IsReadOnly)
+                {
+                    ReadonlyDecision rod = new();
+                    rod.ShowDialog();
+                    switch (rod.DialogResult)
+                    {
+                        case DialogResult.Yes:
+                            OpenFilesInfo.IsReadOnly = false;
+                            return SaveDocument();
+
+                        case DialogResult.Continue:
+                            return SaveDocument(true);
+
+                        case DialogResult.No:
+                            return true;
+
+                        default:
+                            return false;
+                    }
+                }
+                SaveConfirmPrompt scp = new(FileName);
+                scp.ShowDialog();
+                switch (scp.DialogResult)
                 {
                     case DialogResult.Yes:
                         // Save/Show Save Dialog
@@ -717,6 +751,7 @@ namespace Bortpad
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     FileName = saveFileDialog1.FileName;
+                    OpenFilesInfo = new FileInfo(FileName);
                     File.WriteAllText(FileName, editor.Text, EncodingSetting);
                     editor.SetSavePoint();
                     return true;
@@ -803,12 +838,7 @@ namespace Bortpad
 
         private void UpdateTitle()
         {
-            Text = (editor.Modified ? "*" : "") + FileName + " - " + ProgramName;
-        }
-
-        private void UpdateZoom()
-        {
-            zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
+            Text = (editor.Modified ? "*" : "") + FileName + (IsFile && OpenFilesInfo.IsReadOnly ? " [Read-Only]" : "") + " - " + ProgramName;
         }
 
         private void View_DropDownOpening(object sender, EventArgs e)
@@ -832,8 +862,41 @@ namespace Bortpad
             if (editor.Zoom < 50)
             {
                 editor.ZoomIn();
-                UpdateZoom();
             }
+        }
+
+        private void Zoom_Changed(object sender, EventArgs e)
+        {
+            zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
+        }
+
+        private void ModifyAttempt(object sender, EventArgs e)
+        {
+            /*
+            if (FileName == null && OpenFilesInfo == null)
+            {
+                editor.ReadOnly = false;
+                return;
+            }
+            */
+            ReadonlyPrompt ro = new ReadonlyPrompt();
+            if (ro.ShowDialog(this) == DialogResult.OK)
+            {
+                editor.ReadOnly = false;
+            }
+        }
+
+        internal void UnsetReadonly()
+        {
+            OpenFilesInfo.IsReadOnly = false;
+            editor.ReadOnly = OpenFilesInfo.IsReadOnly;
+        }
+
+        internal void OpenAsNew()
+        {
+            FileName = null;
+            OpenFilesInfo = null;
+            // editor.ReadOnly = false; // TODO: if Undo is called after this, it will revert to orig text ok, but mark modified = false (want it dirty tho)
         }
 
         private void ZoomOut_Click(object sender, EventArgs e)
@@ -841,7 +904,6 @@ namespace Bortpad
             if (editor.Zoom > -9)
             {
                 editor.ZoomOut();
-                UpdateZoom();
             }
         }
     }

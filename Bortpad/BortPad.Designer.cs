@@ -643,7 +643,7 @@ namespace Bortpad
             this.toolStripSeparator3,
             this.editorSearchWithGoogle});
             this.editorContextMenu.Name = "editorContextMenu";
-            this.editorContextMenu.Size = new System.Drawing.Size(186, 220);
+            this.editorContextMenu.Size = new System.Drawing.Size(186, 198);
             this.editorContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenu_Opening);
             // 
             // editorUndo
@@ -745,9 +745,11 @@ namespace Bortpad
             this.editor.Technology = ScintillaNET.Technology.DirectWrite;
             this.editor.UseRightToLeftReadingLayout = false;
             this.editor.WrapMode = ScintillaNET.WrapMode.None;
+            this.editor.ModifyAttempt += new System.EventHandler<System.EventArgs>(this.ModifyAttempt);
             this.editor.SavePointLeft += new System.EventHandler<System.EventArgs>(this.SavePointLeft);
             this.editor.SavePointReached += new System.EventHandler<System.EventArgs>(this.SavePointReached);
             this.editor.UpdateUI += new System.EventHandler<ScintillaNET.UpdateUIEventArgs>(this.CursorPositionChanged);
+            this.editor.ZoomChanged += new System.EventHandler<System.EventArgs>(this.Zoom_Changed);
             this.editor.TextChanged += new System.EventHandler(this.Modified);
             // 
             // BortForm
