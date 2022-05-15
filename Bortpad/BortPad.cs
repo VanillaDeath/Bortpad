@@ -7,7 +7,6 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using UtfUnknown;
@@ -23,7 +22,7 @@ namespace Bortpad
         internal const string _DEFAULT_FILENAME = "Untitled";
         internal const string _DEFAULT_FONT = "Consolas, 11.25pt";
         internal const string _DEFAULT_SECTION = "General";
-        private bool _changesMade;
+        private bool _darkMode;
         private Encoding _encodingSetting;
         private string _filename;
         private FindPrompt _find;
@@ -34,28 +33,16 @@ namespace Bortpad
         {
             InitializeComponent();
 
-            ConfigFile = ProgramName + ".cfg";
-            LoadSettings(ConfigFile);
-
             FileName = filenameSpecified;
 
+            ConfigFile = ProgramName + ".cfg";
             EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
             fontDlg.Font = editor.Font = GetSetting<Font>("Font");
             editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
             statusBar.Visible = GetSetting<bool>("StatusBar");
-            ApplyDarkMode(GetSetting<bool>("DarkMode"));
+            DarkMode = GetSetting<bool>("DarkMode");
 
             Text = _DEFAULT_FILENAME + " - " + ProgramName;
-        }
-
-        public bool ChangesMade
-        {
-            get { return _changesMade; }
-            private set
-            {
-                _changesMade = value;
-                UpdateTitle();
-            }
         }
 
         public int Col
@@ -73,6 +60,32 @@ namespace Bortpad
         public String ConfigFile
         {
             get; private set;
+        }
+
+        public bool DarkMode
+        {
+            get
+            {
+                return _darkMode;
+            }
+            set
+            {
+                if (_darkMode != value)
+                {
+                    editor.Styles[Style.Default].BackColor = value ? Color.Black : Color.White;
+                    editor.Styles[Style.Default].ForeColor = value ? Color.White : Color.Black;
+                    editor.StyleClearAll();
+                    editor.CaretForeColor = value ? Color.White : Color.Black;
+                    editor.CaretLineBackColor = value ? Color.Black : Color.White;
+                    editor.CaretLineBackColorAlpha = 256;
+                    darkMode.Text = value ? "☀" : "🌙";
+                    ColorSwapItem(darkMode, !value);
+                    ColorSwap(statusBar, value);
+
+                    darkMode.Checked = value;
+                    SetSetting("DarkMode", _darkMode = value);
+                }
+            }
         }
 
         public Encoding EncodingSetting
@@ -93,19 +106,8 @@ namespace Bortpad
             get { return _filename != null ? _filename : _DEFAULT_FILENAME; }
             private set
             {
-                if (value != null && !File.Exists(value))
-                {
-                    // _filename = null;
-                    throw new FileNotFoundException();
-                }
                 _filename = value;
             }
-        }
-
-        public string Hash
-        {
-            get;
-            private set;
         }
 
         public bool HasText
@@ -151,21 +153,6 @@ namespace Bortpad
             get; private set;
         }
 
-        public static byte[] CalculateHash(string inputString)
-        {
-            using (HashAlgorithm algorithm = MD5.Create())
-                return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
-        }
-
-        public static string CalculateHashString(string inputString)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (byte b in CalculateHash(inputString))
-                sb.Append(b.ToString("X2"));
-
-            return sb.ToString();
-        }
-
         public static void ColorSwap(Control item, bool mode)
         {
             item.BackColor = mode ? SystemColors.ControlText : SystemColors.Control;
@@ -208,6 +195,10 @@ namespace Bortpad
 
         internal T GetSetting<T>(string key, string section = _DEFAULT_SECTION)
         {
+            if (Settings == null || !Settings.Any())
+            {
+                LoadSettings();
+            }
             return (T)Settings[section][key].GetValue<T>();
         }
 
@@ -222,11 +213,11 @@ namespace Bortpad
             return false;
         }
 
-        internal BortForm LoadSettings(string configFile = _DEFAULT_CONFIG_FILE)
+        internal BortForm LoadSettings()
         {
-            if (File.Exists(configFile))
+            if (File.Exists(ConfigFile))
             {
-                Settings = Configuration.LoadFromFile(configFile);
+                Settings = Configuration.LoadFromFile(ConfigFile);
             }
             else
             {
@@ -241,7 +232,7 @@ namespace Bortpad
                 SetSetting("Up", false, "Find", false);
                 SetSetting("MatchCase", false, "Find", false);
                 SetSetting("WrapAround", false, "Find", false);
-                SaveSettings(configFile);
+                SaveSettings();
             }
             return this;
         }
@@ -275,38 +266,32 @@ namespace Bortpad
             return FindFromPrompt(query, false, matchCase, wrapAround);
         }
 
-        internal BortForm SaveSettings(string configFile = _DEFAULT_CONFIG_FILE)
+        internal BortForm SaveSettings()
         {
+            if (!File.Exists(ConfigFile))
+            {
+                return LoadSettings();
+            }
             Settings.SaveToFile(ConfigFile);
             return this;
         }
 
-        internal BortForm SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION, bool save = true, string configFile = _DEFAULT_CONFIG_FILE)
+        internal BortForm SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION, bool save = true)
         {
             Settings[section][key].SetValue(value);
-            return save ? SaveSettings(configFile) : this;
+            return save ? SaveSettings() : this;
+        }
+
+        internal bool ToggleSetting(string key)
+        {
+            SetSetting(key, !GetSetting<bool>(key));
+            return GetSetting<bool>(key);
         }
 
         private void About(object sender, EventArgs e)
         {
             About about = new About();
             about.ShowDialog();
-        }
-
-        private BortForm ApplyDarkMode(bool darkModeOn)
-        {
-            editor.Styles[Style.Default].BackColor = darkModeOn ? Color.Black : Color.White;
-            editor.Styles[Style.Default].ForeColor = darkModeOn ? Color.White : Color.Black;
-            editor.StyleClearAll();
-            editor.CaretForeColor = darkModeOn ? Color.White : Color.Black;
-            editor.CaretLineBackColor = darkModeOn ? Color.Black : Color.White;
-            editor.CaretLineBackColorAlpha = 256;
-            darkMode.Text = darkModeOn ? "☀" : "🌙";
-            ColorSwapItem(darkMode, !darkModeOn);
-            ColorSwap(statusBar, darkModeOn);
-
-            darkMode.Checked = darkModeOn;
-            return this;
         }
 
         private void BortForm_DragDrop(object sender, DragEventArgs e)
@@ -367,7 +352,7 @@ namespace Bortpad
 
         private void BortForm_Shown(object sender, EventArgs e)
         {
-            if (!IsFile || !OpenDocument(false, FileName))
+            if (_filename == null || !OpenDocument(false, _filename))
             {
                 NewDocument(false);
             }
@@ -433,6 +418,16 @@ namespace Bortpad
             pasteToolStripMenuItem.Enabled = editor.CanPaste;
             undoToolStripMenuItem.Enabled = editor.CanUndo;
             redoToolStripMenuItem.Enabled = editor.CanRedo;
+        }
+
+        private void editor_SavePointLeft(object sender, EventArgs e)
+        {
+            UpdateTitle();
+        }
+
+        private void editor_SavePointReached(object sender, EventArgs e)
+        {
+            UpdateTitle();
         }
 
         private void Exit_Click(object sender, EventArgs e)
@@ -532,16 +527,6 @@ namespace Bortpad
             // replaceToolStripMenuItem.Enabled = HasText;
             // goToToolStripMenuItem.Enabled = HasText;
             // selectAllToolStripMenuItem.Enabled = HasText;
-            // UpdatePos();
-            if (ChangesMade)
-            {
-                if (!editor.CanUndo && Hash == CalculateHashString(editor.Text))
-                {
-                    ChangesMade = false;
-                }
-                return;
-            }
-            ChangesMade = true;
         }
 
         private void New_Click(object sender, EventArgs e)
@@ -558,8 +543,7 @@ namespace Bortpad
 
                 FileName = null;
                 EncodingSetting = null;
-                SetHash();
-                ChangesMade = false;
+                editor.SetSavePoint();
                 editor.Select();
             }
         }
@@ -580,31 +564,35 @@ namespace Bortpad
             {
                 try
                 {
-                    if (openFilename != null)
-                    {
-                        // Filename as param, set
-                        FileName = openFilename;
-                    }
-                    else if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                    if (openFilename == null)
                     {
                         // No filename as param, get filename from Open Dialog
-                        FileName = openFileDialog1.FileName;
+                        if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                        {
+                            openFilename = openFileDialog1.FileName;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    if (File.Exists(openFilename))
+                    {
+                        editor.Clear();
+                        DetectionDetail getEncoding = CharsetDetector.DetectFromFile(openFilename).Detected;
+                        EncodingSetting = getEncoding != null ? getEncoding.Encoding : null;
+                        editor.Text = File.ReadAllText(openFilename, EncodingSetting);
+                        SetEncodingStatus(EncodingSetting, true, getEncoding != null ? getEncoding.Confidence : 0);
+                        editor.EmptyUndoBuffer();
+                        FileName = openFilename;
+                        editor.SetSavePoint();
+                        editor.Select();
+                        return true;
                     }
                     else
                     {
-                        // No filename as param, Open Dialog cancelled, then abort
-                        return false;
+                        throw new FileNotFoundException();
                     }
-                    editor.Clear();
-                    DetectionDetail getEncoding = CharsetDetector.DetectFromFile(FileName).Detected;
-                    EncodingSetting = getEncoding != null ? getEncoding.Encoding : null;
-                    editor.Text = File.ReadAllText(FileName, EncodingSetting);
-                    SetEncodingStatus(EncodingSetting, true, getEncoding != null ? getEncoding.Confidence : 0);
-                    editor.EmptyUndoBuffer();
-                    SetHash();
-                    ChangesMade = false;
-                    editor.Select();
-                    return true;
                 }
                 catch (FileNotFoundException)
                 {
@@ -692,7 +680,7 @@ namespace Bortpad
 
         private bool SaveConfirmPrompt(bool force = false)
         {
-            if (force || ChangesMade)
+            if (force || editor.Modified)
             {
                 SaveConfirmPrompt SCP = new SaveConfirmPrompt(FileName);
                 SCP.ShowDialog();
@@ -719,8 +707,7 @@ namespace Bortpad
             if (IsFile && !saveAs)
             {
                 File.WriteAllText(FileName, editor.Text, EncodingSetting);
-                SetHash();
-                ChangesMade = false;
+                editor.SetSavePoint();
                 return true;
             }
             else
@@ -731,8 +718,7 @@ namespace Bortpad
                 {
                     FileName = saveFileDialog1.FileName;
                     File.WriteAllText(FileName, editor.Text, EncodingSetting);
-                    SetHash();
-                    ChangesMade = false;
+                    editor.SetSavePoint();
                     return true;
                 }
             }
@@ -774,12 +760,6 @@ namespace Bortpad
             }
         }
 
-        private BortForm SetHash()
-        {
-            Hash = CalculateHashString(editor.Text);
-            return this;
-        }
-
         private BortForm SetStatus(string text = "")
         {
             statusBarLeft.Text = text;
@@ -799,13 +779,7 @@ namespace Bortpad
 
         private void ToggleDarkMode(object sender, EventArgs e)
         {
-            ApplyDarkMode(ToggleSetting("DarkMode"));
-        }
-
-        private bool ToggleSetting(string key)
-        {
-            SetSetting(key, !GetSetting<bool>(key));
-            return GetSetting<bool>(key);
+            DarkMode = !DarkMode;
         }
 
         private void ToggleStatusBar()
@@ -829,7 +803,7 @@ namespace Bortpad
 
         private void UpdateTitle()
         {
-            this.Text = (ChangesMade ? "*" : "") + FileName + " - " + ProgramName;
+            Text = (editor.Modified ? "*" : "") + FileName + " - " + ProgramName;
         }
 
         private void UpdateZoom()

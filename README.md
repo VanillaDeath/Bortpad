@@ -45,7 +45,7 @@ Bortpad is a C# WinForms application, built to closely match the built-in *Windo
 > * Built as single exe
 > * Fixes and improvements
 * ### [v1.0.1](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.1)
-> * Converted custom RichTextBox implementation to Scintilla.NET component, much better to work with.
+> * Converted custom RichTextBox implementation to [Scintilla.NET](https://github.com/jacobslusser/ScintillaNET) component, much better to work with.
 > * Using C# Properties
 > * Text encoding detection working (thanks to [Mozilla's UTF-unknown project](https://github.com/CharsetDetector/UTF-unknown))
 * ### [v1.0.0](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.0)

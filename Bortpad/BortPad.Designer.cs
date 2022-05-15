@@ -758,6 +758,8 @@ namespace Bortpad
             this.editor.TabIndex = 0;
             this.editor.UseRightToLeftReadingLayout = false;
             this.editor.WrapMode = ScintillaNET.WrapMode.None;
+            this.editor.SavePointLeft += new System.EventHandler<System.EventArgs>(this.editor_SavePointLeft);
+            this.editor.SavePointReached += new System.EventHandler<System.EventArgs>(this.editor_SavePointReached);
             this.editor.UpdateUI += new System.EventHandler<ScintillaNET.UpdateUIEventArgs>(this.CursorPositionChanged);
             this.editor.TextChanged += new System.EventHandler(this.Modified);
             // 
