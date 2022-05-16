@@ -17,17 +17,15 @@ namespace Bortpad
     [System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]
     public partial class BortForm : Form
     {
-        // UTF-8
+        internal const Eol _CR = Eol.Cr;
+        internal const Eol _CRLF = Eol.CrLf;
         internal const int _DEFAULT_CODEPAGE = 65001;
-
         internal const string _DEFAULT_CONFIG_FILE = "Bortpad.cfg";
+        internal const Eol _DEFAULT_EOL = _CRLF;
         internal const string _DEFAULT_FILENAME = "Untitled";
         internal const string _DEFAULT_FONT = "Consolas, 11.25pt";
         internal const string _DEFAULT_SECTION = "General";
-        internal const Eol _CRLF = Eol.CrLf;
-        internal const Eol _CR = Eol.Cr;
         internal const Eol _LF = Eol.Lf;
-        internal const Eol _DEFAULT_EOL = _CRLF;
         private bool _darkMode;
         private Encoding _encodingSetting;
         private Eol _eolSetting;
@@ -284,13 +282,6 @@ namespace Bortpad
             return this;
         }
 
-        internal void OpenAsNew()
-        {
-            FileName = null;
-            OpenFilesInfo = null;
-            // editor.ReadOnly = false; // TODO: if Undo is called after this, it will revert to orig text ok, but mark modified = false (want it dirty tho)
-        }
-
         internal void ReplaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
         {
             SetSetting("Search", query, "Find")
@@ -336,12 +327,6 @@ namespace Bortpad
         {
             SetSetting(key, !GetSetting<bool>(key));
             return GetSetting<bool>(key);
-        }
-
-        internal void UnsetReadonly()
-        {
-            OpenFilesInfo.IsReadOnly = false;
-            editor.ReadOnly = OpenFilesInfo.IsReadOnly;
         }
 
         private void About(object sender, EventArgs e)
@@ -434,6 +419,14 @@ namespace Bortpad
             editorPaste.Enabled = editor.CanPaste;
             editorUndo.Enabled = editor.CanUndo;
             editorRedo.Enabled = editor.CanRedo;
+        }
+
+        private void ConvertLineEndings_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Convert all End of Line characters in this document to " + lineReturnType.Text + "?", ProgramName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            {
+                editor.ConvertEols(editor.EolMode);
+            }
         }
 
         private void Copy(object sender, EventArgs e)
@@ -841,6 +834,13 @@ namespace Bortpad
             Process.Start("https://stevenwilson.ca/contact");
         }
 
+        private void SetEncoding(object sender, EventArgs e)
+        {
+            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
+            EncodingSetting = ((EncodingInfo)clickedItem.Tag).GetEncoding();
+            SetEncodingStatus(EncodingSetting, false);
+        }
+
         private BortForm SetEncodingStatus(Encoding encoding, bool detected = false, float confidence = 1)
         {
             encodingStatus.DropDownItems.Clear();
@@ -861,11 +861,25 @@ namespace Bortpad
             return this;
         }
 
-        private void SetEncoding(object sender, EventArgs e)
+        private void SetEOL(object sender, EventArgs e)
         {
             ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
-            EncodingSetting = ((EncodingInfo)clickedItem.Tag).GetEncoding();
-            SetEncodingStatus(EncodingSetting, false);
+            EolSetting = (Eol)clickedItem.Tag;
+        }
+
+        private BortForm SetEolStatus(Eol eolMode)
+        {
+            ToolStripItemCollection items = lineReturnType.DropDownItems;
+            foreach (ToolStripMenuItem item in items.OfType<ToolStripMenuItem>())
+            {
+                bool current = Equals(item.Tag, eolMode);
+                item.Checked = current;
+                if (current)
+                {
+                    lineReturnType.Text = Regex.Replace(item.Text, "&(.)", "$1");
+                }
+            }
+            return this;
         }
 
         private void SetFont(object sender, EventArgs e)
@@ -882,6 +896,13 @@ namespace Bortpad
         {
             statusBarLeft.Text = text;
             return this;
+        }
+
+        private void ShowLineEndings_Click(object sender, EventArgs e)
+        {
+            editor.ViewEol = !editor.ViewEol;
+            showLineEndings.Checked = editor.ViewEol;
+            SetSetting("ShowLineEndings", editor.ViewEol);
         }
 
         private void StatusBar_Click(object sender, EventArgs e)
@@ -950,42 +971,6 @@ namespace Bortpad
             if (editor.Zoom < 50)
             {
                 editor.ZoomIn();
-            }
-        }
-
-        private void SetEOL(object sender, EventArgs e)
-        {
-            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
-            EolSetting = (Eol)clickedItem.Tag;
-        }
-
-        private BortForm SetEolStatus(Eol eolMode)
-        {
-            ToolStripItemCollection items = lineReturnType.DropDownItems;
-            foreach (ToolStripMenuItem item in items.OfType<ToolStripMenuItem>())
-            {
-                bool current = Equals(item.Tag, eolMode);
-                item.Checked = current;
-                if (current)
-                {
-                    lineReturnType.Text = Regex.Replace(item.Text, "&(.)", "$1");
-                }
-            }
-            return this;
-        }
-
-        private void ShowLineEndings_Click(object sender, EventArgs e)
-        {
-            editor.ViewEol = !editor.ViewEol;
-            showLineEndings.Checked = editor.ViewEol;
-            SetSetting("ShowLineEndings", editor.ViewEol);
-        }
-
-        private void ConvertLineEndings_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Convert all End of Line characters in this document to " + lineReturnType.Text + "?", ProgramName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-            {
-                editor.ConvertEols(editor.EolMode);
             }
         }
 
