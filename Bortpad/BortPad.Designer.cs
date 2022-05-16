@@ -81,8 +81,15 @@ namespace Bortpad
             this.statusBarLeft = new System.Windows.Forms.ToolStripStatusLabel();
             this.position = new System.Windows.Forms.ToolStripStatusLabel();
             this.zoomLevel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lineReturnType = new System.Windows.Forms.ToolStripStatusLabel();
-            this.encodingStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lineReturnType = new System.Windows.Forms.ToolStripDropDownButton();
+            this.showLineEndings = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertLineEndings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.pressingEnterUses = new System.Windows.Forms.ToolStripMenuItem();
+            this.windowsLineFeed = new System.Windows.Forms.ToolStripMenuItem();
+            this.linuxLineFeed = new System.Windows.Forms.ToolStripMenuItem();
+            this.macLineFeed = new System.Windows.Forms.ToolStripMenuItem();
+            this.encodingStatus = new System.Windows.Forms.ToolStripDropDownButton();
             this.fontDlg = new System.Windows.Forms.FontDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
@@ -561,7 +568,7 @@ namespace Bortpad
             // statusBarLeft
             // 
             this.statusBarLeft.Name = "statusBarLeft";
-            this.statusBarLeft.Size = new System.Drawing.Size(769, 17);
+            this.statusBarLeft.Size = new System.Drawing.Size(694, 17);
             this.statusBarLeft.Spring = true;
             this.statusBarLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -569,7 +576,8 @@ namespace Bortpad
             // 
             this.position.AutoSize = false;
             this.position.Name = "position";
-            this.position.Size = new System.Drawing.Size(90, 17);
+            this.position.Padding = new System.Windows.Forms.Padding(0, 0, 20, 0);
+            this.position.Size = new System.Drawing.Size(120, 17);
             this.position.Text = "Ln 1, Col 1";
             this.position.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -577,23 +585,101 @@ namespace Bortpad
             // 
             this.zoomLevel.AutoSize = false;
             this.zoomLevel.Name = "zoomLevel";
-            this.zoomLevel.Size = new System.Drawing.Size(80, 17);
+            this.zoomLevel.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.zoomLevel.Size = new System.Drawing.Size(45, 17);
             this.zoomLevel.Text = "100%";
             this.zoomLevel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lineReturnType
             // 
             this.lineReturnType.AutoSize = false;
+            this.lineReturnType.AutoToolTip = false;
+            this.lineReturnType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.lineReturnType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showLineEndings,
+            this.convertLineEndings,
+            this.toolStripSeparator4,
+            this.pressingEnterUses,
+            this.windowsLineFeed,
+            this.linuxLineFeed,
+            this.macLineFeed});
+            this.lineReturnType.Image = ((System.Drawing.Image)(resources.GetObject("lineReturnType.Image")));
+            this.lineReturnType.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.lineReturnType.Name = "lineReturnType";
-            this.lineReturnType.Size = new System.Drawing.Size(120, 17);
+            this.lineReturnType.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.lineReturnType.ShowDropDownArrow = false;
+            this.lineReturnType.Size = new System.Drawing.Size(120, 20);
             this.lineReturnType.Text = "Windows (CRLF)";
             this.lineReturnType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // showLineEndings
+            // 
+            this.showLineEndings.Name = "showLineEndings";
+            this.showLineEndings.Size = new System.Drawing.Size(205, 22);
+            this.showLineEndings.Text = "&Show EOL Characters";
+            this.showLineEndings.Click += new System.EventHandler(this.ShowLineEndings_Click);
+            // 
+            // convertLineEndings
+            // 
+            this.convertLineEndings.Name = "convertLineEndings";
+            this.convertLineEndings.Size = new System.Drawing.Size(205, 22);
+            this.convertLineEndings.Text = "&Convert to...";
+            this.convertLineEndings.Click += new System.EventHandler(this.ConvertLineEndings_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(202, 6);
+            // 
+            // pressingEnterUses
+            // 
+            this.pressingEnterUses.Enabled = false;
+            this.pressingEnterUses.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.pressingEnterUses.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.pressingEnterUses.Name = "pressingEnterUses";
+            this.pressingEnterUses.Size = new System.Drawing.Size(205, 22);
+            this.pressingEnterUses.Text = "Pressing Return uses:";
+            // 
+            // windowsLineFeed
+            // 
+            this.windowsLineFeed.Checked = true;
+            this.windowsLineFeed.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.windowsLineFeed.Image = global::Bortpad.Properties.Resources.windows;
+            this.windowsLineFeed.Name = "windowsLineFeed";
+            this.windowsLineFeed.Size = new System.Drawing.Size(205, 22);
+            this.windowsLineFeed.Tag = "CRLF";
+            this.windowsLineFeed.Text = "&Windows (CRLF)";
+            this.windowsLineFeed.Click += new System.EventHandler(this.SetEOL);
+            // 
+            // linuxLineFeed
+            // 
+            this.linuxLineFeed.Image = global::Bortpad.Properties.Resources.macos;
+            this.linuxLineFeed.Name = "linuxLineFeed";
+            this.linuxLineFeed.Size = new System.Drawing.Size(205, 22);
+            this.linuxLineFeed.Tag = "LF";
+            this.linuxLineFeed.Text = "&Linux/macOS (LF)";
+            this.linuxLineFeed.Click += new System.EventHandler(this.SetEOL);
+            // 
+            // macLineFeed
+            // 
+            this.macLineFeed.Image = global::Bortpad.Properties.Resources.os9;
+            this.macLineFeed.Name = "macLineFeed";
+            this.macLineFeed.Size = new System.Drawing.Size(205, 22);
+            this.macLineFeed.Tag = "CR";
+            this.macLineFeed.Text = "Legacy &Mac (CR)";
+            this.macLineFeed.Click += new System.EventHandler(this.SetEOL);
             // 
             // encodingStatus
             // 
             this.encodingStatus.AutoSize = false;
+            this.encodingStatus.AutoToolTip = false;
+            this.encodingStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.encodingStatus.Image = ((System.Drawing.Image)(resources.GetObject("encodingStatus.Image")));
+            this.encodingStatus.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.encodingStatus.Name = "encodingStatus";
-            this.encodingStatus.Size = new System.Drawing.Size(100, 17);
+            this.encodingStatus.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.encodingStatus.ShowDropDownArrow = false;
+            this.encodingStatus.Size = new System.Drawing.Size(180, 20);
             this.encodingStatus.Text = "UTF-8";
             this.encodingStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -734,7 +820,7 @@ namespace Bortpad
             this.editor.CaretLineVisible = true;
             this.editor.ContextMenuStrip = this.editorContextMenu;
             this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editor.Font = new System.Drawing.Font("Verdana", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.editor.LexerName = null;
             this.editor.Location = new System.Drawing.Point(0, 24);
             this.editor.Name = "editor";
@@ -827,8 +913,6 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem aboutNotepadToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel position;
         private System.Windows.Forms.ToolStripStatusLabel zoomLevel;
-        private System.Windows.Forms.ToolStripStatusLabel lineReturnType;
-        private System.Windows.Forms.ToolStripStatusLabel encodingStatus;
         private System.Windows.Forms.FontDialog fontDlg;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.PrintDialog printDialog1;
@@ -856,6 +940,15 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem darkMode;
         private System.Windows.Forms.ToolStripMenuItem holdShiftNotice;
         private Bortpad.BortScintilla editor;
+        private System.Windows.Forms.ToolStripDropDownButton encodingStatus;
+        private System.Windows.Forms.ToolStripDropDownButton lineReturnType;
+        private System.Windows.Forms.ToolStripMenuItem windowsLineFeed;
+        private System.Windows.Forms.ToolStripMenuItem linuxLineFeed;
+        private System.Windows.Forms.ToolStripMenuItem macLineFeed;
+        private System.Windows.Forms.ToolStripMenuItem showLineEndings;
+        private System.Windows.Forms.ToolStripMenuItem convertLineEndings;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem pressingEnterUses;
     }
 }
 

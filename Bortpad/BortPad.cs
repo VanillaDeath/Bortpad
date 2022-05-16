@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using UtfUnknown;
 
@@ -41,9 +42,18 @@ namespace Bortpad
             editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
             statusBar.Visible = GetSetting<bool>("StatusBar");
             DarkMode = GetSetting<bool>("DarkMode");
+            editor.ViewEol = showLineEndings.Checked = GetSetting<bool>("ShowLineEndings");
+            windowsLineFeed.Tag = Eol.CrLf;
+            linuxLineFeed.Tag = Eol.Lf;
+            macLineFeed.Tag = Eol.Cr;
 
             Text = _DEFAULT_FILENAME + " - " + ProgramName;
         }
+
+        public EncodingInfo[] CodePages
+        {
+            get;
+        } = Encoding.GetEncodings();
 
         public int Col
         {
@@ -243,6 +253,7 @@ namespace Bortpad
                 SetSetting("StatusBar", true, save: false);
                 SetSetting("WordWrap", false, save: false);
                 SetSetting("DarkMode", false, save: false);
+                SetSetting("ShowLineEndings", false, save: false);
                 SetSetting("Search", "", "Find", false);
                 SetSetting("Replace", "", "Find", false);
                 SetSetting("Up", false, "Find", false);
@@ -561,6 +572,7 @@ namespace Bortpad
             if (ro.ShowDialog(this) == DialogResult.OK)
             {
                 editor.ReadOnly = false;
+                // encodingStatus.Enabled = true;
             }
         }
 
@@ -573,6 +585,7 @@ namespace Bortpad
         {
             if (!saveFirst || SaveConfirmPrompt(false))
             {
+                editor.ReadOnly = false;
                 editor.ClearAll();
                 editor.EmptyUndoBuffer();
 
@@ -621,9 +634,9 @@ namespace Bortpad
                         editor.ReadOnly = false;
                         editor.Clear();
                         editor.Text = File.ReadAllText(openFilename, EncodingSetting);
+                        FileName = openFilename;
                         SetEncodingStatus(EncodingSetting, true, getEncoding != null ? getEncoding.Confidence : 0);
                         editor.EmptyUndoBuffer();
-                        FileName = openFilename;
                         editor.ReadOnly = OpenFilesInfo.IsReadOnly;
                         editor.SetSavePoint();
                         editor.Select();
@@ -814,9 +827,29 @@ namespace Bortpad
 
         private BortForm SetEncodingStatus(Encoding encoding, bool detected = false, float confidence = 1)
         {
+            encodingStatus.DropDownItems.Clear();
             encodingStatus.Text = encoding.EncodingName;
             encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
+            foreach (EncodingInfo codePage in CodePages)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem();
+                bool current = Equals(codePage.GetEncoding(), EncodingSetting);
+                item.Name = codePage.Name;
+                item.Text = codePage.DisplayName;
+                // if (current && detected) { item.ShortcutKeyDisplayString = " (Detected)"; }
+                item.Tag = codePage;
+                item.Checked = current;
+                item.Click += new EventHandler(SetEncoding);
+                encodingStatus.DropDownItems.Add(item);
+            }
             return this;
+        }
+
+        private void SetEncoding(object sender, EventArgs e)
+        {
+            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
+            EncodingSetting = ((EncodingInfo)clickedItem.Tag).GetEncoding();
+            SetEncodingStatus(EncodingSetting, false);
         }
 
         private void SetFont(object sender, EventArgs e)
@@ -901,6 +934,33 @@ namespace Bortpad
             if (editor.Zoom < 50)
             {
                 editor.ZoomIn();
+            }
+        }
+
+        private void SetEOL(object sender, EventArgs e)
+        {
+            windowsLineFeed.Checked = false;
+            linuxLineFeed.Checked = false;
+            macLineFeed.Checked = false;
+            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
+            Eol eol = (Eol)clickedItem.Tag;
+            editor.EolMode = eol;
+            lineReturnType.Text = Regex.Replace(clickedItem.Text, "&(.)", "$1");
+            clickedItem.Checked = true;
+        }
+
+        private void ShowLineEndings_Click(object sender, EventArgs e)
+        {
+            editor.ViewEol = !editor.ViewEol;
+            showLineEndings.Checked = editor.ViewEol;
+            SetSetting("ShowLineEndings", editor.ViewEol);
+        }
+
+        private void ConvertLineEndings_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Convert all End of Line characters in this document to " + lineReturnType.Text + "?", ProgramName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            {
+                editor.ConvertEols(editor.EolMode);
             }
         }
 
