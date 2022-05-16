@@ -23,8 +23,10 @@ namespace Bortpad
         internal const string _DEFAULT_FILENAME = "Untitled";
         internal const string _DEFAULT_FONT = "Consolas, 11.25pt";
         internal const string _DEFAULT_SECTION = "General";
+        internal const Eol _DEFAULT_EOL = Eol.CrLf;
         private bool _darkMode;
         private Encoding _encodingSetting;
+        private Eol _eolSetting;
         private string _filename;
         private FindPrompt _find;
         private int _ln, _col;
@@ -42,10 +44,11 @@ namespace Bortpad
             editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
             statusBar.Visible = GetSetting<bool>("StatusBar");
             DarkMode = GetSetting<bool>("DarkMode");
-            editor.ViewEol = showLineEndings.Checked = GetSetting<bool>("ShowLineEndings");
             windowsLineFeed.Tag = Eol.CrLf;
             linuxLineFeed.Tag = Eol.Lf;
             macLineFeed.Tag = Eol.Cr;
+            EolSetting = GetSetting<Eol>("LineEnding");
+            editor.ViewEol = showLineEndings.Checked = GetSetting<bool>("ShowLineEndings");
 
             Text = _DEFAULT_FILENAME + " - " + ProgramName;
         }
@@ -80,21 +83,18 @@ namespace Bortpad
             }
             set
             {
-                if (_darkMode != value)
-                {
-                    editor.Styles[Style.Default].BackColor = value ? Color.Black : Color.White;
-                    editor.Styles[Style.Default].ForeColor = value ? Color.White : Color.Black;
-                    editor.StyleClearAll();
-                    editor.CaretForeColor = value ? Color.White : Color.Black;
-                    editor.CaretLineBackColor = value ? Color.Black : Color.White;
-                    editor.CaretLineBackColorAlpha = 256;
-                    darkMode.Text = value ? "☀" : "🌙";
-                    ColorSwapItem(darkMode, !value);
-                    ColorSwap(statusBar, value);
+                editor.Styles[Style.Default].BackColor = value ? Color.Black : Color.White;
+                editor.Styles[Style.Default].ForeColor = value ? Color.White : Color.Black;
+                editor.StyleClearAll();
+                editor.CaretForeColor = value ? Color.White : Color.Black;
+                editor.CaretLineBackColor = value ? Color.Black : Color.White;
+                editor.CaretLineBackColorAlpha = 256;
+                darkMode.Text = value ? "☀" : "🌙";
+                ColorSwapItem(darkMode, !value);
+                ColorSwap(statusBar, value);
 
-                    darkMode.Checked = value;
-                    SetSetting("DarkMode", _darkMode = value);
-                }
+                darkMode.Checked = value;
+                SetSetting("DarkMode", _darkMode = value);
             }
         }
 
@@ -108,6 +108,21 @@ namespace Bortpad
             {
                 _encodingSetting = value ?? Encoding.GetEncoding(GetSetting<int>("DefaultEncoding"));
                 SetEncodingStatus(_encodingSetting);
+            }
+        }
+
+        public Eol EolSetting
+        {
+            get
+            {
+                return _eolSetting;
+            }
+            private set
+            {
+                _eolSetting = value;
+                editor.EolMode = _eolSetting;
+                SetSetting("LineEnding", _eolSetting);
+                SetEolStatus(_eolSetting);
             }
         }
 
@@ -253,6 +268,7 @@ namespace Bortpad
                 SetSetting("StatusBar", true, save: false);
                 SetSetting("WordWrap", false, save: false);
                 SetSetting("DarkMode", false, save: false);
+                SetSetting("LineEnding", _DEFAULT_EOL, save: false);
                 SetSetting("ShowLineEndings", false, save: false);
                 SetSetting("Search", "", "Find", false);
                 SetSetting("Replace", "", "Find", false);
@@ -302,10 +318,6 @@ namespace Bortpad
 
         internal BortForm SaveSettings()
         {
-            if (!File.Exists(ConfigFile))
-            {
-                return LoadSettings();
-            }
             Settings.SaveToFile(ConfigFile);
             return this;
         }
@@ -832,7 +844,7 @@ namespace Bortpad
             encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
             foreach (EncodingInfo codePage in CodePages)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem();
+                ToolStripMenuItem item = new();
                 bool current = Equals(codePage.GetEncoding(), EncodingSetting);
                 item.Name = codePage.Name;
                 item.Text = codePage.DisplayName;
@@ -939,14 +951,23 @@ namespace Bortpad
 
         private void SetEOL(object sender, EventArgs e)
         {
-            windowsLineFeed.Checked = false;
-            linuxLineFeed.Checked = false;
-            macLineFeed.Checked = false;
             ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
-            Eol eol = (Eol)clickedItem.Tag;
-            editor.EolMode = eol;
-            lineReturnType.Text = Regex.Replace(clickedItem.Text, "&(.)", "$1");
-            clickedItem.Checked = true;
+            EolSetting = (Eol)clickedItem.Tag;
+        }
+
+        private BortForm SetEolStatus(Eol eolMode)
+        {
+            ToolStripItemCollection items = lineReturnType.DropDownItems;
+            foreach (ToolStripMenuItem item in items.OfType<ToolStripMenuItem>())
+            {
+                bool current = Equals(item.Tag, eolMode);
+                item.Checked = current;
+                if (current)
+                {
+                    lineReturnType.Text = Regex.Replace(item.Text, "&(.)", "$1");
+                }
+            }
+            return this;
         }
 
         private void ShowLineEndings_Click(object sender, EventArgs e)
