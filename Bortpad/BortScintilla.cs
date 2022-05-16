@@ -1,5 +1,6 @@
 ﻿namespace Bortpad
 {
+    [System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]
     public class BortScintilla : ScintillaNET.Scintilla
     {
         private const int STYLE_DEFAULT = 32;

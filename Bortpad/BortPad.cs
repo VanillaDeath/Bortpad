@@ -14,6 +14,7 @@ using UtfUnknown;
 
 namespace Bortpad
 {
+    [System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]
     public partial class BortForm : Form
     {
         // UTF-8
@@ -23,7 +24,10 @@ namespace Bortpad
         internal const string _DEFAULT_FILENAME = "Untitled";
         internal const string _DEFAULT_FONT = "Consolas, 11.25pt";
         internal const string _DEFAULT_SECTION = "General";
-        internal const Eol _DEFAULT_EOL = Eol.CrLf;
+        internal const Eol _CRLF = Eol.CrLf;
+        internal const Eol _CR = Eol.Cr;
+        internal const Eol _LF = Eol.Lf;
+        internal const Eol _DEFAULT_EOL = _CRLF;
         private bool _darkMode;
         private Encoding _encodingSetting;
         private Eol _eolSetting;
@@ -44,9 +48,9 @@ namespace Bortpad
             editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
             statusBar.Visible = GetSetting<bool>("StatusBar");
             DarkMode = GetSetting<bool>("DarkMode");
-            windowsLineFeed.Tag = Eol.CrLf;
-            linuxLineFeed.Tag = Eol.Lf;
-            macLineFeed.Tag = Eol.Cr;
+            windowsLineFeed.Tag = _CRLF;
+            linuxLineFeed.Tag = _LF;
+            macLineFeed.Tag = _CR;
             EolSetting = GetSetting<Eol>("LineEnding");
             editor.ViewEol = showLineEndings.Checked = GetSetting<bool>("ShowLineEndings");
 
@@ -542,7 +546,7 @@ namespace Bortpad
 
         private void GoToLine(object sender, EventArgs e)
         {
-            GoToPrompt gt = new GoToPrompt(Ln);
+            GoToPrompt gt = new(Ln);
             gt.ShowDialog(this);
         }
 

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 namespace Bortpad
 {
+    [System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]
     internal static class Program
     {
         /// <summary>

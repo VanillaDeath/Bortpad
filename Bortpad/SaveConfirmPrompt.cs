@@ -2,6 +2,7 @@
 
 namespace Bortpad
 {
+    [System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]
     public partial class SaveConfirmPrompt : Form
     {
         public SaveConfirmPrompt(string filename = BortForm._DEFAULT_FILENAME, bool isReadOnly = false)

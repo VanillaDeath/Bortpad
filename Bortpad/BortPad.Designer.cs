@@ -559,7 +559,6 @@ namespace Bortpad
             this.statusBar.Location = new System.Drawing.Point(0, 625);
             this.statusBar.Name = "statusBar";
             this.statusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.statusBar.ShowItemToolTips = true;
             this.statusBar.Size = new System.Drawing.Size(1176, 22);
             this.statusBar.TabIndex = 2;
@@ -568,7 +567,7 @@ namespace Bortpad
             // statusBarLeft
             // 
             this.statusBarLeft.Name = "statusBarLeft";
-            this.statusBarLeft.Size = new System.Drawing.Size(694, 17);
+            this.statusBarLeft.Size = new System.Drawing.Size(663, 17);
             this.statusBarLeft.Spring = true;
             this.statusBarLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
