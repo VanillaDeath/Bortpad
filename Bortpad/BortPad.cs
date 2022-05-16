@@ -96,33 +96,39 @@ namespace Bortpad
             }
             private set
             {
-                _encodingSetting = value != null ? value : Encoding.GetEncoding(GetSetting<int>("DefaultEncoding"));
+                _encodingSetting = value ?? Encoding.GetEncoding(GetSetting<int>("DefaultEncoding"));
                 SetEncodingStatus(_encodingSetting);
             }
         }
 
         public string FileName
         {
-            get { return _filename != null ? _filename : _DEFAULT_FILENAME; }
+            get { return _filename ?? _DEFAULT_FILENAME; }
             private set
             {
                 _filename = value;
             }
         }
 
-        public FileInfo OpenFilesInfo
-        {
-            get; private set;
-        }
-
         public bool HasText
         {
-            get { return editor.Text.Length > 0; }
+            get { return editor.TextLength > 0; }
         }
 
         public bool IsFile
         {
-            get { return _filename != null && File.Exists(_filename); }
+            get
+            {
+                if (_filename != null && File.Exists(_filename))
+                {
+                    if (OpenFilesInfo == null)
+                    {
+                        OpenFilesInfo = new FileInfo(_filename);
+                    }
+                    return true;
+                }
+                return false;
+            }
         }
 
         public int Ln
@@ -140,6 +146,11 @@ namespace Bortpad
         public int NumLines
         {
             get { return editor.Lines.Count < 1 ? 1 : editor.Lines.Count; }
+        }
+
+        public FileInfo OpenFilesInfo
+        {
+            get; private set;
         }
 
         public int Pos
@@ -242,6 +253,13 @@ namespace Bortpad
             return this;
         }
 
+        internal void OpenAsNew()
+        {
+            FileName = null;
+            OpenFilesInfo = null;
+            // editor.ReadOnly = false; // TODO: if Undo is called after this, it will revert to orig text ok, but mark modified = false (want it dirty tho)
+        }
+
         internal void ReplaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
         {
             SetSetting("Search", query, "Find")
@@ -293,9 +311,15 @@ namespace Bortpad
             return GetSetting<bool>(key);
         }
 
+        internal void UnsetReadonly()
+        {
+            OpenFilesInfo.IsReadOnly = false;
+            editor.ReadOnly = OpenFilesInfo.IsReadOnly;
+        }
+
         private void About(object sender, EventArgs e)
         {
-            About about = new About();
+            About about = new();
             about.ShowDialog();
         }
 
@@ -425,16 +449,6 @@ namespace Bortpad
             redoToolStripMenuItem.Enabled = editor.CanRedo;
         }
 
-        private void SavePointLeft(object sender, EventArgs e)
-        {
-            UpdateTitle();
-        }
-
-        private void SavePointReached(object sender, EventArgs e)
-        {
-            UpdateTitle();
-        }
-
         private void Exit_Click(object sender, EventArgs e)
         {
             Close();
@@ -534,6 +548,22 @@ namespace Bortpad
             // selectAllToolStripMenuItem.Enabled = HasText;
         }
 
+        private void ModifyAttempt(object sender, EventArgs e)
+        {
+            /*
+            if (FileName == null && OpenFilesInfo == null)
+            {
+                editor.ReadOnly = false;
+                return;
+            }
+            */
+            ReadonlyPrompt ro = new();
+            if (ro.ShowDialog(this) == DialogResult.OK)
+            {
+                editor.ReadOnly = false;
+            }
+        }
+
         private void New_Click(object sender, EventArgs e)
         {
             NewDocument();
@@ -587,7 +617,7 @@ namespace Bortpad
                     {
                         OpenFilesInfo = new FileInfo(openFilename);
                         DetectionDetail getEncoding = CharsetDetector.DetectFromFile(openFilename).Detected;
-                        EncodingSetting = getEncoding != null ? getEncoding.Encoding : null;
+                        EncodingSetting = getEncoding?.Encoding;
                         editor.ReadOnly = false;
                         editor.Clear();
                         editor.Text = File.ReadAllText(openFilename, EncodingSetting);
@@ -718,18 +748,12 @@ namespace Bortpad
                 }
                 SaveConfirmPrompt scp = new(FileName);
                 scp.ShowDialog();
-                switch (scp.DialogResult)
+                return scp.DialogResult switch
                 {
-                    case DialogResult.Yes:
-                        // Save/Show Save Dialog
-                        return SaveDocument();
-
-                    case DialogResult.No:
-                        return true;
-
-                    default:
-                        return false;
-                }
+                    DialogResult.Yes => SaveDocument(), // Save/Show Save Dialog
+                    DialogResult.No => true,
+                    _ => false,
+                };
             }
             // Return: false = cancel open dialog/close app action
             // true = we're good to proceed and launch open dialog/close app/etc
@@ -758,6 +782,16 @@ namespace Bortpad
                 }
             }
             return false;
+        }
+
+        private void SavePointLeft(object sender, EventArgs e)
+        {
+            UpdateTitle();
+        }
+
+        private void SavePointReached(object sender, EventArgs e)
+        {
+            UpdateTitle();
         }
 
         private void SearchWeb(object sender, EventArgs e)
@@ -857,46 +891,17 @@ namespace Bortpad
             UpdatePos();
         }
 
+        private void Zoom_Changed(object sender, EventArgs e)
+        {
+            zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
+        }
+
         private void ZoomIn_Click(object sender, EventArgs e)
         {
             if (editor.Zoom < 50)
             {
                 editor.ZoomIn();
             }
-        }
-
-        private void Zoom_Changed(object sender, EventArgs e)
-        {
-            zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
-        }
-
-        private void ModifyAttempt(object sender, EventArgs e)
-        {
-            /*
-            if (FileName == null && OpenFilesInfo == null)
-            {
-                editor.ReadOnly = false;
-                return;
-            }
-            */
-            ReadonlyPrompt ro = new ReadonlyPrompt();
-            if (ro.ShowDialog(this) == DialogResult.OK)
-            {
-                editor.ReadOnly = false;
-            }
-        }
-
-        internal void UnsetReadonly()
-        {
-            OpenFilesInfo.IsReadOnly = false;
-            editor.ReadOnly = OpenFilesInfo.IsReadOnly;
-        }
-
-        internal void OpenAsNew()
-        {
-            FileName = null;
-            OpenFilesInfo = null;
-            // editor.ReadOnly = false; // TODO: if Undo is called after this, it will revert to orig text ok, but mark modified = false (want it dirty tho)
         }
 
         private void ZoomOut_Click(object sender, EventArgs e)

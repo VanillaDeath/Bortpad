@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 namespace Bortpad
 {
+    // TODO: finsih this
     public partial class MessageBorx : Form
     {
         private string _message, _caption, _subMessage;
