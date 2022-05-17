@@ -79,6 +79,7 @@ namespace Bortpad
             this.holdShiftNotice = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.statusBarLeft = new System.Windows.Forms.ToolStripStatusLabel();
+            this.readOnlyNotice = new System.Windows.Forms.ToolStripStatusLabel();
             this.position = new System.Windows.Forms.ToolStripStatusLabel();
             this.zoomLevel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lineReturnType = new System.Windows.Forms.ToolStripDropDownButton();
@@ -552,42 +553,67 @@ namespace Bortpad
             // 
             this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusBarLeft,
+            this.readOnlyNotice,
             this.position,
             this.zoomLevel,
             this.lineReturnType,
             this.encodingStatus});
-            this.statusBar.Location = new System.Drawing.Point(0, 625);
+            this.statusBar.Location = new System.Drawing.Point(0, 622);
             this.statusBar.Name = "statusBar";
             this.statusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.statusBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.statusBar.ShowItemToolTips = true;
-            this.statusBar.Size = new System.Drawing.Size(1176, 22);
+            this.statusBar.Size = new System.Drawing.Size(1176, 25);
             this.statusBar.TabIndex = 2;
             this.statusBar.Text = "statusStrip1";
             // 
             // statusBarLeft
             // 
             this.statusBarLeft.Name = "statusBarLeft";
-            this.statusBarLeft.Size = new System.Drawing.Size(663, 17);
+            this.statusBarLeft.Size = new System.Drawing.Size(548, 20);
             this.statusBarLeft.Spring = true;
             this.statusBarLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // readOnlyNotice
+            // 
+            this.readOnlyNotice.ActiveLinkColor = System.Drawing.Color.LightCoral;
+            this.readOnlyNotice.AutoSize = false;
+            this.readOnlyNotice.Enabled = false;
+            this.readOnlyNotice.Image = global::Bortpad.Properties.Resources._readonly;
+            this.readOnlyNotice.IsLink = true;
+            this.readOnlyNotice.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.readOnlyNotice.LinkColor = System.Drawing.SystemColors.ControlText;
+            this.readOnlyNotice.Name = "readOnlyNotice";
+            this.readOnlyNotice.Padding = new System.Windows.Forms.Padding(0, 0, 20, 0);
+            this.readOnlyNotice.Size = new System.Drawing.Size(110, 20);
+            this.readOnlyNotice.Text = "Read-Only";
+            this.readOnlyNotice.Visible = false;
+            this.readOnlyNotice.VisitedLinkColor = System.Drawing.SystemColors.ControlText;
+            this.readOnlyNotice.Click += new System.EventHandler(this.ReadOnlyNotice_Click);
+            this.readOnlyNotice.VisibleChanged += new System.EventHandler(this.ReadOnlyNotice_VisibleChanged);
             // 
             // position
             // 
             this.position.AutoSize = false;
             this.position.Name = "position";
             this.position.Padding = new System.Windows.Forms.Padding(0, 0, 20, 0);
-            this.position.Size = new System.Drawing.Size(120, 17);
+            this.position.Size = new System.Drawing.Size(120, 20);
             this.position.Text = "Ln 1, Col 1";
             this.position.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // zoomLevel
             // 
             this.zoomLevel.AutoSize = false;
+            this.zoomLevel.DoubleClickEnabled = true;
             this.zoomLevel.Name = "zoomLevel";
             this.zoomLevel.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.zoomLevel.Size = new System.Drawing.Size(45, 17);
+            this.zoomLevel.Size = new System.Drawing.Size(50, 20);
             this.zoomLevel.Text = "100%";
             this.zoomLevel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.zoomLevel.ToolTipText = "Scroll Up: Zoom In\r\nScroll Down: Zoom Out\r\nDouble Click: Restore Default Zoom";
+            this.zoomLevel.DoubleClick += new System.EventHandler(this.RestoreDefaultZoom_Click);
+            this.zoomLevel.MouseEnter += new System.EventHandler(this.ZoomLevel_MouseEnter);
+            this.zoomLevel.MouseLeave += new System.EventHandler(this.ZoomLevel_MouseLeave);
             // 
             // lineReturnType
             // 
@@ -607,7 +633,7 @@ namespace Bortpad
             this.lineReturnType.Name = "lineReturnType";
             this.lineReturnType.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lineReturnType.ShowDropDownArrow = false;
-            this.lineReturnType.Size = new System.Drawing.Size(120, 20);
+            this.lineReturnType.Size = new System.Drawing.Size(120, 23);
             this.lineReturnType.Text = "Windows (CRLF)";
             this.lineReturnType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -678,7 +704,7 @@ namespace Bortpad
             this.encodingStatus.Name = "encodingStatus";
             this.encodingStatus.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.encodingStatus.ShowDropDownArrow = false;
-            this.encodingStatus.Size = new System.Drawing.Size(180, 20);
+            this.encodingStatus.Size = new System.Drawing.Size(180, 23);
             this.encodingStatus.Text = "UTF-8";
             this.encodingStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -824,7 +850,7 @@ namespace Bortpad
             this.editor.Location = new System.Drawing.Point(0, 24);
             this.editor.Name = "editor";
             this.editor.ScrollWidth = 1;
-            this.editor.Size = new System.Drawing.Size(1176, 601);
+            this.editor.Size = new System.Drawing.Size(1176, 598);
             this.editor.TabIndents = true;
             this.editor.TabIndex = 0;
             this.editor.Technology = ScintillaNET.Technology.DirectWrite;
@@ -948,6 +974,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem convertLineEndings;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem pressingEnterUses;
+        private System.Windows.Forms.ToolStripStatusLabel readOnlyNotice;
     }
 }
 

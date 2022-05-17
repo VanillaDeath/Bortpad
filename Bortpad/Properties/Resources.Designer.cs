@@ -61,6 +61,16 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _readonly {
+            get {
+                object obj = ResourceManager.GetObject("readonly", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon bortpad {
@@ -106,6 +116,16 @@ namespace Bortpad.Properties {
         internal static System.Drawing.Bitmap os9 {
             get {
                 object obj = ResourceManager.GetObject("os9", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap readonlyw {
+            get {
+                object obj = ResourceManager.GetObject("readonlyw", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

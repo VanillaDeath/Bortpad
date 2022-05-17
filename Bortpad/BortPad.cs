@@ -49,10 +49,20 @@ namespace Bortpad
             windowsLineFeed.Tag = _CRLF;
             linuxLineFeed.Tag = _LF;
             macLineFeed.Tag = _CR;
+            editor.ViewEol = GetSetting<bool>("ShowLineEndings");
             EolSetting = GetSetting<Eol>("LineEnding");
-            editor.ViewEol = showLineEndings.Checked = GetSetting<bool>("ShowLineEndings");
 
             Text = _DEFAULT_FILENAME + " - " + ProgramName;
+        }
+
+        private void ScrollZoom(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                ZoomIn_Click(sender, e);
+                return;
+            }
+            ZoomOut_Click(sender, e);
         }
 
         public EncodingInfo[] CodePages
@@ -94,6 +104,8 @@ namespace Bortpad
                 darkMode.Text = value ? "☀" : "🌙";
                 ColorSwapItem(darkMode, !value);
                 ColorSwap(statusBar, value);
+                readOnlyNotice.LinkColor = value ? SystemColors.Control : SystemColors.ControlText;
+                readOnlyNotice.Image = value ? Properties.Resources.readonlyw : Properties.Resources._readonly;
 
                 darkMode.Checked = value;
                 SetSetting("DarkMode", _darkMode = value);
@@ -146,15 +158,20 @@ namespace Bortpad
         {
             get
             {
-                if (_filename != null && File.Exists(_filename))
-                {
-                    if (OpenFilesInfo == null)
-                    {
-                        OpenFilesInfo = new FileInfo(_filename);
-                    }
-                    return true;
-                }
-                return false;
+                return _filename != null && File.Exists(_filename);
+            }
+        }
+
+        public bool IsReadOnly
+        {
+            get
+            {
+                return IsFile && OpenFilesInfo.IsReadOnly;
+            }
+            private set
+            {
+                OpenFilesInfo.IsReadOnly = value;
+                readOnlyNotice.Visible = OpenFilesInfo.IsReadOnly;
             }
         }
 
@@ -177,7 +194,10 @@ namespace Bortpad
 
         public FileInfo OpenFilesInfo
         {
-            get; private set;
+            get
+            {
+                return IsFile ? new(_filename) : null;
+            }
         }
 
         public int Pos
@@ -570,18 +590,11 @@ namespace Bortpad
 
         private void ModifyAttempt(object sender, EventArgs e)
         {
-            /*
-            if (FileName == null && OpenFilesInfo == null)
+            ReadonlyPrompt ro = new(editor.ReadOnly);
+            if (ro.ShowDialog(this) == DialogResult.OK && editor.ReadOnly)
             {
                 editor.ReadOnly = false;
-                return;
-            }
-            */
-            ReadonlyPrompt ro = new();
-            if (ro.ShowDialog(this) == DialogResult.OK)
-            {
-                editor.ReadOnly = false;
-                // encodingStatus.Enabled = true;
+                readOnlyNotice.DisplayStyle = ToolStripItemDisplayStyle.Text;
             }
         }
 
@@ -599,9 +612,10 @@ namespace Bortpad
                 editor.EmptyUndoBuffer();
 
                 FileName = null;
-                OpenFilesInfo = null;
+                // OpenFilesInfo = null;
                 EncodingSetting = null;
                 editor.ReadOnly = false;
+                readOnlyNotice.Visible = false;
                 editor.SetSavePoint();
                 editor.Select();
             }
@@ -637,16 +651,18 @@ namespace Bortpad
                     }
                     if (File.Exists(openFilename))
                     {
-                        OpenFilesInfo = new FileInfo(openFilename);
+                        // OpenFilesInfo = new FileInfo(openFilename);
                         DetectionDetail getEncoding = CharsetDetector.DetectFromFile(openFilename).Detected;
                         EncodingSetting = getEncoding?.Encoding;
                         editor.ReadOnly = false;
+                        readOnlyNotice.Visible = false;
                         editor.Clear();
                         editor.Text = File.ReadAllText(openFilename, EncodingSetting);
                         FileName = openFilename;
                         SetEncodingStatus(EncodingSetting, true, getEncoding != null ? getEncoding.Confidence : 0);
                         editor.EmptyUndoBuffer();
-                        editor.ReadOnly = OpenFilesInfo.IsReadOnly;
+                        editor.ReadOnly = IsReadOnly;
+                        readOnlyNotice.Visible = editor.ReadOnly;
                         editor.SetSavePoint();
                         editor.Select();
                         return true;
@@ -731,7 +747,7 @@ namespace Bortpad
 
         private void Save_Click(object sender, EventArgs e)
         {
-            if (IsFile && OpenFilesInfo.IsReadOnly)
+            if (IsReadOnly)
             {
                 SaveConfirmPrompt(true);
                 return;
@@ -748,18 +764,30 @@ namespace Bortpad
         {
             if (force || editor.Modified)
             {
-                if (IsFile && OpenFilesInfo.IsReadOnly)
+                if (IsReadOnly)
                 {
+                    if (!readOnlyNotice.Visible)
+                    {
+                        readOnlyNotice.Visible = true;
+                    }
                     ReadonlyDecision rod = new();
                     rod.ShowDialog();
                     switch (rod.DialogResult)
                     {
                         case DialogResult.Yes:
-                            OpenFilesInfo.IsReadOnly = false;
+                            IsReadOnly = false;
+                            editor.ReadOnly = IsReadOnly;
+                            readOnlyNotice.Visible = editor.ReadOnly;
                             return SaveDocument();
 
                         case DialogResult.Continue:
-                            return SaveDocument(true);
+                            if (SaveDocument(true))
+                            {
+                                editor.ReadOnly = IsReadOnly;
+                                readOnlyNotice.Visible = editor.ReadOnly;
+                                return true;
+                            }
+                            return false;
 
                         case DialogResult.No:
                             return true;
@@ -786,9 +814,21 @@ namespace Bortpad
         {
             if (IsFile && !saveAs)
             {
-                File.WriteAllText(FileName, editor.Text, EncodingSetting);
-                editor.SetSavePoint();
-                return true;
+                try
+                {
+                    if (!IsReadOnly)
+                    {
+                        File.WriteAllText(FileName, editor.Text, EncodingSetting);
+                        editor.SetSavePoint();
+                        return true;
+                    }
+                    return SaveConfirmPrompt(true);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
             }
             else
             {
@@ -797,7 +837,7 @@ namespace Bortpad
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     FileName = saveFileDialog1.FileName;
-                    OpenFilesInfo = new FileInfo(FileName);
+                    // OpenFilesInfo = new FileInfo(FileName);
                     File.WriteAllText(FileName, editor.Text, EncodingSetting);
                     editor.SetSavePoint();
                     return true;
@@ -869,14 +909,19 @@ namespace Bortpad
 
         private BortForm SetEolStatus(Eol eolMode)
         {
+            showLineEndings.Checked = editor.ViewEol;
             ToolStripItemCollection items = lineReturnType.DropDownItems;
             foreach (ToolStripMenuItem item in items.OfType<ToolStripMenuItem>())
             {
-                bool current = Equals(item.Tag, eolMode);
-                item.Checked = current;
-                if (current)
+                if (item.Tag != null && item.Tag.GetType().Equals(typeof(Eol)))
                 {
-                    lineReturnType.Text = Regex.Replace(item.Text, "&(.)", "$1");
+                    if (Equals(item.Tag, eolMode))
+                    {
+                        item.Checked = true;
+                        lineReturnType.Text = Regex.Replace(item.Text, "&(.)", "$1");
+                        continue;
+                    }
+                    item.Checked = false;
                 }
             }
             return this;
@@ -942,7 +987,7 @@ namespace Bortpad
 
         private void UpdateTitle()
         {
-            Text = (editor.Modified ? "*" : "") + FileName + (IsFile && OpenFilesInfo.IsReadOnly ? " [Read-Only]" : "") + " - " + ProgramName;
+            Text = (editor.Modified ? "*" : "") + (IsFile ? Path.GetFileName(FileName) : FileName) + " - " + ProgramName;
         }
 
         private void View_DropDownOpening(object sender, EventArgs e)
@@ -972,6 +1017,27 @@ namespace Bortpad
             {
                 editor.ZoomIn();
             }
+        }
+
+        private void ZoomLevel_MouseEnter(object sender, EventArgs e)
+        {
+            statusBar.MouseWheel += ScrollZoom;
+        }
+
+        private void ZoomLevel_MouseLeave(object sender, EventArgs e)
+        {
+            statusBar.MouseWheel -= ScrollZoom;
+        }
+
+        private void ReadOnlyNotice_Click(object sender, EventArgs e)
+        {
+            ModifyAttempt(sender, e);
+        }
+
+        private void ReadOnlyNotice_VisibleChanged(object sender, EventArgs e)
+        {
+            readOnlyNotice.Enabled = readOnlyNotice.Visible;
+            readOnlyNotice.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
         }
 
         private void ZoomOut_Click(object sender, EventArgs e)

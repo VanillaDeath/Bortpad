@@ -7,6 +7,7 @@ namespace Bortpad
         public ReadonlyDecision()
         {
             InitializeComponent();
+            DontSaveButton.Select();
         }
 
         private void SaveButton_Click(object sender, System.EventArgs e)
