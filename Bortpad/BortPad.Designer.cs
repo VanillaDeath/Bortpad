@@ -109,7 +109,7 @@ namespace Bortpad
             this.editorSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearchWithGoogle = new System.Windows.Forms.ToolStripMenuItem();
-            this.editor = new BortScintilla();
+            this.editor = new ScintillaNET.Scintilla();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
@@ -843,15 +843,15 @@ namespace Bortpad
             this.editor.ContextMenuStrip = this.editorContextMenu;
             this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.editor.LexerName = null;
+            // this.editor.LexerName = null;
             this.editor.Location = new System.Drawing.Point(0, 24);
             this.editor.Name = "editor";
             this.editor.ScrollWidth = 1;
             this.editor.Size = new System.Drawing.Size(1176, 598);
-            this.editor.TabIndents = true;
+            // this.editor.TabIndents = true;
             this.editor.TabIndex = 0;
             this.editor.Technology = ScintillaNET.Technology.DirectWrite;
-            this.editor.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.LeftToRight;
+            // this.editor.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.LeftToRight;
             this.editor.WrapMode = ScintillaNET.WrapMode.None;
             this.editor.ModifyAttempt += new System.EventHandler<System.EventArgs>(this.ModifyAttempt);
             this.editor.SavePointLeft += new System.EventHandler<System.EventArgs>(this.SavePointLeft);
@@ -961,7 +961,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem editorRedo;
         private System.Windows.Forms.ToolStripMenuItem darkMode;
         private System.Windows.Forms.ToolStripMenuItem holdShiftNotice;
-        private BortScintilla editor;
+        private ScintillaNET.Scintilla editor;
         private System.Windows.Forms.ToolStripDropDownButton encodingStatus;
         private System.Windows.Forms.ToolStripDropDownButton lineReturnType;
         private System.Windows.Forms.ToolStripMenuItem windowsLineFeed;

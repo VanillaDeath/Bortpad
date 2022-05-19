@@ -54,6 +54,14 @@ namespace Bortpad
             Text = _DEFAULT_FILENAME + " - " + ProgramName;
         }
 
+        public int SelectionLength
+        {
+            get
+            {
+                return editor.SelectionEnd - editor.SelectionStart;
+            }
+        }
+
         private void ScrollZoom(object sender, MouseEventArgs e)
         {
             if (e.Delta > 0)
@@ -430,7 +438,7 @@ namespace Bortpad
 
         private void ContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            bool isSelected = editor.SelectionLength > 0;
+            bool isSelected = SelectionLength > 0;
             editorCut.Enabled = isSelected;
             editorCopy.Enabled = isSelected;
             editorDelete.Enabled = isSelected;
@@ -478,7 +486,7 @@ namespace Bortpad
 
         private void Edit_DropDownOpening(object sender, EventArgs e)
         {
-            bool isSelected = editor.SelectionLength > 0;
+            bool isSelected = SelectionLength > 0;
             cutToolStripMenuItem.Enabled = isSelected;
             copyToolStripMenuItem.Enabled = isSelected;
             deleteToolStripMenuItem.Enabled = isSelected;
@@ -527,7 +535,7 @@ namespace Bortpad
         {
             string searchQuery = GetSetting<string>("Search", "Find");
             bool searchMatchCase = GetSetting<bool>("MatchCase", "Find");
-            int pos = OmniIndexOf(searchQuery, editor.Text, prev, editor.SelectionStart + (prev ? 0 : editor.SelectionLength), searchMatchCase);
+            int pos = OmniIndexOf(searchQuery, editor.Text, prev, editor.SelectionStart + (prev ? 0 : SelectionLength), searchMatchCase);
             if (pos == -1 && GetSetting<bool>("WrapAround", "Find"))
             {
                 pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
@@ -857,7 +865,7 @@ namespace Bortpad
 
         private void SearchWeb(object sender, EventArgs e)
         {
-            if (editor.SelectionLength > 0)
+            if (SelectionLength > 0)
             {
                 Process.Start("https://google.com/search?q=" + WebUtility.UrlEncode(editor.SelectedText));
             }

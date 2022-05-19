@@ -23,9 +23,10 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <Platforms>x64</Platforms>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <Platforms>AnyCPU</Platforms>
+    <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
     <DebugType>embedded</DebugType>
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\bortpad.ico</ApplicationIcon>
@@ -58,6 +59,9 @@
     <DebugType>embedded</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Remove="BortPad.resx" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="NumBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -81,16 +85,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\bortpad.ico" />
-    <Content Include="SciLexer.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ScintillaNET\Scintilla.NET\Scintilla.NET.csproj" />
     <ProjectReference Include="..\..\SharpConfig\Src\SharpConfig.csproj" />
     <ProjectReference Include="..\..\UTF-unknown\src\UTF-unknown.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.2.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
@@ -106,7 +107,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="Scintilla.NET.dll">
+    <None Update="SciLexer.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ScintillaNET.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SharpConfig.dll">
