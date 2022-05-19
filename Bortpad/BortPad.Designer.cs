@@ -838,11 +838,9 @@ namespace Bortpad
             // editor
             // 
             this.editor.AutoCMaxHeight = 9;
-            this.editor.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.LeftToRight;
             this.editor.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.editor.BufferedDraw = false;
-            this.editor.CaretLineBackColor = System.Drawing.Color.Black;
-            this.editor.CaretLineVisible = true;
+            this.editor.CaretLineVisible = false;
             this.editor.ContextMenuStrip = this.editorContextMenu;
             this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.editor.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -854,7 +852,7 @@ namespace Bortpad
             this.editor.TabIndents = true;
             this.editor.TabIndex = 0;
             this.editor.Technology = ScintillaNET.Technology.DirectWrite;
-            this.editor.UseRightToLeftReadingLayout = false;
+            this.editor.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.LeftToRight;
             this.editor.WrapMode = ScintillaNET.WrapMode.None;
             this.editor.ModifyAttempt += new System.EventHandler<System.EventArgs>(this.ModifyAttempt);
             this.editor.SavePointLeft += new System.EventHandler<System.EventArgs>(this.SavePointLeft);
