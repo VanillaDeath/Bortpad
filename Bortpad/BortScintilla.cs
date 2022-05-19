@@ -2,7 +2,6 @@
 
 namespace Bortpad
 {
-    [System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]
     public class BortScintilla : Scintilla
     {
         // [DllImport("user32.dll")]

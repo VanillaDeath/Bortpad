@@ -3,7 +3,6 @@ using System.Windows.Forms;
 
 namespace Bortpad
 {
-    [System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]
     internal static class Program
     {
         /// <summary>
@@ -16,7 +15,7 @@ namespace Bortpad
             string filename = args.Length > 1 ? args[1] : null;
 
             Application.EnableVisualStyles();
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            // Application.SetHighDpiMode(HighDpiMode.SystemAware); // .NET Core only
             Application.SetCompatibleTextRenderingDefault(false);
 
             Application.Run(new BortForm(filename));

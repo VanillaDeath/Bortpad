@@ -44,10 +44,9 @@ namespace Bortpad
             // 
             this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(319, 11);
-            this.CancelBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.CancelBtn.Location = new System.Drawing.Point(275, 10);
             this.CancelBtn.Name = "CancelBtn";
-            this.CancelBtn.Size = new System.Drawing.Size(88, 27);
+            this.CancelBtn.Size = new System.Drawing.Size(75, 23);
             this.CancelBtn.TabIndex = 3;
             this.CancelBtn.Text = "Cancel";
             this.CancelBtn.UseVisualStyleBackColor = true;
@@ -57,10 +56,9 @@ namespace Bortpad
             // 
             this.DontSaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.DontSaveButton.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.DontSaveButton.Location = new System.Drawing.Point(223, 11);
-            this.DontSaveButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.DontSaveButton.Location = new System.Drawing.Point(194, 10);
             this.DontSaveButton.Name = "DontSaveButton";
-            this.DontSaveButton.Size = new System.Drawing.Size(88, 27);
+            this.DontSaveButton.Size = new System.Drawing.Size(75, 23);
             this.DontSaveButton.TabIndex = 2;
             this.DontSaveButton.Text = "Do&n\'t Save";
             this.DontSaveButton.UseVisualStyleBackColor = true;
@@ -70,10 +68,9 @@ namespace Bortpad
             // 
             this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.SaveButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.SaveButton.Location = new System.Drawing.Point(31, 11);
-            this.SaveButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.SaveButton.Location = new System.Drawing.Point(14, 10);
             this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(103, 27);
+            this.SaveButton.Size = new System.Drawing.Size(104, 23);
             this.SaveButton.TabIndex = 0;
             this.SaveButton.Text = "&Unset and Save";
             this.SaveButton.UseVisualStyleBackColor = true;
@@ -82,10 +79,10 @@ namespace Bortpad
             // saveAsButton
             // 
             this.saveAsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveAsButton.DialogResult = System.Windows.Forms.DialogResult.Continue;
-            this.saveAsButton.Location = new System.Drawing.Point(141, 11);
+            this.saveAsButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.saveAsButton.Location = new System.Drawing.Point(124, 10);
             this.saveAsButton.Name = "saveAsButton";
-            this.saveAsButton.Size = new System.Drawing.Size(75, 27);
+            this.saveAsButton.Size = new System.Drawing.Size(64, 23);
             this.saveAsButton.TabIndex = 1;
             this.saveAsButton.Text = "Save &As...";
             this.saveAsButton.UseVisualStyleBackColor = true;
@@ -95,12 +92,11 @@ namespace Bortpad
             // 
             this.ROQuestion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ROQuestion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ROQuestion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ROQuestion.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.ROQuestion.Location = new System.Drawing.Point(13, 9);
-            this.ROQuestion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ROQuestion.Location = new System.Drawing.Point(11, 8);
             this.ROQuestion.Name = "ROQuestion";
-            this.ROQuestion.Size = new System.Drawing.Size(390, 26);
+            this.ROQuestion.Size = new System.Drawing.Size(334, 23);
             this.ROQuestion.TabIndex = 4;
             this.ROQuestion.Text = "This file is marked as Read-Only";
             this.ROQuestion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -109,9 +105,9 @@ namespace Bortpad
             // 
             this.notice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.notice.Location = new System.Drawing.Point(12, 42);
+            this.notice.Location = new System.Drawing.Point(10, 36);
             this.notice.Name = "notice";
-            this.notice.Size = new System.Drawing.Size(390, 62);
+            this.notice.Size = new System.Drawing.Size(334, 54);
             this.notice.TabIndex = 6;
             this.notice.Text = "To Save this file, either\r\n• Unset the Read-Only flag\r\n• Save As a new document";
             this.notice.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -125,28 +121,27 @@ namespace Bortpad
             this.buttonPanel.Controls.Add(this.SaveButton);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.buttonPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.buttonPanel.Location = new System.Drawing.Point(0, 107);
+            this.buttonPanel.Location = new System.Drawing.Point(0, 93);
             this.buttonPanel.Name = "buttonPanel";
-            this.buttonPanel.Padding = new System.Windows.Forms.Padding(0, 8, 5, 0);
-            this.buttonPanel.Size = new System.Drawing.Size(416, 50);
+            this.buttonPanel.Padding = new System.Windows.Forms.Padding(0, 7, 4, 0);
+            this.buttonPanel.Size = new System.Drawing.Size(357, 43);
             this.buttonPanel.TabIndex = 7;
             // 
             // ReadonlyDecision
             // 
             this.AcceptButton = this.SaveButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.CancelBtn;
-            this.ClientSize = new System.Drawing.Size(416, 157);
+            this.ClientSize = new System.Drawing.Size(357, 136);
             this.Controls.Add(this.buttonPanel);
             this.Controls.Add(this.notice);
             this.Controls.Add(this.ROQuestion);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ReadonlyDecision";

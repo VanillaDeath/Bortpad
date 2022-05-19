@@ -14,7 +14,6 @@ using UtfUnknown;
 
 namespace Bortpad
 {
-    [System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]
     public partial class BortForm : Form
     {
         internal const Eol _CR = Eol.Cr;
@@ -780,7 +779,7 @@ namespace Bortpad
                             readOnlyNotice.Visible = editor.ReadOnly;
                             return SaveDocument();
 
-                        case DialogResult.Continue:
+                        case DialogResult.OK:
                             if (SaveDocument(true))
                             {
                                 editor.ReadOnly = IsReadOnly;

@@ -109,7 +109,7 @@ namespace Bortpad
             this.editorSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearchWithGoogle = new System.Windows.Forms.ToolStripMenuItem();
-            this.editor = new Bortpad.BortScintilla();
+            this.editor = new BortScintilla();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
@@ -628,7 +628,7 @@ namespace Bortpad
             this.windowsLineFeed,
             this.linuxLineFeed,
             this.macLineFeed});
-            this.lineReturnType.Image = ((System.Drawing.Image)(resources.GetObject("lineReturnType.Image")));
+            this.lineReturnType.Image = global::Bortpad.Properties.Resources.windows;
             this.lineReturnType.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.lineReturnType.Name = "lineReturnType";
             this.lineReturnType.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -699,7 +699,6 @@ namespace Bortpad
             this.encodingStatus.AutoSize = false;
             this.encodingStatus.AutoToolTip = false;
             this.encodingStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.encodingStatus.Image = ((System.Drawing.Image)(resources.GetObject("encodingStatus.Image")));
             this.encodingStatus.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.encodingStatus.Name = "encodingStatus";
             this.encodingStatus.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -870,7 +869,7 @@ namespace Bortpad
             this.Controls.Add(this.editor);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.mainMenu);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::Bortpad.Properties.Resources.bortpad;
             this.MainMenuStrip = this.mainMenu;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "BortForm";
@@ -962,7 +961,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem editorRedo;
         private System.Windows.Forms.ToolStripMenuItem darkMode;
         private System.Windows.Forms.ToolStripMenuItem holdShiftNotice;
-        private Bortpad.BortScintilla editor;
+        private BortScintilla editor;
         private System.Windows.Forms.ToolStripDropDownButton encodingStatus;
         private System.Windows.Forms.ToolStripDropDownButton lineReturnType;
         private System.Windows.Forms.ToolStripMenuItem windowsLineFeed;
