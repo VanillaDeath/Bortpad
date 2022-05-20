@@ -72,7 +72,11 @@ namespace Bortpad
         public EncodingInfo[] CodePages
         {
             get;
-        } = Encoding.GetEncodings().OrderBy(e => e.DisplayName).ToArray();
+        } = Encoding
+            .GetEncodings()
+            .OrderBy(e => e.DisplayName)
+            .ThenBy(e => e.Name)
+            .ToArray();
 
         public int Col
         {
@@ -679,7 +683,7 @@ namespace Bortpad
             encodingStatus.DropDownItems.Clear();
             encodingStatus.Text = encoding.EncodingName;
             encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
-
+            /*
             encodingStatus.DropDownItems.Add(new ToolStripMenuItem()
             {
                 Name = encoding.WebName,
@@ -688,24 +692,33 @@ namespace Bortpad
                 Checked = true
             });
             encodingStatus.DropDownItems.Add(new ToolStripSeparator());
+            */
 
             ToolStripMenuItem[] items = CodePages.Select(e =>
                 {
+                    bool defaultopt = e.CodePage == _DEFAULT_CODEPAGE;
+                    bool current = Equals(e.GetEncoding(), encoding);
                     ToolStripMenuItem i = new()
                     {
                         Name = e.Name,
-                        Text = e.DisplayName,
-                        Tag = e
+                        Text = e.DisplayName + (detected && current ? " (Detected)" : "") + (defaultopt ? " (Default)" : ""),
+                        Tag = e,
+                        Checked = current,
+                        Font = defaultopt ? new Font(this.Font, FontStyle.Bold) : null,
                     };
-                    i.Click += SetEncoding;
+                    if (!i.Checked)
+                    {
+                        i.Click += SetEncoding;
+                    }
                     return i;
                 }
             )
-                .Where(i => !Equals(i.Tag, encoding))
-                .OrderBy(i => i.Text)
-                .ThenBy(i => i.Name)
+                .OrderByDescending(i => i.Checked)
+                .ThenByDescending(i => ((EncodingInfo)(i.Tag)).CodePage == _DEFAULT_CODEPAGE)
+                .ThenBy(i => i.Text)
                 .ToArray();
             encodingStatus.DropDownItems.AddRange(items);
+            encodingStatus.DropDownItems.Insert(encoding.CodePage == _DEFAULT_CODEPAGE ? 1 : 2, new ToolStripSeparator());
         }
 
         private void SetEolStatus(Eol eolMode)
