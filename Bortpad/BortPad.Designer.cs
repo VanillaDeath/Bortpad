@@ -567,7 +567,7 @@ namespace Bortpad
             // statusBarLeft
             // 
             this.statusBarLeft.Name = "statusBarLeft";
-            this.statusBarLeft.Size = new System.Drawing.Size(523, 20);
+            this.statusBarLeft.Size = new System.Drawing.Size(382, 20);
             this.statusBarLeft.Spring = true;
             this.statusBarLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -608,7 +608,7 @@ namespace Bortpad
             this.zoomLevel.Text = "100%";
             this.zoomLevel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.zoomLevel.ToolTipText = "Scroll Up: Zoom In\r\nScroll Down: Zoom Out\r\nDouble Click: Restore Default Zoom";
-            this.zoomLevel.DoubleClick += new System.EventHandler(this.MenuItem_Click);
+            this.zoomLevel.DoubleClick += new System.EventHandler(this.ZoomLevel_DoubleClick);
             this.zoomLevel.MouseEnter += new System.EventHandler(this.ZoomLevel_MouseEnter);
             this.zoomLevel.MouseLeave += new System.EventHandler(this.ZoomLevel_MouseLeave);
             // 

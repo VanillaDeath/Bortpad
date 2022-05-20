@@ -72,7 +72,7 @@ namespace Bortpad
         public EncodingInfo[] CodePages
         {
             get;
-        } = Encoding.GetEncodings();
+        } = Encoding.GetEncodings().OrderBy(e => e.DisplayName).ToArray();
 
         public int Col
         {
@@ -679,18 +679,33 @@ namespace Bortpad
             encodingStatus.DropDownItems.Clear();
             encodingStatus.Text = encoding.EncodingName;
             encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
-            foreach (EncodingInfo codePage in CodePages)
+
+            encodingStatus.DropDownItems.Add(new ToolStripMenuItem()
             {
-                ToolStripMenuItem item = new();
-                bool current = Equals(codePage.GetEncoding(), EncodingSetting);
-                item.Name = codePage.Name;
-                item.Text = codePage.DisplayName;
-                // if (current && detected) { item.ShortcutKeyDisplayString = " (Detected)"; }
-                item.Tag = codePage;
-                item.Checked = current;
-                item.Click += new EventHandler(SetEncoding);
-                encodingStatus.DropDownItems.Add(item);
-            }
+                Name = encoding.WebName,
+                Text = encoding.EncodingName,
+                Tag = encoding,
+                Checked = true
+            });
+            encodingStatus.DropDownItems.Add(new ToolStripSeparator());
+
+            ToolStripMenuItem[] items = CodePages.Select(e =>
+                {
+                    ToolStripMenuItem i = new()
+                    {
+                        Name = e.Name,
+                        Text = e.DisplayName,
+                        Tag = e
+                    };
+                    i.Click += SetEncoding;
+                    return i;
+                }
+            )
+                .Where(i => !Equals(i.Tag, encoding))
+                .OrderBy(i => i.Text)
+                .ThenBy(i => i.Name)
+                .ToArray();
+            encodingStatus.DropDownItems.AddRange(items);
         }
 
         private void SetEolStatus(Eol eolMode)
@@ -994,7 +1009,6 @@ namespace Bortpad
                     break;
 
                 case "restoreDefaultZoom":
-                case "zoomLevel":
                     editor.Zoom = 0;
                     break;
 
@@ -1104,6 +1118,11 @@ namespace Bortpad
         private void Zoom_Changed(object sender, EventArgs e)
         {
             zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
+        }
+
+        private void ZoomLevel_DoubleClick(object sender, EventArgs e)
+        {
+            editor.Zoom = 0;
         }
 
         private void ZoomLevel_MouseEnter(object sender, EventArgs e)
