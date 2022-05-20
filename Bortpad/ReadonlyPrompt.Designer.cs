@@ -42,10 +42,9 @@ namespace Bortpad
             // 
             this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelBtn.Location = new System.Drawing.Point(179, 11);
-            this.cancelBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.cancelBtn.Location = new System.Drawing.Point(316, 10);
             this.cancelBtn.Name = "cancelBtn";
-            this.cancelBtn.Size = new System.Drawing.Size(88, 27);
+            this.cancelBtn.Size = new System.Drawing.Size(75, 23);
             this.cancelBtn.TabIndex = 3;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
@@ -55,10 +54,9 @@ namespace Bortpad
             // 
             this.editBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.editBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.editBtn.Location = new System.Drawing.Point(83, 11);
-            this.editBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.editBtn.Location = new System.Drawing.Point(235, 10);
             this.editBtn.Name = "editBtn";
-            this.editBtn.Size = new System.Drawing.Size(88, 27);
+            this.editBtn.Size = new System.Drawing.Size(75, 23);
             this.editBtn.TabIndex = 2;
             this.editBtn.Text = "&Edit";
             this.editBtn.UseVisualStyleBackColor = true;
@@ -68,12 +66,11 @@ namespace Bortpad
             // 
             this.ROQuestion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ROQuestion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ROQuestion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
             this.ROQuestion.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.ROQuestion.Location = new System.Drawing.Point(14, 10);
-            this.ROQuestion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ROQuestion.Location = new System.Drawing.Point(12, 9);
             this.ROQuestion.Name = "ROQuestion";
-            this.ROQuestion.Size = new System.Drawing.Size(248, 26);
+            this.ROQuestion.Size = new System.Drawing.Size(374, 23);
             this.ROQuestion.TabIndex = 1;
             this.ROQuestion.Text = "This file is marked as Read-Only";
             this.ROQuestion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -82,43 +79,42 @@ namespace Bortpad
             // 
             this.notice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.notice.Location = new System.Drawing.Point(14, 36);
+            this.notice.Location = new System.Drawing.Point(12, 31);
             this.notice.Name = "notice";
-            this.notice.Size = new System.Drawing.Size(248, 79);
+            this.notice.Size = new System.Drawing.Size(374, 68);
             this.notice.TabIndex = 5;
             this.notice.Text = "If you choose to edit this file, when you Save you will be prompted to either:\r\n•" +
     " Unset the Read-Only flag\r\n• Save As a new document";
             this.notice.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // flowLayoutPanel1
+            // buttonPanel
             // 
             this.buttonPanel.BackColor = System.Drawing.SystemColors.Control;
             this.buttonPanel.Controls.Add(this.cancelBtn);
             this.buttonPanel.Controls.Add(this.editBtn);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.buttonPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.buttonPanel.Location = new System.Drawing.Point(0, 131);
-            this.buttonPanel.Name = "flowLayoutPanel1";
-            this.buttonPanel.Padding = new System.Windows.Forms.Padding(0, 8, 5, 0);
-            this.buttonPanel.Size = new System.Drawing.Size(276, 50);
+            this.buttonPanel.Location = new System.Drawing.Point(0, 96);
+            this.buttonPanel.Name = "buttonPanel";
+            this.buttonPanel.Padding = new System.Windows.Forms.Padding(0, 7, 4, 0);
+            this.buttonPanel.Size = new System.Drawing.Size(398, 43);
             this.buttonPanel.TabIndex = 0;
             // 
             // ReadonlyPrompt
             // 
             this.AcceptButton = this.editBtn;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.cancelBtn;
-            this.ClientSize = new System.Drawing.Size(276, 181);
+            this.ClientSize = new System.Drawing.Size(398, 139);
             this.Controls.Add(this.buttonPanel);
             this.Controls.Add(this.notice);
             this.Controls.Add(this.ROQuestion);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ReadonlyPrompt";

@@ -551,9 +551,9 @@ namespace Bortpad
             SetSetting("MatchCase", matchCase, "Find");
             SetSetting("WrapAround", wrapAround, "Find");
             editFindNext.Enabled = CanRepeatFind();
-            editFindPrevious.Enabled = CanRepeatFind();
+            editFindPrevious.Enabled = editFindNext.Enabled;
 
-            return GetSetting<bool>("Up", "Find") ? FindPrev() : FindNext();
+            return reverse ? FindPrev() : FindNext();
         }
 
         internal bool GoToLineFromPrompt(string ln)
@@ -599,11 +599,6 @@ namespace Bortpad
         private bool CanRepeatFind()
         {
             return GetSetting<string>("Search", "Find").Length > 0 && HasText;
-        }
-
-        private void CantFind(string text)
-        {
-            MessageBox.Show("Cannot find \"" + text + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void Find()
@@ -660,7 +655,7 @@ namespace Bortpad
             }
             else
             {
-                CantFind(q);
+                _ = MessageBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
