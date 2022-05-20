@@ -16,6 +16,8 @@ namespace Bortpad
 {
     public partial class BortForm : Form
     {
+        #region _CONSTANTS
+
         internal const Eol _CR = Eol.Cr;
         internal const Eol _CRLF = Eol.CrLf;
         internal const int _DEFAULT_CODEPAGE = 65001;
@@ -25,6 +27,11 @@ namespace Bortpad
         internal const string _DEFAULT_FONT = "Consolas, 11.25pt";
         internal const string _DEFAULT_SECTION = "General";
         internal const Eol _LF = Eol.Lf;
+
+        #endregion _CONSTANTS
+
+        #region _fields
+
         private bool _darkMode;
         private Encoding _encodingSetting;
         private Eol _eolSetting;
@@ -32,6 +39,10 @@ namespace Bortpad
         private FindPrompt _find;
         private int _ln, _col;
         private ReplacePrompt _replace;
+
+        #endregion _fields
+
+        #region Constructors
 
         public BortForm(string filenameSpecified = null)
         {
@@ -43,7 +54,7 @@ namespace Bortpad
             EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
             fontDlg.Font = editor.Font = GetSetting<Font>("Font");
             editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
-            statusBar.Visible = GetSetting<bool>("StatusBar");
+            StatusBar = GetSetting<bool>("StatusBar");
             DarkMode = GetSetting<bool>("DarkMode");
             windowsLineFeed.Tag = _CRLF;
             linuxLineFeed.Tag = _LF;
@@ -54,23 +65,9 @@ namespace Bortpad
             Text = _DEFAULT_FILENAME + " - " + ProgramName;
         }
 
-        public int SelectionLength
-        {
-            get
-            {
-                return editor.SelectionEnd - editor.SelectionStart;
-            }
-        }
+        #endregion Constructors
 
-        private void ScrollZoom(object sender, MouseEventArgs e)
-        {
-            if (e.Delta > 0)
-            {
-                ZoomIn_Click(sender, e);
-                return;
-            }
-            ZoomOut_Click(sender, e);
-        }
+        #region Properties
 
         public EncodingInfo[] CodePages
         {
@@ -194,6 +191,18 @@ namespace Bortpad
             }
         }
 
+        public string MainStatus
+        {
+            get
+            {
+                return statusBarLeft.Text;
+            }
+            private set
+            {
+                statusBarLeft.Text = value ?? "";
+            }
+        }
+
         public int NumLines
         {
             get { return editor.Lines.Count < 1 ? 1 : editor.Lines.Count; }
@@ -218,10 +227,36 @@ namespace Bortpad
             get;
         } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
+        public int SelectionLength
+        {
+            get
+            {
+                return editor.SelectionEnd - editor.SelectionStart;
+            }
+        }
+
         public Configuration Settings
         {
             get; private set;
         }
+
+        public bool StatusBar
+        {
+            get
+            {
+                return statusBar.Visible;
+            }
+            private set
+            {
+                SetSetting("StatusBar", statusBar.Visible = value);
+                viewStatusBar.Checked = statusBar.Visible;
+                UpdatePos();
+            }
+        }
+
+        #endregion Properties
+
+        #region Static Methods
 
         public static void ColorSwap(Control item, bool mode)
         {
@@ -251,17 +286,9 @@ namespace Bortpad
             return reverse ? haystack.LastIndexOf(needle, start, sc) : haystack.IndexOf(needle, start, sc);
         }
 
-        internal int FindFromPrompt(string query, bool reverse, bool matchCase, bool wrapAround)
-        {
-            SetSetting("Search", query, "Find")
-                .SetSetting("Up", reverse, "Find")
-                .SetSetting("MatchCase", matchCase, "Find")
-                .SetSetting("WrapAround", wrapAround, "Find");
-            findNextToolStripMenuItem.Enabled = CanRepeatFind();
-            findPreviousToolStripMenuItem.Enabled = CanRepeatFind();
+        #endregion Static Methods
 
-            return GetSetting<bool>("Up", "Find") ? FindPrev() : FindNext();
-        }
+        #region Instance Methods: Settings
 
         internal T GetSetting<T>(string key, string section = _DEFAULT_SECTION)
         {
@@ -272,82 +299,42 @@ namespace Bortpad
             return (T)Settings[section][key].GetValue<T>();
         }
 
-        internal bool GoToLineFromPrompt(string ln)
-        {
-            if (ln != null && ln != "" && long.TryParse(ln, out long lnNum) && lnNum >= 1 && lnNum <= NumLines)
-            {
-                Ln = (int)lnNum;
-                return true;
-            }
-            MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
-            return false;
-        }
-
-        internal BortForm LoadSettings()
+        internal bool LoadSettings()
         {
             if (File.Exists(ConfigFile))
             {
                 Settings = Configuration.LoadFromFile(ConfigFile);
+                return true;
             }
-            else
-            {
-                Settings = new Configuration();
-                SetSetting("DefaultEncoding", _DEFAULT_CODEPAGE, save: false);
-                SetSetting("Font", _DEFAULT_FONT, save: false);
-                SetSetting("StatusBar", true, save: false);
-                SetSetting("WordWrap", false, save: false);
-                SetSetting("DarkMode", false, save: false);
-                SetSetting("LineEnding", _DEFAULT_EOL, save: false);
-                SetSetting("ShowLineEndings", false, save: false);
-                SetSetting("Search", "", "Find", false);
-                SetSetting("Replace", "", "Find", false);
-                SetSetting("Up", false, "Find", false);
-                SetSetting("MatchCase", false, "Find", false);
-                SetSetting("WrapAround", false, "Find", false);
-                SaveSettings();
-            }
-            return this;
+            Settings = new Configuration();
+            SetSetting("DefaultEncoding", _DEFAULT_CODEPAGE, save: false);
+            SetSetting("Font", _DEFAULT_FONT, save: false);
+            SetSetting("StatusBar", true, save: false);
+            SetSetting("WordWrap", false, save: false);
+            SetSetting("DarkMode", false, save: false);
+            SetSetting("LineEnding", _DEFAULT_EOL, save: false);
+            SetSetting("ShowLineEndings", false, save: false);
+            SetSetting("Search", "", "Find", false);
+            SetSetting("Replace", "", "Find", false);
+            SetSetting("Up", false, "Find", false);
+            SetSetting("MatchCase", false, "Find", false);
+            SetSetting("WrapAround", false, "Find", false);
+            SaveSettings();
+            return false;
         }
 
-        internal void ReplaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
-        {
-            SetSetting("Search", query, "Find")
-                .SetSetting("Replace", replaceString, "Find")
-                .SetSetting("MatchCase", matchCase, "Find")
-                .SetSetting("WrapAround", wrapAround, "Find");
-            string input = string.Format(@"({0})", System.Text.RegularExpressions.Regex.Escape(query));
-            string pattern = string.Format("{0}", System.Text.RegularExpressions.Regex.Escape(replaceString));
-            editor.Text = System.Text.RegularExpressions.Regex.Replace(
-                editor.Text,
-                input,
-                pattern,
-                matchCase ? System.Text.RegularExpressions.RegexOptions.None : System.Text.RegularExpressions.RegexOptions.IgnoreCase
-                );
-        }
-
-        internal int ReplaceFromPrompt(string query, string replaceString, bool matchCase, bool wrapAround)
-        {
-            SetSetting("Search", query, "Find")
-                .SetSetting("Replace", replaceString, "Find")
-                .SetSetting("MatchCase", matchCase, "Find")
-                .SetSetting("WrapAround", wrapAround, "Find");
-            if (editor.SelectedText.Equals(query, GetComparisonType(matchCase)))
-            {
-                editor.ReplaceSelection(replaceString);
-            }
-            return FindFromPrompt(query, false, matchCase, wrapAround);
-        }
-
-        internal BortForm SaveSettings()
+        internal void SaveSettings()
         {
             Settings.SaveToFile(ConfigFile);
-            return this;
         }
 
-        internal BortForm SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION, bool save = true)
+        internal void SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION, bool save = true)
         {
             Settings[section][key].SetValue(value);
-            return save ? SaveSettings() : this;
+            if (save)
+            {
+                SaveSettings();
+            }
         }
 
         internal bool ToggleSetting(string key)
@@ -356,261 +343,16 @@ namespace Bortpad
             return GetSetting<bool>(key);
         }
 
-        private void About(object sender, EventArgs e)
-        {
-            About about = new();
-            about.ShowDialog();
-        }
+        #endregion Instance Methods: Settings
 
-        private void BortForm_DragDrop(object sender, DragEventArgs e)
-        {
-            holdShiftNotice.Visible = false;
-            holdShiftNotice.Image = Properties.Resources.shift;
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                bool first = true;
-                foreach (string file in files)
-                {
-                    if (first && (e.KeyState & 4) != 4)
-                    {
-                        OpenDocument(true, file);
-                        first = false;
-                        continue;
-                    }
-                    NewWindow(file);
-                }
-            }
-        }
-
-        private void BortForm_DragLeave(object sender, EventArgs e)
-        {
-            holdShiftNotice.Visible = false;
-            holdShiftNotice.Image = Properties.Resources.shift;
-        }
-
-        private void BortForm_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                holdShiftNotice.Visible = true;
-                if ((e.KeyState & 4) != 4)
-                {
-                    e.Effect = DragDropEffects.Copy;
-                    holdShiftNotice.Image = Properties.Resources.shift;
-                    return;
-                }
-                e.Effect = DragDropEffects.Move;
-                holdShiftNotice.Image = Properties.Resources.check;
-            }
-        }
-
-        private void BortForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if (!Application.OpenForms.OfType<BortForm>().Any())
-            {
-                Application.Exit();
-            }
-        }
-
-        private void BortForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = !SaveConfirmPrompt();
-        }
-
-        private void BortForm_Shown(object sender, EventArgs e)
-        {
-            if (_filename == null || !OpenDocument(false, _filename))
-            {
-                NewDocument(false);
-            }
-        }
-
-        private bool CanRepeatFind()
-        {
-            return GetSetting<string>("Search", "Find").Length > 0 && HasText;
-        }
-
-        private void CantFind(string text)
-        {
-            MessageBox.Show("Cannot find \"" + text + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void ContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            bool isSelected = SelectionLength > 0;
-            editorCut.Enabled = isSelected;
-            editorCopy.Enabled = isSelected;
-            editorDelete.Enabled = isSelected;
-            editorSearchWithGoogle.Enabled = isSelected;
-            editorPaste.Enabled = editor.CanPaste;
-            editorUndo.Enabled = editor.CanUndo;
-            editorRedo.Enabled = editor.CanRedo;
-        }
-
-        private void ConvertLineEndings_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Convert all End of Line characters in this document to " + lineReturnType.Text + "?", ProgramName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-            {
-                editor.ConvertEols(editor.EolMode);
-            }
-        }
-
-        private void Copy(object sender, EventArgs e)
-        {
-            editor.Copy();
-        }
-
-        private void CursorPositionChanged(object sender, EventArgs e)
-        {
-            Ln = editor.CurrentLine;
-            Col = editor.GetColumn(editor.CurrentPosition);
-            Pos = editor.CurrentPosition;
-            UpdatePos();
-        }
-
-        private void Cut(object sender, EventArgs e)
-        {
-            editor.Cut();
-        }
-
-        private void Delete(object sender, EventArgs e)
-        {
-            editor.Clear();
-        }
-
-        private void Edit_DropDownClosed(object sender, EventArgs e)
-        {
-            searchWithGoogleToolStripMenuItem.Enabled = true;
-        }
-
-        private void Edit_DropDownOpening(object sender, EventArgs e)
-        {
-            bool isSelected = SelectionLength > 0;
-            cutToolStripMenuItem.Enabled = isSelected;
-            copyToolStripMenuItem.Enabled = isSelected;
-            deleteToolStripMenuItem.Enabled = isSelected;
-            searchWithGoogleToolStripMenuItem.Enabled = isSelected;
-            pasteToolStripMenuItem.Enabled = editor.CanPaste;
-            undoToolStripMenuItem.Enabled = editor.CanUndo;
-            redoToolStripMenuItem.Enabled = editor.CanRedo;
-        }
-
-        private void Exit_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        #region Instance Methods: Document
 
         private void FileNotFound()
         {
             MessageBox.Show("The system cannot find the path specified.", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        private void Find(object sender, EventArgs e)
-        {
-            if (_find != null && _find.Visible)
-            {
-                _find.BringToFront();
-                return;
-            }
-            _find = new FindPrompt(
-                GetSetting<string>("Search", "Find"),
-                GetSetting<bool>("Up", "Find"),
-                GetSetting<bool>("MatchCase", "Find"),
-                GetSetting<bool>("WrapAround", "Find"));
-            _find.Show(this);
-        }
-
-        private int FindNext()
-        {
-            return FindNextPrev(false);
-        }
-
-        private void FindNext_Click(object sender, EventArgs e)
-        {
-            FindNext();
-        }
-
-        private int FindNextPrev(bool prev = false)
-        {
-            string searchQuery = GetSetting<string>("Search", "Find");
-            bool searchMatchCase = GetSetting<bool>("MatchCase", "Find");
-            int pos = OmniIndexOf(searchQuery, editor.Text, prev, editor.SelectionStart + (prev ? 0 : SelectionLength), searchMatchCase);
-            if (pos == -1 && GetSetting<bool>("WrapAround", "Find"))
-            {
-                pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
-                SetStatus(pos == -1 ? "" : "Found next from the " + (prev ? "bottom" : "top"));
-            }
-            else
-            {
-                SetStatus();
-            }
-            HighlightResult(pos, searchQuery);
-            return pos;
-        }
-
-        private int FindPrev()
-        {
-            return FindNextPrev(true);
-        }
-
-        private void FindPrevious_Click(object sender, EventArgs e)
-        {
-            FindPrev();
-        }
-
-        private void Format_DropDownOpening(object sender, EventArgs e)
-        {
-            wordWrapToolStripMenuItem.Checked = editor.WrapMode == WrapMode.Word;
-        }
-
-        private void GoToLine(object sender, EventArgs e)
-        {
-            GoToPrompt gt = new(Ln);
-            gt.ShowDialog(this);
-        }
-
-        private void HighlightResult(int pos, string q)
-        {
-            if (pos != -1)
-            {
-                editor.SelectionStart = pos;
-                editor.SetSelection(pos, pos + q.Length);
-                editor.ScrollCaret();
-                UpdatePos();
-            }
-            else
-            {
-                CantFind(q);
-            }
-        }
-
-        private void Modified(object sender, EventArgs e)
-        {
-            findToolStripMenuItem.Enabled = HasText;
-            findNextToolStripMenuItem.Enabled = CanRepeatFind();
-            findPreviousToolStripMenuItem.Enabled = CanRepeatFind();
-            // replaceToolStripMenuItem.Enabled = HasText;
-            // goToToolStripMenuItem.Enabled = HasText;
-            // selectAllToolStripMenuItem.Enabled = HasText;
-        }
-
-        private void ModifyAttempt(object sender, EventArgs e)
-        {
-            ReadonlyPrompt ro = new(editor.ReadOnly);
-            if (ro.ShowDialog(this) == DialogResult.OK && editor.ReadOnly)
-            {
-                editor.ReadOnly = false;
-                readOnlyNotice.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            }
-        }
-
-        private void New_Click(object sender, EventArgs e)
-        {
-            NewDocument();
-        }
-
-        private void NewDocument(bool saveFirst = true)
+        private bool NewDocument(bool saveFirst = true)
         {
             if (!saveFirst || SaveConfirmPrompt(false))
             {
@@ -625,17 +367,9 @@ namespace Bortpad
                 readOnlyNotice.Visible = false;
                 editor.SetSavePoint();
                 editor.Select();
+                return true;
             }
-        }
-
-        private void NewWindow_Click(object sender, EventArgs e)
-        {
-            NewWindow();
-        }
-
-        private void Open_Click(object sender, EventArgs e)
-        {
-            OpenDocument();
+            return false;
         }
 
         private bool OpenDocument(bool saveFirst = true, string openFilename = null)
@@ -694,7 +428,7 @@ namespace Bortpad
             return false;
         }
 
-        private void PageSetup(object sender, EventArgs e)
+        private void PageSetup()
         {
             if (pageSetupDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -702,69 +436,12 @@ namespace Bortpad
             }
         }
 
-        private void Paste(object sender, EventArgs e)
-        {
-            editor.Paste();
-        }
-
-        private void Print(object sender, EventArgs e)
+        private void Print()
         {
             if (printDialog1.ShowDialog() == DialogResult.OK)
             {
                 printDocument1.Print();
             }
-        }
-
-        private void PrintPage(object sender, PrintPageEventArgs e)
-        {
-            e.Graphics.DrawString(editor.Text, editor.Font, Brushes.Black, 20, 20);
-        }
-
-        private void Redo(object sender, EventArgs e)
-        {
-            editor.Redo();
-        }
-
-        private void Replace_Click(object sender, EventArgs e)
-        {
-            ReplaceReplace();
-        }
-
-        private void ReplaceReplace()
-        {
-            if (_replace != null && _replace.Visible)
-            {
-                _replace.BringToFront();
-                return;
-            }
-            _replace = new ReplacePrompt(GetSetting<string>("Search", "Find"), GetSetting<string>("Replace", "Find"), GetSetting<bool>("MatchCase", "Find"), GetSetting<bool>("WrapAround", "Find"));
-            _replace.Show(this);
-        }
-
-        private void RestoreDefaultZoom_Click(object sender, EventArgs e)
-        {
-            editor.Zoom = 0;
-        }
-
-        private void RightToLeft_Click(object sender, EventArgs e)
-        {
-            // editor.RightToLeft = editor.RightToLeft == RightToLeft.No ? RightToLeft.Yes : RightToLeft.No;
-            // editorRightToLeft.Checked = editor.RightToLeft == RightToLeft.Yes;
-        }
-
-        private void Save_Click(object sender, EventArgs e)
-        {
-            if (IsReadOnly)
-            {
-                SaveConfirmPrompt(true);
-                return;
-            }
-            SaveDocument();
-        }
-
-        private void SaveAs_Click(object sender, EventArgs e)
-        {
-            SaveDocument(true);
         }
 
         private bool SaveConfirmPrompt(bool force = false)
@@ -853,42 +530,20 @@ namespace Bortpad
             return false;
         }
 
-        private void SavePointLeft(object sender, EventArgs e)
+        private void SetFont()
         {
-            UpdateTitle();
-        }
-
-        private void SavePointReached(object sender, EventArgs e)
-        {
-            UpdateTitle();
-        }
-
-        private void SearchWeb(object sender, EventArgs e)
-        {
-            if (SelectionLength > 0)
+            if (fontDlg.ShowDialog() == DialogResult.OK)
             {
-                Process.Start("https://google.com/search?q=" + WebUtility.UrlEncode(editor.SelectedText));
+                SetSetting("Font", editor.Font = fontDlg.Font);
+                editor.StyleClearAll();
             }
         }
 
-        private void SelectAll(object sender, EventArgs e)
-        {
-            editor.SelectAll();
-        }
+        #endregion Instance Methods: Document
 
-        private void SendFeedback_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://stevenwilson.ca/contact");
-        }
+        #region Instance Methods: Status Bar
 
-        private void SetEncoding(object sender, EventArgs e)
-        {
-            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
-            EncodingSetting = ((EncodingInfo)clickedItem.Tag).GetEncoding();
-            SetEncodingStatus(EncodingSetting, false);
-        }
-
-        private BortForm SetEncodingStatus(Encoding encoding, bool detected = false, float confidence = 1)
+        private void SetEncodingStatus(Encoding encoding, bool detected = false, float confidence = 1)
         {
             encodingStatus.DropDownItems.Clear();
             encodingStatus.Text = encoding.EncodingName;
@@ -905,16 +560,9 @@ namespace Bortpad
                 item.Click += new EventHandler(SetEncoding);
                 encodingStatus.DropDownItems.Add(item);
             }
-            return this;
         }
 
-        private void SetEOL(object sender, EventArgs e)
-        {
-            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
-            EolSetting = (Eol)clickedItem.Tag;
-        }
-
-        private BortForm SetEolStatus(Eol eolMode)
+        private void SetEolStatus(Eol eolMode)
         {
             showLineEndings.Checked = editor.ViewEol;
             ToolStripItemCollection items = lineReturnType.DropDownItems;
@@ -931,109 +579,479 @@ namespace Bortpad
                     item.Checked = false;
                 }
             }
-            return this;
-        }
-
-        private void SetFont(object sender, EventArgs e)
-        {
-            if (fontDlg.ShowDialog() == DialogResult.OK)
-            {
-                SetSetting("Font", fontDlg.Font);
-                editor.Font = fontDlg.Font;
-                editor.StyleClearAll();
-            }
-        }
-
-        private BortForm SetStatus(string text = "")
-        {
-            statusBarLeft.Text = text;
-            return this;
-        }
-
-        private void ShowLineEndings_Click(object sender, EventArgs e)
-        {
-            editor.ViewEol = !editor.ViewEol;
-            showLineEndings.Checked = editor.ViewEol;
-            SetSetting("ShowLineEndings", editor.ViewEol);
-        }
-
-        private void StatusBar_Click(object sender, EventArgs e)
-        {
-            ToggleStatusBar();
-        }
-
-        private void TimeDate_Click(object sender, EventArgs e)
-        {
-            DateTime now = DateTime.Now;
-            editor.ReplaceSelection(now.ToString("g"));
-        }
-
-        private void ToggleDarkMode(object sender, EventArgs e)
-        {
-            DarkMode = !DarkMode;
-        }
-
-        private void ToggleStatusBar()
-        {
-            statusBarToolStripMenuItem.Checked = statusBar.Visible = ToggleSetting("StatusBar");
-            UpdatePos();
-        }
-
-        private void Undo(object sender, EventArgs e)
-        {
-            editor.Undo();
         }
 
         private void UpdatePos()
         {
-            if (statusBar.Visible)
+            if (StatusBar)
             {
                 position.Text = "Ln " + Ln + ", Col " + Col;
             }
         }
 
-        private void UpdateTitle()
+        #endregion Instance Methods: Status Bar
+
+        #region Find & Replace
+
+        internal int FindFromPrompt(string query, bool reverse, bool matchCase, bool wrapAround)
         {
-            Text = (editor.Modified ? "*" : "") + (IsFile ? Path.GetFileName(FileName) : FileName) + " - " + ProgramName;
+            SetSetting("Search", query, "Find");
+            SetSetting("Up", reverse, "Find");
+            SetSetting("MatchCase", matchCase, "Find");
+            SetSetting("WrapAround", wrapAround, "Find");
+            editFindNext.Enabled = CanRepeatFind();
+            editFindPrevious.Enabled = CanRepeatFind();
+
+            return GetSetting<bool>("Up", "Find") ? FindPrev() : FindNext();
         }
 
-        private void View_DropDownOpening(object sender, EventArgs e)
+        internal bool GoToLineFromPrompt(string ln)
         {
-            statusBarToolStripMenuItem.Checked = statusBar.Visible;
-        }
-
-        private void ViewHelp_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://stevenwilson.ca/bortpad/help");
-        }
-
-        private void WordWrap_Click(object sender, EventArgs e)
-        {
-            editor.WrapMode = (wordWrapToolStripMenuItem.Checked = ToggleSetting("WordWrap")) ? WrapMode.Word : WrapMode.None;
-            UpdatePos();
-        }
-
-        private void Zoom_Changed(object sender, EventArgs e)
-        {
-            zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
-        }
-
-        private void ZoomIn_Click(object sender, EventArgs e)
-        {
-            if (editor.Zoom < 50)
+            if (ln != null && ln != "" && long.TryParse(ln, out long lnNum) && lnNum >= 1 && lnNum <= NumLines)
             {
-                editor.ZoomIn();
+                Ln = (int)lnNum;
+                return true;
+            }
+            MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
+            return false;
+        }
+
+        internal void ReplaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
+        {
+            SetSetting("Search", query, "Find");
+            SetSetting("Replace", replaceString, "Find");
+            SetSetting("MatchCase", matchCase, "Find");
+            SetSetting("WrapAround", wrapAround, "Find");
+            string input = string.Format(@"({0})", Regex.Escape(query));
+            string pattern = string.Format("{0}", Regex.Escape(replaceString));
+            editor.Text = Regex.Replace(
+                editor.Text,
+                input,
+                pattern,
+                matchCase ? RegexOptions.None : RegexOptions.IgnoreCase
+                );
+        }
+
+        internal int ReplaceFromPrompt(string query, string replaceString, bool matchCase, bool wrapAround)
+        {
+            SetSetting("Search", query, "Find");
+            SetSetting("Replace", replaceString, "Find");
+            SetSetting("MatchCase", matchCase, "Find");
+            SetSetting("WrapAround", wrapAround, "Find");
+            if (editor.SelectedText.Equals(query, GetComparisonType(matchCase)))
+            {
+                editor.ReplaceSelection(replaceString);
+            }
+            return FindFromPrompt(query, false, matchCase, wrapAround);
+        }
+
+        private bool CanRepeatFind()
+        {
+            return GetSetting<string>("Search", "Find").Length > 0 && HasText;
+        }
+
+        private void CantFind(string text)
+        {
+            MessageBox.Show("Cannot find \"" + text + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void Find()
+        {
+            if (_find != null && _find.Visible)
+            {
+                _find.BringToFront();
+                return;
+            }
+            _find = new FindPrompt(
+                GetSetting<string>("Search", "Find"),
+                GetSetting<bool>("Up", "Find"),
+                GetSetting<bool>("MatchCase", "Find"),
+                GetSetting<bool>("WrapAround", "Find"));
+            _find.Show(this);
+        }
+
+        private int FindNext()
+        {
+            return FindNextPrev(false);
+        }
+
+        private int FindNextPrev(bool prev = false)
+        {
+            string searchQuery = GetSetting<string>("Search", "Find");
+            bool searchMatchCase = GetSetting<bool>("MatchCase", "Find");
+            int pos = OmniIndexOf(searchQuery, editor.Text, prev, editor.SelectionStart + (prev ? 0 : SelectionLength), searchMatchCase);
+            if (pos == -1 && GetSetting<bool>("WrapAround", "Find"))
+            {
+                pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
+                MainStatus = pos == -1 ? "" : "Found next from the " + (prev ? "bottom" : "top");
+            }
+            else
+            {
+                MainStatus = "";
+            }
+            HighlightResult(pos, searchQuery);
+            return pos;
+        }
+
+        private int FindPrev()
+        {
+            return FindNextPrev(true);
+        }
+
+        private void HighlightResult(int pos, string q)
+        {
+            if (pos != -1)
+            {
+                editor.SelectionStart = pos;
+                editor.SetSelection(pos, pos + q.Length);
+                editor.ScrollCaret();
+                UpdatePos();
+            }
+            else
+            {
+                CantFind(q);
             }
         }
 
-        private void ZoomLevel_MouseEnter(object sender, EventArgs e)
+        private void ReplacePrompt()
         {
-            statusBar.MouseWheel += ScrollZoom;
+            if (_replace != null && _replace.Visible)
+            {
+                _replace.BringToFront();
+                return;
+            }
+            _replace = new ReplacePrompt(GetSetting<string>("Search", "Find"), GetSetting<string>("Replace", "Find"), GetSetting<bool>("MatchCase", "Find"), GetSetting<bool>("WrapAround", "Find"));
+            _replace.Show(this);
         }
 
-        private void ZoomLevel_MouseLeave(object sender, EventArgs e)
+        #endregion Find & Replace
+
+        #region Events
+
+        private void BortForm_DragDrop(object sender, DragEventArgs e)
         {
-            statusBar.MouseWheel -= ScrollZoom;
+            holdShiftNotice.Visible = false;
+            holdShiftNotice.Image = Properties.Resources.shift;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                bool first = true;
+                foreach (string file in files)
+                {
+                    if (first && (e.KeyState & 4) != 4)
+                    {
+                        OpenDocument(true, file);
+                        first = false;
+                        continue;
+                    }
+                    NewWindow(file);
+                }
+            }
+        }
+
+        private void BortForm_DragLeave(object sender, EventArgs e)
+        {
+            holdShiftNotice.Visible = false;
+            holdShiftNotice.Image = Properties.Resources.shift;
+        }
+
+        private void BortForm_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                holdShiftNotice.Visible = true;
+                if ((e.KeyState & 4) != 4)
+                {
+                    e.Effect = DragDropEffects.Copy;
+                    holdShiftNotice.Image = Properties.Resources.shift;
+                    return;
+                }
+                e.Effect = DragDropEffects.Move;
+                holdShiftNotice.Image = Properties.Resources.check;
+            }
+        }
+
+        private void BortForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (!Application.OpenForms.OfType<BortForm>().Any())
+            {
+                Application.Exit();
+            }
+        }
+
+        private void BortForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !SaveConfirmPrompt();
+        }
+
+        private void BortForm_Shown(object sender, EventArgs e)
+        {
+            if (_filename == null || !OpenDocument(false, _filename))
+            {
+                NewDocument(false);
+            }
+        }
+
+        private void ContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bool isSelected = SelectionLength > 0;
+            editorCut.Enabled = isSelected;
+            editorCopy.Enabled = isSelected;
+            editorDelete.Enabled = isSelected;
+            editorSearch.Enabled = isSelected;
+            editorPaste.Enabled = editor.CanPaste;
+            editorUndo.Enabled = editor.CanUndo;
+            editorRedo.Enabled = editor.CanRedo;
+        }
+
+        private void ConvertLineEndings_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Convert all End of Line characters in this document to " + lineReturnType.Text + "?", ProgramName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            {
+                editor.ConvertEols(editor.EolMode);
+            }
+        }
+
+        private void CursorPosition_Changed(object sender, EventArgs e)
+        {
+            Ln = editor.CurrentLine;
+            Col = editor.GetColumn(editor.CurrentPosition);
+            Pos = editor.CurrentPosition;
+            UpdatePos();
+        }
+
+        private void Edit_DropDownClosed(object sender, EventArgs e)
+        {
+            editSearch.Enabled = true;
+        }
+
+        private void Menu_Opening(object sender, EventArgs e)
+        {
+            switch (((ToolStripMenuItem)sender).Name)
+            {
+                case "editMenu":
+                    bool isSelected = SelectionLength > 0;
+                    editCut.Enabled = isSelected;
+                    editCopy.Enabled = isSelected;
+                    editDelete.Enabled = isSelected;
+                    editSearch.Enabled = isSelected;
+                    editPaste.Enabled = editor.CanPaste;
+                    editUndo.Enabled = editor.CanUndo;
+                    editRedo.Enabled = editor.CanRedo;
+                    break;
+
+                case "viewMenu":
+                    viewStatusBar.Checked = statusBar.Visible;
+                    break;
+
+                case "formatMenu":
+                    formatWordWrap.Checked = editor.WrapMode == WrapMode.Word;
+                    break;
+            }
+        }
+
+        private void MenuItem_Click(object sender, EventArgs e)
+        {
+            switch (((ToolStripMenuItem)sender).Name)
+            {
+                #region File Menu
+
+                case "fileNew":
+                    NewDocument();
+                    break;
+
+                case "fileNewWindow":
+                    NewWindow();
+                    break;
+
+                case "fileOpen":
+                    OpenDocument();
+                    break;
+
+                case "fileSave":
+                    _ = IsReadOnly
+                        ? SaveConfirmPrompt(true)
+                        : SaveDocument();
+                    break;
+
+                case "fileSaveAs":
+                    SaveDocument(true);
+                    break;
+
+                case "filePageSetup":
+                    PageSetup();
+                    break;
+
+                case "filePrint":
+                    Print();
+                    break;
+
+                case "fileExit":
+                    Close();
+                    break;
+
+                #endregion File Menu
+
+                #region Edit Menu
+
+                case "editUndo":
+                case "editorUndo":
+                    editor.Undo();
+                    break;
+
+                case "editRedo":
+                case "editorRedo":
+                    editor.Redo();
+                    break;
+
+                case "editCut":
+                case "editorCut":
+                    editor.Cut();
+                    break;
+
+                case "editCopy":
+                case "editorCopy":
+                    editor.Copy();
+                    break;
+
+                case "editPaste":
+                case "editorPaste":
+                    editor.Paste();
+                    break;
+
+                case "editDelete":
+                case "editorDelete":
+                    editor.Clear();
+                    break;
+
+                case "editSearch":
+                case "editorSearch":
+                    _ = SelectionLength > 0
+                        ? Process.Start("https://google.com/search?q=" + WebUtility.UrlEncode(editor.SelectedText))
+                        : null;
+                    break;
+
+                case "editFind":
+                    Find();
+                    break;
+
+                case "editFindNext":
+                    FindNext();
+                    break;
+
+                case "editFindPrevious":
+                    FindPrev();
+                    break;
+
+                case "editReplace":
+                    ReplacePrompt();
+                    break;
+
+                case "editGoTo":
+                    using (GoToPrompt gt = new(Ln))
+                    {
+                        _ = gt.ShowDialog(this);
+                    }
+                    break;
+
+                case "editSelectAll":
+                case "editorSelectAll":
+                    editor.SelectAll();
+                    break;
+
+                case "editTimeDate":
+                    editor.ReplaceSelection(DateTime.Now.ToString("g"));
+                    break;
+
+                #endregion Edit Menu
+
+                #region Format Menu
+
+                case "formatWordWrap":
+                    editor.WrapMode = ToggleSetting("WordWrap")
+                        ? WrapMode.Word
+                        : WrapMode.None;
+                    ((ToolStripMenuItem)sender).Checked = editor.WrapMode == WrapMode.Word;
+                    UpdatePos();
+                    break;
+
+                case "formatFont":
+                    SetFont();
+                    break;
+
+                #endregion Format Menu
+
+                #region View Menu
+
+                case "zoomIn":
+                    if (editor.Zoom < 50)
+                    {
+                        editor.ZoomIn();
+                    }
+                    break;
+
+                case "zoomOut":
+                    if (editor.Zoom > -9)
+                    {
+                        editor.ZoomOut();
+                    }
+                    break;
+
+                case "restoreDefaultZoom":
+                case "zoomLevel":
+                    editor.Zoom = 0;
+                    break;
+
+                case "viewStatusBar":
+                    StatusBar = !StatusBar;
+                    break;
+
+                #endregion View Menu
+
+                #region Help Menu
+
+                case "helpViewHelp":
+                    Process.Start("https://stevenwilson.ca/bortpad/help");
+                    break;
+
+                case "helpSendFeedback":
+                    Process.Start("https://stevenwilson.ca/contact");
+                    break;
+
+                case "helpAbout":
+                    using (About about = new())
+                    {
+                        _ = about.ShowDialog();
+                    }
+                    break;
+
+                    #endregion Help Menu
+            }
+        }
+
+        private void Modified(object sender, EventArgs e)
+        {
+            editFind.Enabled = HasText;
+            editFindNext.Enabled = CanRepeatFind();
+            editFindPrevious.Enabled = CanRepeatFind();
+            // replaceToolStripMenuItem.Enabled = HasText;
+            // goToToolStripMenuItem.Enabled = HasText;
+            // selectAllToolStripMenuItem.Enabled = HasText;
+        }
+
+        private void ModifyAttempt(object sender, EventArgs e)
+        {
+            ReadonlyPrompt ro = new(editor.ReadOnly);
+            if (ro.ShowDialog(this) == DialogResult.OK && editor.ReadOnly)
+            {
+                editor.ReadOnly = false;
+                readOnlyNotice.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            }
+        }
+
+        private void PrintPage(object sender, PrintPageEventArgs e)
+        {
+            e.Graphics.DrawString(editor.Text, editor.Font, Brushes.Black, 20, 20);
         }
 
         private void ReadOnlyNotice_Click(object sender, EventArgs e)
@@ -1047,12 +1065,61 @@ namespace Bortpad
             readOnlyNotice.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
         }
 
-        private void ZoomOut_Click(object sender, EventArgs e)
+        private void ScrollZoom(object sender, MouseEventArgs e)
         {
-            if (editor.Zoom > -9)
+            if (e.Delta > 0)
             {
-                editor.ZoomOut();
+                MenuItem_Click(zoomIn, e);
+                return;
             }
+            MenuItem_Click(zoomOut, e);
         }
+
+        private void SetEncoding(object sender, EventArgs e)
+        {
+            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
+            EncodingSetting = ((EncodingInfo)clickedItem.Tag).GetEncoding();
+            SetEncodingStatus(EncodingSetting, false);
+        }
+
+        private void SetEOL(object sender, EventArgs e)
+        {
+            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
+            EolSetting = (Eol)clickedItem.Tag;
+        }
+
+        private void ShowLineEndings_Click(object sender, EventArgs e)
+        {
+            editor.ViewEol = !editor.ViewEol;
+            showLineEndings.Checked = editor.ViewEol;
+            SetSetting("ShowLineEndings", editor.ViewEol);
+        }
+
+        private void ToggleDarkMode(object sender, EventArgs e)
+        {
+            DarkMode = !DarkMode;
+        }
+
+        private void UpdateTitle(object sender, EventArgs e)
+        {
+            Text = (editor.Modified ? "*" : "") + (IsFile ? Path.GetFileName(FileName) : FileName) + " - " + ProgramName;
+        }
+
+        private void Zoom_Changed(object sender, EventArgs e)
+        {
+            zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
+        }
+
+        private void ZoomLevel_MouseEnter(object sender, EventArgs e)
+        {
+            statusBar.MouseWheel += ScrollZoom;
+        }
+
+        private void ZoomLevel_MouseLeave(object sender, EventArgs e)
+        {
+            statusBar.MouseWheel -= ScrollZoom;
+        }
+
+        #endregion Events
     }
 }

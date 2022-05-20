@@ -2,11 +2,11 @@
 
 namespace Bortpad
 {
-    public class BortScintilla : Scintilla
+    public class Bortilla : Scintilla
     {
         // [DllImport("user32.dll")]
         // private static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
-        public BortScintilla() : base()
+        public Bortilla() : base()
         {
         }
 

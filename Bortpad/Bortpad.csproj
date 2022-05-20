@@ -59,9 +59,6 @@
     <DebugType>embedded</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="BortPad.resx" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="NumBox.cs">
       <SubType>Component</SubType>
     </Compile>

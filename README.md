@@ -23,7 +23,7 @@ It is primarily a C# learning project for myself.
 ---
 
 ## Technical Details
-Bortpad is a C# WinForms application, built to closely match the built-in *Windows 10* text editor.  
+Bortpad is a C# WinForms application, built on .NET Framework 4.8, designed to closely match the built-in *Windows 10* text editor.  
 - Like its inspiration, Bortpad supports **basic file editing** (New, Open, Save), changing the textbox font, text zoom, word wrap, a basic status bar, and simple find and replace functions.  
 - It uses the **[Scintilla.NET](https://github.com/VPKSoft/ScintillaNET) component** for text editing.  
 - The **status bar** shows line number, column number, zoom level, etc.  
