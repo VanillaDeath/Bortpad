@@ -52,7 +52,7 @@ namespace Bortpad
 
             ConfigFile = ProgramName + ".cfg";
             EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
-            fontDlg.Font = editor.Font = GetSetting<Font>("Font");
+            editor.Font = GetSetting<Font>("Font");
             editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
             StatusBar = GetSetting<bool>("StatusBar");
             DarkMode = GetSetting<bool>("DarkMode");
@@ -532,6 +532,7 @@ namespace Bortpad
 
         private void SetFont()
         {
+            fontDlg.Font = editor.Font;
             if (fontDlg.ShowDialog() == DialogResult.OK)
             {
                 SetSetting("Font", editor.Font = fontDlg.Font);
@@ -541,57 +542,7 @@ namespace Bortpad
 
         #endregion Instance Methods: Document
 
-        #region Instance Methods: Status Bar
-
-        private void SetEncodingStatus(Encoding encoding, bool detected = false, float confidence = 1)
-        {
-            encodingStatus.DropDownItems.Clear();
-            encodingStatus.Text = encoding.EncodingName;
-            encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
-            foreach (EncodingInfo codePage in CodePages)
-            {
-                ToolStripMenuItem item = new();
-                bool current = Equals(codePage.GetEncoding(), EncodingSetting);
-                item.Name = codePage.Name;
-                item.Text = codePage.DisplayName;
-                // if (current && detected) { item.ShortcutKeyDisplayString = " (Detected)"; }
-                item.Tag = codePage;
-                item.Checked = current;
-                item.Click += new EventHandler(SetEncoding);
-                encodingStatus.DropDownItems.Add(item);
-            }
-        }
-
-        private void SetEolStatus(Eol eolMode)
-        {
-            showLineEndings.Checked = editor.ViewEol;
-            ToolStripItemCollection items = lineReturnType.DropDownItems;
-            foreach (ToolStripMenuItem item in items.OfType<ToolStripMenuItem>())
-            {
-                if (item.Tag != null && item.Tag.GetType().Equals(typeof(Eol)))
-                {
-                    if (Equals(item.Tag, eolMode))
-                    {
-                        item.Checked = true;
-                        lineReturnType.Text = Regex.Replace(item.Text, "&(.)", "$1");
-                        continue;
-                    }
-                    item.Checked = false;
-                }
-            }
-        }
-
-        private void UpdatePos()
-        {
-            if (StatusBar)
-            {
-                position.Text = "Ln " + Ln + ", Col " + Col;
-            }
-        }
-
-        #endregion Instance Methods: Status Bar
-
-        #region Find & Replace
+        #region Instance Methods: Find & Replace
 
         internal int FindFromPrompt(string query, bool reverse, bool matchCase, bool wrapAround)
         {
@@ -724,9 +675,59 @@ namespace Bortpad
             _replace.Show(this);
         }
 
-        #endregion Find & Replace
+        #endregion Instance Methods: Find & Replace
 
-        #region Events
+        #region Instance Methods: Status Bar
+
+        private void SetEncodingStatus(Encoding encoding, bool detected = false, float confidence = 1)
+        {
+            encodingStatus.DropDownItems.Clear();
+            encodingStatus.Text = encoding.EncodingName;
+            encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
+            foreach (EncodingInfo codePage in CodePages)
+            {
+                ToolStripMenuItem item = new();
+                bool current = Equals(codePage.GetEncoding(), EncodingSetting);
+                item.Name = codePage.Name;
+                item.Text = codePage.DisplayName;
+                // if (current && detected) { item.ShortcutKeyDisplayString = " (Detected)"; }
+                item.Tag = codePage;
+                item.Checked = current;
+                item.Click += new EventHandler(SetEncoding);
+                encodingStatus.DropDownItems.Add(item);
+            }
+        }
+
+        private void SetEolStatus(Eol eolMode)
+        {
+            showLineEndings.Checked = editor.ViewEol;
+            ToolStripItemCollection items = lineReturnType.DropDownItems;
+            foreach (ToolStripMenuItem item in items.OfType<ToolStripMenuItem>())
+            {
+                if (item.Tag != null && item.Tag.GetType().Equals(typeof(Eol)))
+                {
+                    if (Equals(item.Tag, eolMode))
+                    {
+                        item.Checked = true;
+                        lineReturnType.Text = Regex.Replace(item.Text, "&(.)", "$1");
+                        continue;
+                    }
+                    item.Checked = false;
+                }
+            }
+        }
+
+        private void UpdatePos()
+        {
+            if (StatusBar)
+            {
+                position.Text = "Ln " + Ln + ", Col " + Col;
+            }
+        }
+
+        #endregion Instance Methods: Status Bar
+
+        #region Instance Methods: Events
 
         private void BortForm_DragDrop(object sender, DragEventArgs e)
         {
@@ -1120,6 +1121,6 @@ namespace Bortpad
             statusBar.MouseWheel -= ScrollZoom;
         }
 
-        #endregion Events
+        #endregion Instance Methods: Events
     }
 }
