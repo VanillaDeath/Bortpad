@@ -27,7 +27,7 @@ namespace Bortpad
             }
             else
             {
-                initField();
+                InitField();
             }
         }
 
@@ -36,12 +36,12 @@ namespace Bortpad
             BortParent = (BortForm)Owner;
             if (origLineNumber < 1)
             {
-                origLineNumber = BortParent.Ln;
+                origLineNumber = BortParent.editor.Ln;
             }
-            initField();
+            InitField();
         }
 
-        private void initField()
+        private void InitField()
         {
             lineNumber.Text = origLineNumber.ToString();
             lineNumber.SelectAll();

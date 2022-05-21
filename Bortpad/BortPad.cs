@@ -37,7 +37,6 @@ namespace Bortpad
         private Eol _eolSetting;
         private string _filename;
         private FindPrompt _find;
-        private int _ln, _col;
         private ReplacePrompt _replace;
 
         #endregion _fields
@@ -78,29 +77,14 @@ namespace Bortpad
             .ThenBy(e => e.Name)
             .ToArray();
 
-        public int Col
-        {
-            get
-            {
-                return _col + 1;
-            }
-            private set
-            {
-                _col = value;
-            }
-        }
-
-        public String ConfigFile
+        public string ConfigFile
         {
             get; private set;
         }
 
         public bool DarkMode
         {
-            get
-            {
-                return _darkMode;
-            }
+            get => _darkMode;
             set
             {
                 editor.Styles[Style.Default].BackColor = value ? Color.Black : Color.White;
@@ -150,32 +134,15 @@ namespace Bortpad
 
         public string FileName
         {
-            get { return _filename ?? _DEFAULT_FILENAME; }
-            private set
-            {
-                _filename = value;
-            }
+            get => _filename ?? _DEFAULT_FILENAME;
+            private set => _filename = value;
         }
 
-        public bool HasText
-        {
-            get { return editor.TextLength > 0; }
-        }
-
-        public bool IsFile
-        {
-            get
-            {
-                return _filename != null && File.Exists(_filename);
-            }
-        }
+        public bool IsFile => _filename != null && File.Exists(_filename);
 
         public bool IsReadOnly
         {
-            get
-            {
-                return IsFile && OpenFilesInfo.IsReadOnly;
-            }
+            get => IsFile && OpenFilesInfo.IsReadOnly;
             private set
             {
                 OpenFilesInfo.IsReadOnly = value;
@@ -183,61 +150,18 @@ namespace Bortpad
             }
         }
 
-        public int Ln
-        {
-            get
-            {
-                return _ln + 1;
-            }
-            private set
-            {
-                _ln = value;
-            }
-        }
-
         public string MainStatus
         {
-            get
-            {
-                return statusBarLeft.Text;
-            }
-            private set
-            {
-                statusBarLeft.Text = value ?? "";
-            }
+            get => statusBarLeft.Text;
+            private set => statusBarLeft.Text = value ?? "";
         }
 
-        public int NumLines
-        {
-            get { return editor.Lines.Count < 1 ? 1 : editor.Lines.Count; }
-        }
-
-        public FileInfo OpenFilesInfo
-        {
-            get
-            {
-                return IsFile ? new(_filename) : null;
-            }
-        }
-
-        public int Pos
-        {
-            get;
-            private set;
-        }
+        public FileInfo OpenFilesInfo => IsFile ? new(_filename) : null;
 
         public string ProgramName
         {
             get;
         } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-
-        public int SelectionLength
-        {
-            get
-            {
-                return editor.SelectionEnd - editor.SelectionStart;
-            }
-        }
 
         public Configuration Settings
         {
@@ -246,15 +170,12 @@ namespace Bortpad
 
         public bool StatusBar
         {
-            get
-            {
-                return statusBar.Visible;
-            }
+            get => statusBar.Visible;
             private set
             {
                 SetSetting("StatusBar", statusBar.Visible = value);
                 viewStatusBar.Checked = statusBar.Visible;
-                UpdatePos();
+                if (value) { UpdatePos(); }
             }
         }
 
@@ -562,9 +483,9 @@ namespace Bortpad
 
         internal bool GoToLineFromPrompt(string ln)
         {
-            if (ln != null && ln != "" && long.TryParse(ln, out long lnNum) && lnNum >= 1 && lnNum <= NumLines)
+            if (ln != null && ln != "" && long.TryParse(ln, out long lnNum) && lnNum >= 1 && lnNum <= editor.NumLines)
             {
-                Ln = (int)lnNum;
+                editor.Ln = (int)lnNum;
                 return true;
             }
             MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
@@ -602,7 +523,7 @@ namespace Bortpad
 
         private bool CanRepeatFind()
         {
-            return GetSetting<string>("Search", "Find").Length > 0 && HasText;
+            return GetSetting<string>("Search", "Find").Length > 0 && editor.HasText;
         }
 
         private void Find()
@@ -629,7 +550,7 @@ namespace Bortpad
         {
             string searchQuery = GetSetting<string>("Search", "Find");
             bool searchMatchCase = GetSetting<bool>("MatchCase", "Find");
-            int pos = OmniIndexOf(searchQuery, editor.Text, prev, editor.SelectionStart + (prev ? 0 : SelectionLength), searchMatchCase);
+            int pos = OmniIndexOf(searchQuery, editor.Text, prev, editor.SelectionStart + (prev ? 0 : editor.SelectionLength), searchMatchCase);
             if (pos == -1 && GetSetting<bool>("WrapAround", "Find"))
             {
                 pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
@@ -652,7 +573,7 @@ namespace Bortpad
         {
             if (pos != -1)
             {
-                editor.SelectionStart = pos;
+                editor.Pos = pos;
                 editor.SetSelection(pos, pos + q.Length);
                 editor.ScrollCaret();
                 UpdatePos();
@@ -732,10 +653,11 @@ namespace Bortpad
 
         private void UpdatePos()
         {
-            if (StatusBar)
+            if (!StatusBar)
             {
-                position.Text = "Ln " + Ln + ", Col " + Col;
+                return;
             }
+            position.Text = "Ln " + editor.Ln + ", Col " + editor.Col;
         }
 
         #endregion Instance Methods: Status Bar
@@ -808,7 +730,7 @@ namespace Bortpad
 
         private void ContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            bool isSelected = SelectionLength > 0;
+            bool isSelected = editor.SelectionLength > 0;
             editorCut.Enabled = isSelected;
             editorCopy.Enabled = isSelected;
             editorDelete.Enabled = isSelected;
@@ -828,9 +750,6 @@ namespace Bortpad
 
         private void CursorPosition_Changed(object sender, EventArgs e)
         {
-            Ln = editor.CurrentLine;
-            Col = editor.GetColumn(editor.CurrentPosition);
-            Pos = editor.CurrentPosition;
             UpdatePos();
         }
 
@@ -844,7 +763,7 @@ namespace Bortpad
             switch (((ToolStripMenuItem)sender).Name)
             {
                 case "editMenu":
-                    bool isSelected = SelectionLength > 0;
+                    bool isSelected = editor.SelectionLength > 0;
                     editCut.Enabled = isSelected;
                     editCopy.Enabled = isSelected;
                     editDelete.Enabled = isSelected;
@@ -940,7 +859,7 @@ namespace Bortpad
 
                 case "editSearch":
                 case "editorSearch":
-                    _ = SelectionLength > 0
+                    _ = editor.SelectionLength > 0
                         ? Process.Start("https://google.com/search?q=" + WebUtility.UrlEncode(editor.SelectedText))
                         : null;
                     break;
@@ -962,7 +881,7 @@ namespace Bortpad
                     break;
 
                 case "editGoTo":
-                    using (GoToPrompt gt = new(Ln))
+                    using (GoToPrompt gt = new(editor.Ln))
                     {
                         _ = gt.ShowDialog(this);
                     }
@@ -1044,12 +963,12 @@ namespace Bortpad
 
         private void Modified(object sender, EventArgs e)
         {
-            editFind.Enabled = HasText;
+            editFind.Enabled = editor.HasText;
             editFindNext.Enabled = CanRepeatFind();
             editFindPrevious.Enabled = CanRepeatFind();
-            // replaceToolStripMenuItem.Enabled = HasText;
-            // goToToolStripMenuItem.Enabled = HasText;
-            // selectAllToolStripMenuItem.Enabled = HasText;
+            // replaceToolStripMenuItem.Enabled = editor.HasText;
+            // goToToolStripMenuItem.Enabled = editor.HasText;
+            // selectAllToolStripMenuItem.Enabled = editor.HasText;
         }
 
         private void ModifyAttempt(object sender, EventArgs e)

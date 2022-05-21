@@ -108,7 +108,7 @@ namespace Bortpad
             this.editorSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.editorSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.editor = new ScintillaNET.Scintilla();
+            this.editor = new Bortpad.Bortilla();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
@@ -960,7 +960,6 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem editorRedo;
         private System.Windows.Forms.ToolStripMenuItem darkMode;
         private System.Windows.Forms.ToolStripMenuItem holdShiftNotice;
-        private ScintillaNET.Scintilla editor;
         private System.Windows.Forms.ToolStripDropDownButton encodingStatus;
         private System.Windows.Forms.ToolStripDropDownButton lineReturnType;
         private System.Windows.Forms.ToolStripMenuItem windowsLineFeed;
@@ -971,6 +970,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem pressingEnterUses;
         private System.Windows.Forms.ToolStripStatusLabel readOnlyNotice;
+        internal Bortilla editor;
     }
 }
 
