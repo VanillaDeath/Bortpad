@@ -567,7 +567,7 @@ namespace Bortpad
             // statusBarLeft
             // 
             this.statusBarLeft.Name = "statusBarLeft";
-            this.statusBarLeft.Size = new System.Drawing.Size(382, 20);
+            this.statusBarLeft.Size = new System.Drawing.Size(523, 20);
             this.statusBarLeft.Spring = true;
             this.statusBarLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -833,18 +833,26 @@ namespace Bortpad
             // 
             // editor
             // 
+            this.editor.AllowDrop = true;
             this.editor.AutoCMaxHeight = 9;
+            this.editor.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.LeftToRight;
             this.editor.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.editor.BufferedDraw = false;
+            this.editor.CaretLineBackColor = System.Drawing.Color.White;
+            this.editor.CaretLineVisible = true;
             this.editor.ContextMenuStrip = this.editorContextMenu;
             this.editor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.editor.Font = new System.Drawing.Font("Consolas", 11.25F);
+            this.editor.LexerName = null;
             this.editor.Location = new System.Drawing.Point(0, 24);
             this.editor.Name = "editor";
             this.editor.ScrollWidth = 1;
             this.editor.Size = new System.Drawing.Size(1008, 512);
+            this.editor.TabIndents = true;
             this.editor.TabIndex = 0;
             this.editor.Technology = ScintillaNET.Technology.DirectWrite;
+            this.editor.UseRightToLeftReadingLayout = false;
+            this.editor.WrapMode = ScintillaNET.WrapMode.None;
             this.editor.ModifyAttempt += new System.EventHandler<System.EventArgs>(this.ModifyAttempt);
             this.editor.SavePointLeft += new System.EventHandler<System.EventArgs>(this.UpdateTitle);
             this.editor.SavePointReached += new System.EventHandler<System.EventArgs>(this.UpdateTitle);

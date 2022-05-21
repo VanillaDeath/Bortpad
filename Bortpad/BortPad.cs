@@ -683,16 +683,6 @@ namespace Bortpad
             encodingStatus.DropDownItems.Clear();
             encodingStatus.Text = encoding.EncodingName;
             encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
-            /*
-            encodingStatus.DropDownItems.Add(new ToolStripMenuItem()
-            {
-                Name = encoding.WebName,
-                Text = encoding.EncodingName,
-                Tag = encoding,
-                Checked = true
-            });
-            encodingStatus.DropDownItems.Add(new ToolStripSeparator());
-            */
 
             ToolStripMenuItem[] items = CodePages.Select(e =>
                 {
@@ -1100,9 +1090,7 @@ namespace Bortpad
 
         private void SetEncoding(object sender, EventArgs e)
         {
-            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
-            EncodingSetting = ((EncodingInfo)clickedItem.Tag).GetEncoding();
-            SetEncodingStatus(EncodingSetting, false);
+            SetEncodingStatus(EncodingSetting = ((EncodingInfo)((ToolStripMenuItem)sender).Tag).GetEncoding(), false);
         }
 
         private void SetEOL(object sender, EventArgs e)

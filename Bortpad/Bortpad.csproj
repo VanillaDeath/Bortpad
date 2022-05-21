@@ -3,7 +3,7 @@
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
     <OutputType>WinExe</OutputType>
-    <PublishSingleFile Condition="'$(Configuration)' == 'Release'">true</PublishSingleFile>
+    <!-- <PublishSingleFile Condition="'$(Configuration)' == 'Release'">true</PublishSingleFile> -->
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -84,10 +84,18 @@
     <Content Include="Resources\bortpad.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="jacobslusser.ScintillaNET" Version="3.6.3" />
+    <PackageReference Include="Costura.Fody" Version="5.7.0">
+      <PrivateAssets>all</PrivateAssets>
+      <!-- <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets> -->
+    </PackageReference>
+    <PackageReference Include="Fody" Version="6.6.2">
+      <PrivateAssets>all</PrivateAssets>
+      <!-- <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets> -->
+    </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.2.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Scintilla.NET" Version="5.1.5.4" />
     <PackageReference Include="sharpconfig" Version="3.2.9.1" />
     <PackageReference Include="UTF.Unknown" Version="2.5.0" />
   </ItemGroup>
@@ -103,16 +111,16 @@
       <PackagePath>\</PackagePath>
     </None>
     <None Update="SciLexer.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="ScintillaNET.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="SharpConfig.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="UtfUnknown.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>
