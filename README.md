@@ -40,6 +40,10 @@ Bortpad is a C# WinForms application, built on .NET Framework 4.8, designed to c
 ---
 
 ## Releases
+* ### [v1.0.3](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.3)
+> - Reverted to .NET Framework 4.8 since the Scintilla custom control wouldn't co-operate with .NET Core's designer
+> - A lot of code clean-up
+> - Decoupled Find/Replace/Goto prompts from main class using events
 * ### [v1.0.2](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.2)
 > * Converted from legacy App.config API (built into .NET Framework) to [SharpConfig project](https://github.com/cemdervis/SharpConfig) (.NET Core compatible)
 > * Built as single exe
