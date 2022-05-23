@@ -500,11 +500,7 @@ namespace Bortpad
             editFindNext.Enabled = CanRepeatFind();
             editFindPrevious.Enabled = editFindNext.Enabled;
 
-            if (thisPrompt.Up)
-            {
-                FindPrev(sender, args);
-            }
-            else { FindNext(sender, args); }
+            FindNextPrev(thisPrompt.Up);
         }
 
         private void FindNext(object sender, EventArgs args)
@@ -512,7 +508,7 @@ namespace Bortpad
             FindNextPrev(false);
         }
 
-        private int FindNextPrev(bool prev = false)
+        private void FindNextPrev(bool prev = false)
         {
             string searchQuery = GetSetting<string>("Search", "Find");
             bool searchMatchCase = GetSetting<bool>("MatchCase", "Find");
@@ -527,7 +523,6 @@ namespace Bortpad
                 MainStatus = "";
             }
             HighlightResult(pos, searchQuery);
-            return pos;
         }
 
         private void FindPrev(object sender, EventArgs args)
