@@ -5,35 +5,55 @@ namespace Bortpad
 {
     public partial class ReplacePrompt : Form
     {
-        private BortForm BortParent;
+        // private BortForm BortParent;
+        public event EventHandler FindClick;
+
+        public event EventHandler ReplaceClick;
+
+        public event EventHandler ReplaceAllClick;
+
+        public string SearchQuery
+        {
+            get => searchQuery.Text;
+            private set => searchQuery.Text = value;
+        }
+
+        public string ReplaceWith
+        {
+            get => replaceWith.Text;
+            private set => replaceWith.Text = value;
+        }
+
+        public bool MatchCase
+        {
+            get => matchCase.Checked;
+            private set => matchCase.Checked = value;
+        }
+
+        public bool WrapAround
+        {
+            get => wrapAround.Checked;
+            private set => wrapAround.Checked = value;
+        }
 
         public ReplacePrompt(string setQuery = "", string setReplace = "", bool setMatchCase = false, bool setWrapAround = false)
         {
             InitializeComponent();
-            searchQuery.Text = setQuery;
-            replaceWith.Text = setReplace;
-            matchCase.Checked = setMatchCase;
-            wrapAround.Checked = setWrapAround;
+            SearchQuery = setQuery;
+            ReplaceWith = setReplace;
+            MatchCase = setMatchCase;
+            WrapAround = setWrapAround;
         }
 
-        private void cancel_Click(object sender, EventArgs e)
+        private void Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private int findNext()
+        private void FindNext_Click(object sender, EventArgs e)
         {
-            return BortParent.FindFromPrompt(searchQuery.Text, false, matchCase.Checked, wrapAround.Checked);
-        }
-
-        private void findNext_Click(object sender, EventArgs e)
-        {
-            findNext();
-        }
-
-        private void FindPrompt_Shown(object sender, EventArgs e)
-        {
-            BortParent = (BortForm)Owner;
+            // findNext();
+            FindClick?.Invoke(this, e);
         }
 
         private void FindPrompt_VisibleChanged(object sender, EventArgs e)
@@ -44,29 +64,19 @@ namespace Bortpad
             }
         }
 
-        private int replace()
+        private void ReplaceAllButton_Click(object sender, EventArgs e)
         {
-            return BortParent.ReplaceFromPrompt(searchQuery.Text, replaceWith.Text, matchCase.Checked, wrapAround.Checked);
+            ReplaceAllClick?.Invoke(this, EventArgs.Empty);
         }
 
-        private void replaceAll()
+        private void ReplaceButton_Click(object sender, EventArgs e)
         {
-            BortParent.ReplaceAll(searchQuery.Text, replaceWith.Text, matchCase.Checked, wrapAround.Checked);
+            ReplaceClick?.Invoke(this, EventArgs.Empty);
         }
 
-        private void replaceAllButton_Click(object sender, EventArgs e)
+        private void SearchQuery_TextChanged(object sender, EventArgs e)
         {
-            replaceAll();
-        }
-
-        private void replaceButton_Click(object sender, EventArgs e)
-        {
-            replace();
-        }
-
-        private void searchQuery_TextChanged(object sender, EventArgs e)
-        {
-            bool hasText = searchQuery.Text.Length > 0;
+            bool hasText = SearchQuery.Length > 0;
             findNextButton.Enabled = hasText;
             replaceButton.Enabled = hasText;
             replaceAllButton.Enabled = hasText;

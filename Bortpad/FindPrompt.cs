@@ -5,15 +5,40 @@ namespace Bortpad
 {
     public partial class FindPrompt : Form
     {
-        private BortForm BortParent;
+        // private BortForm BortParent;
+        public event EventHandler FindClick;
+
+        public string SearchQuery
+        {
+            get => searchQuery.Text;
+            private set => searchQuery.Text = value;
+        }
+
+        public bool Up
+        {
+            get => up.Checked;
+            private set => up.Checked = value;
+        }
+
+        public bool MatchCase
+        {
+            get => matchCase.Checked;
+            private set => matchCase.Checked = value;
+        }
+
+        public bool WrapAround
+        {
+            get => wrapAround.Checked;
+            private set => wrapAround.Checked = value;
+        }
 
         public FindPrompt(string setQuery = "", bool setUp = false, bool setMatchCase = false, bool setWrapAround = false)
         {
             InitializeComponent();
-            searchQuery.Text = setQuery;
-            up.Checked = setUp;
-            matchCase.Checked = setMatchCase;
-            wrapAround.Checked = setWrapAround;
+            SearchQuery = setQuery;
+            Up = setUp;
+            MatchCase = setMatchCase;
+            WrapAround = setWrapAround;
         }
 
         private void cancel_Click(object sender, EventArgs e)
@@ -21,19 +46,15 @@ namespace Bortpad
             Close();
         }
 
-        private int findNext()
-        {
-            return BortParent.FindFromPrompt(searchQuery.Text, up.Checked, matchCase.Checked, wrapAround.Checked);
-        }
-
         private void findNext_Click(object sender, EventArgs e)
         {
-            findNext();
+            // findNext();
+            FindClick?.Invoke(this, EventArgs.Empty);
         }
 
         private void FindPrompt_Shown(object sender, EventArgs e)
         {
-            BortParent = (BortForm)Owner;
+            // BortParent = (BortForm)Owner;
         }
 
         private void FindPrompt_VisibleChanged(object sender, EventArgs e)
@@ -46,7 +67,7 @@ namespace Bortpad
 
         private void searchQuery_TextChanged(object sender, EventArgs e)
         {
-            findNextButton.Enabled = searchQuery.Text.Length > 0;
+            findNextButton.Enabled = SearchQuery.Length > 0;
         }
     }
 }

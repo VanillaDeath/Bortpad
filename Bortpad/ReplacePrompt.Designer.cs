@@ -59,7 +59,7 @@
             this.searchQuery.Name = "searchQuery";
             this.searchQuery.Size = new System.Drawing.Size(177, 20);
             this.searchQuery.TabIndex = 1;
-            this.searchQuery.TextChanged += new System.EventHandler(this.searchQuery_TextChanged);
+            this.searchQuery.TextChanged += new System.EventHandler(this.SearchQuery_TextChanged);
             // 
             // findNextButton
             // 
@@ -71,7 +71,7 @@
             this.findNextButton.TabIndex = 5;
             this.findNextButton.Text = "&Find Next";
             this.findNextButton.UseVisualStyleBackColor = true;
-            this.findNextButton.Click += new System.EventHandler(this.findNext_Click);
+            this.findNextButton.Click += new System.EventHandler(this.FindNext_Click);
             // 
             // cancelBtn
             // 
@@ -83,7 +83,7 @@
             this.cancelBtn.TabIndex = 8;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
-            this.cancelBtn.Click += new System.EventHandler(this.cancel_Click);
+            this.cancelBtn.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // wrapAround
             // 
@@ -136,7 +136,7 @@
             this.replaceButton.TabIndex = 6;
             this.replaceButton.Text = "&Replace";
             this.replaceButton.UseVisualStyleBackColor = true;
-            this.replaceButton.Click += new System.EventHandler(this.replaceButton_Click);
+            this.replaceButton.Click += new System.EventHandler(this.ReplaceButton_Click);
             // 
             // replaceAllButton
             // 
@@ -148,7 +148,7 @@
             this.replaceAllButton.TabIndex = 7;
             this.replaceAllButton.Text = "Replace &All";
             this.replaceAllButton.UseVisualStyleBackColor = true;
-            this.replaceAllButton.Click += new System.EventHandler(this.replaceAllButton_Click);
+            this.replaceAllButton.Click += new System.EventHandler(this.ReplaceAllButton_Click);
             // 
             // ReplacePrompt
             // 
@@ -178,7 +178,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Replace";
             this.TopMost = true;
-            this.Shown += new System.EventHandler(this.FindPrompt_Shown);
             this.VisibleChanged += new System.EventHandler(this.FindPrompt_VisibleChanged);
             this.ResumeLayout(false);
             this.PerformLayout();

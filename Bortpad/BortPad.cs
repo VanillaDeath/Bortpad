@@ -215,7 +215,7 @@ namespace Bortpad
 
         #region Instance Methods: Settings
 
-        internal T GetSetting<T>(string key, string section = _DEFAULT_SECTION)
+        private T GetSetting<T>(string key, string section = _DEFAULT_SECTION)
         {
             if (Settings == null || !Settings.Any())
             {
@@ -224,7 +224,7 @@ namespace Bortpad
             return (T)Settings[section][key].GetValue<T>();
         }
 
-        internal bool LoadSettings()
+        private bool LoadSettings()
         {
             if (File.Exists(ConfigFile))
             {
@@ -248,12 +248,12 @@ namespace Bortpad
             return false;
         }
 
-        internal void SaveSettings()
+        private void SaveSettings()
         {
             Settings.SaveToFile(ConfigFile);
         }
 
-        internal void SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION, bool save = true)
+        private void SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION, bool save = true)
         {
             Settings[section][key].SetValue(value);
             if (save)
@@ -262,7 +262,7 @@ namespace Bortpad
             }
         }
 
-        internal bool ToggleSetting(string key)
+        private bool ToggleSetting(string key)
         {
             SetSetting(key, !GetSetting<bool>(key));
             return GetSetting<bool>(key);
@@ -469,58 +469,6 @@ namespace Bortpad
 
         #region Instance Methods: Find & Replace
 
-        internal int FindFromPrompt(string query, bool reverse, bool matchCase, bool wrapAround)
-        {
-            SetSetting("Search", query, "Find");
-            SetSetting("Up", reverse, "Find");
-            SetSetting("MatchCase", matchCase, "Find");
-            SetSetting("WrapAround", wrapAround, "Find");
-            editFindNext.Enabled = CanRepeatFind();
-            editFindPrevious.Enabled = editFindNext.Enabled;
-
-            return reverse ? FindPrev() : FindNext();
-        }
-
-        internal bool GoToLineFromPrompt(string ln)
-        {
-            if (ln != null && ln != "" && long.TryParse(ln, out long lnNum) && lnNum >= 1 && lnNum <= editor.NumLines)
-            {
-                editor.Ln = (int)lnNum;
-                return true;
-            }
-            MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
-            return false;
-        }
-
-        internal void ReplaceAll(string query, string replaceString, bool matchCase, bool wrapAround)
-        {
-            SetSetting("Search", query, "Find");
-            SetSetting("Replace", replaceString, "Find");
-            SetSetting("MatchCase", matchCase, "Find");
-            SetSetting("WrapAround", wrapAround, "Find");
-            string input = string.Format(@"({0})", Regex.Escape(query));
-            string pattern = string.Format("{0}", Regex.Escape(replaceString));
-            editor.Text = Regex.Replace(
-                editor.Text,
-                input,
-                pattern,
-                matchCase ? RegexOptions.None : RegexOptions.IgnoreCase
-                );
-        }
-
-        internal int ReplaceFromPrompt(string query, string replaceString, bool matchCase, bool wrapAround)
-        {
-            SetSetting("Search", query, "Find");
-            SetSetting("Replace", replaceString, "Find");
-            SetSetting("MatchCase", matchCase, "Find");
-            SetSetting("WrapAround", wrapAround, "Find");
-            if (editor.SelectedText.Equals(query, GetComparisonType(matchCase)))
-            {
-                editor.ReplaceSelection(replaceString);
-            }
-            return FindFromPrompt(query, false, matchCase, wrapAround);
-        }
-
         private bool CanRepeatFind()
         {
             return GetSetting<string>("Search", "Find").Length > 0 && editor.HasText;
@@ -538,12 +486,30 @@ namespace Bortpad
                 GetSetting<bool>("Up", "Find"),
                 GetSetting<bool>("MatchCase", "Find"),
                 GetSetting<bool>("WrapAround", "Find"));
-            _find.Show(this);
+            _find.FindClick += FindFromPrompt;
+            _find.Show();
         }
 
-        private int FindNext()
+        private void FindFromPrompt(object sender, EventArgs args)
         {
-            return FindNextPrev(false);
+            FindPrompt thisPrompt = (FindPrompt)sender;
+            SetSetting("Search", thisPrompt.SearchQuery, "Find");
+            SetSetting("Up", thisPrompt.Up, "Find");
+            SetSetting("MatchCase", thisPrompt.MatchCase, "Find");
+            SetSetting("WrapAround", thisPrompt.WrapAround, "Find");
+            editFindNext.Enabled = CanRepeatFind();
+            editFindPrevious.Enabled = editFindNext.Enabled;
+
+            if (thisPrompt.Up)
+            {
+                FindPrev(sender, args);
+            }
+            else { FindNext(sender, args); }
+        }
+
+        private void FindNext(object sender, EventArgs args)
+        {
+            FindNextPrev(false);
         }
 
         private int FindNextPrev(bool prev = false)
@@ -564,9 +530,21 @@ namespace Bortpad
             return pos;
         }
 
-        private int FindPrev()
+        private void FindPrev(object sender, EventArgs args)
         {
-            return FindNextPrev(true);
+            FindNextPrev(true);
+        }
+
+        private void GoToLineFromPrompt(object sender, EventArgs args)
+        {
+            long ln = ((GoToPrompt)sender).LineNumber;
+            if (ln >= 1 && ln <= editor.NumLines)
+            {
+                editor.Ln = (int)ln;
+                ((GoToPrompt)sender).Close();
+                return;
+            }
+            MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
         }
 
         private void HighlightResult(int pos, string q)
@@ -577,11 +555,51 @@ namespace Bortpad
                 editor.SetSelection(pos, pos + q.Length);
                 editor.ScrollCaret();
                 UpdatePos();
+                return;
             }
-            else
+            _ = MessageBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void ReplaceAll(object sender, EventArgs args)
+        {
+            ReplaceFromPrompt(sender, args, true);
+        }
+
+        private void ReplaceFromPrompt(object sender, EventArgs args, bool replaceAll = false)
+        {
+            ReplacePrompt replacePrompt = (ReplacePrompt)sender;
+            string query = replacePrompt.SearchQuery;
+            string replaceString = replacePrompt.ReplaceWith;
+            bool matchCase = replacePrompt.MatchCase;
+            bool wrapAround = replacePrompt.WrapAround;
+            SetSetting("Search", query, "Find");
+            SetSetting("Replace", replaceString, "Find");
+            SetSetting("MatchCase", matchCase, "Find");
+            SetSetting("WrapAround", wrapAround, "Find");
+
+            if (replaceAll)
             {
-                _ = MessageBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string input = string.Format(@"({0})", Regex.Escape(query));
+                string pattern = string.Format("{0}", Regex.Escape(replaceString));
+                editor.Text = Regex.Replace(
+                    editor.Text,
+                    input,
+                    pattern,
+                    matchCase ? RegexOptions.None : RegexOptions.IgnoreCase
+                    );
+                return;
             }
+
+            if (editor.SelectedText.Equals(query, GetComparisonType(matchCase)))
+            {
+                editor.ReplaceSelection(replaceString);
+            }
+            FindNext(sender, args);
+        }
+
+        private void ReplaceOne(object sender, EventArgs args)
+        {
+            ReplaceFromPrompt(sender, args, false);
         }
 
         private void ReplacePrompt()
@@ -591,8 +609,15 @@ namespace Bortpad
                 _replace.BringToFront();
                 return;
             }
-            _replace = new ReplacePrompt(GetSetting<string>("Search", "Find"), GetSetting<string>("Replace", "Find"), GetSetting<bool>("MatchCase", "Find"), GetSetting<bool>("WrapAround", "Find"));
-            _replace.Show(this);
+            _replace = new ReplacePrompt(
+                GetSetting<string>("Search", "Find"),
+                GetSetting<string>("Replace", "Find"),
+                GetSetting<bool>("MatchCase", "Find"),
+                GetSetting<bool>("WrapAround", "Find"));
+            _replace.FindClick += FindNext;
+            _replace.ReplaceClick += ReplaceOne;
+            _replace.ReplaceAllClick += ReplaceAll;
+            _replace.Show();
         }
 
         #endregion Instance Methods: Find & Replace
@@ -869,11 +894,11 @@ namespace Bortpad
                     break;
 
                 case "editFindNext":
-                    FindNext();
+                    FindNext(sender, e);
                     break;
 
                 case "editFindPrevious":
-                    FindPrev();
+                    FindPrev(sender, e);
                     break;
 
                 case "editReplace":
@@ -883,7 +908,8 @@ namespace Bortpad
                 case "editGoTo":
                     using (GoToPrompt gt = new(editor.Ln))
                     {
-                        _ = gt.ShowDialog(this);
+                        gt.GoToClick += GoToLineFromPrompt;
+                        _ = gt.ShowDialog();
                     }
                     break;
 

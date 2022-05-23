@@ -5,13 +5,33 @@ namespace Bortpad
 {
     public partial class GoToPrompt : Form
     {
-        private BortForm BortParent;
-        private int origLineNumber;
+        // private BortForm BortParent;
+
+        public event EventHandler GoToClick;
+
+        public int OriginalLineNumber
+        {
+            get; private set;
+        }
+
+        public long LineNumber
+        {
+            get
+            {
+                string line = lineNumber.Text;
+                if (line != null && line != "" && long.TryParse(line, out long result))
+                {
+                    return result;
+                }
+                return -1;
+            }
+            private set => lineNumber.Text = value.ToString();
+        }
 
         public GoToPrompt(int setOrigLineNumber = 0)
         {
             InitializeComponent();
-            origLineNumber = setOrigLineNumber;
+            OriginalLineNumber = setOrigLineNumber;
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
@@ -21,29 +41,18 @@ namespace Bortpad
 
         private void GoToButton_Click(object sender, EventArgs e)
         {
-            if (BortParent.GoToLineFromPrompt(lineNumber.Text))
-            {
-                Close();
-            }
-            else
-            {
-                InitField();
-            }
+            GoToClick?.Invoke(this, EventArgs.Empty);
+            InitField();
         }
 
         private void GoToPrompt_Shown(object sender, EventArgs e)
         {
-            BortParent = (BortForm)Owner;
-            if (origLineNumber < 1)
-            {
-                origLineNumber = BortParent.editor.Ln;
-            }
             InitField();
         }
 
         private void InitField()
         {
-            lineNumber.Text = origLineNumber.ToString();
+            LineNumber = OriginalLineNumber;
             lineNumber.SelectAll();
         }
     }
