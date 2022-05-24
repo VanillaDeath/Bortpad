@@ -29,103 +29,107 @@ namespace Bortpad
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageBorx));
-            this.CancelBtn = new System.Windows.Forms.Button();
-            this.DontSaveButton = new System.Windows.Forms.Button();
-            this.SaveButton = new System.Windows.Forms.Button();
-            this.MessageLabel = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.messageLabel = new System.Windows.Forms.Label();
             this.subMessageLabel = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.messageIcon = new System.Windows.Forms.PictureBox();
+            this.messagePanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttonPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.subMessagePanel = new System.Windows.Forms.FlowLayoutPanel();
+            ((System.ComponentModel.ISupportInitialize)(this.messageIcon)).BeginInit();
+            this.messagePanel.SuspendLayout();
+            this.subMessagePanel.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // CancelBtn
-            // 
-            this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(327, 12);
-            this.CancelBtn.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.CancelBtn.Name = "CancelBtn";
-            this.CancelBtn.Size = new System.Drawing.Size(88, 27);
-            this.CancelBtn.TabIndex = 2;
-            this.CancelBtn.Text = "Cancel";
-            this.CancelBtn.UseVisualStyleBackColor = true;
-            // 
-            // DontSaveButton
-            // 
-            this.DontSaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.DontSaveButton.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.DontSaveButton.Location = new System.Drawing.Point(232, 12);
-            this.DontSaveButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.DontSaveButton.Name = "DontSaveButton";
-            this.DontSaveButton.Size = new System.Drawing.Size(88, 27);
-            this.DontSaveButton.TabIndex = 1;
-            this.DontSaveButton.Text = "Do&n\'t Save";
-            this.DontSaveButton.UseVisualStyleBackColor = true;
-            // 
-            // SaveButton
-            // 
-            this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveButton.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.SaveButton.Location = new System.Drawing.Point(138, 12);
-            this.SaveButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(88, 27);
-            this.SaveButton.TabIndex = 0;
-            this.SaveButton.Text = "&Save";
-            this.SaveButton.UseVisualStyleBackColor = true;
             // 
             // MessageLabel
             // 
-            this.MessageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.messageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.MessageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.MessageLabel.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.MessageLabel.Location = new System.Drawing.Point(14, 10);
-            this.MessageLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.MessageLabel.Name = "MessageLabel";
-            this.MessageLabel.Size = new System.Drawing.Size(400, 39);
-            this.MessageLabel.TabIndex = 3;
-            this.MessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.panel1.Controls.Add(this.CancelBtn);
-            this.panel1.Controls.Add(this.DontSaveButton);
-            this.panel1.Controls.Add(this.SaveButton);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 85);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(428, 52);
-            this.panel1.TabIndex = 4;
+            this.messageLabel.AutoSize = true;
+            this.messageLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.messageLabel.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.messageLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.messageLabel.Location = new System.Drawing.Point(42, 0);
+            this.messageLabel.Name = "MessageLabel";
+            this.messageLabel.Size = new System.Drawing.Size(0, 40);
+            this.messageLabel.TabIndex = 3;
+            this.messageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // subMessageLabel
             // 
-            this.subMessageLabel.Location = new System.Drawing.Point(12, 58);
+            this.subMessageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.subMessageLabel.AutoEllipsis = true;
+            this.subMessageLabel.AutoSize = true;
+            this.subMessageLabel.Location = new System.Drawing.Point(3, 0);
             this.subMessageLabel.Name = "subMessageLabel";
-            this.subMessageLabel.Size = new System.Drawing.Size(403, 19);
+            this.subMessageLabel.Size = new System.Drawing.Size(0, 13);
             this.subMessageLabel.TabIndex = 5;
             this.subMessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // messageIcon
+            // 
+            this.messageIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.messageIcon.Location = new System.Drawing.Point(3, 3);
+            this.messageIcon.Name = "messageIcon";
+            this.messageIcon.Size = new System.Drawing.Size(33, 34);
+            this.messageIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.messageIcon.TabIndex = 6;
+            this.messageIcon.TabStop = false;
+            // 
+            // messagePanel
+            // 
+            this.messagePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.messagePanel.AutoSize = true;
+            this.messagePanel.Controls.Add(this.messageIcon);
+            this.messagePanel.Controls.Add(this.messageLabel);
+            this.messagePanel.Location = new System.Drawing.Point(12, 12);
+            this.messagePanel.Name = "messagePanel";
+            this.messagePanel.Size = new System.Drawing.Size(343, 40);
+            this.messagePanel.TabIndex = 7;
+            // 
+            // buttonPanel
+            // 
+            this.buttonPanel.AutoSize = true;
+            this.buttonPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.buttonPanel.Location = new System.Drawing.Point(0, 108);
+            this.buttonPanel.Name = "buttonPanel";
+            this.buttonPanel.Padding = new System.Windows.Forms.Padding(10);
+            this.buttonPanel.Size = new System.Drawing.Size(367, 20);
+            this.buttonPanel.TabIndex = 8;
+            // 
+            // subMessagePanel
+            // 
+            this.subMessagePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.subMessagePanel.AutoSize = true;
+            this.subMessagePanel.Controls.Add(this.subMessageLabel);
+            this.subMessagePanel.Location = new System.Drawing.Point(12, 58);
+            this.subMessagePanel.Name = "subMessagePanel";
+            this.subMessagePanel.Size = new System.Drawing.Size(343, 13);
+            this.subMessagePanel.TabIndex = 9;
+            // 
             // MessageBorx
             // 
-            this.AcceptButton = this.SaveButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.CancelButton = this.CancelBtn;
-            this.ClientSize = new System.Drawing.Size(428, 137);
-            this.Controls.Add(this.subMessageLabel);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.MessageLabel);
+            this.ClientSize = new System.Drawing.Size(367, 128);
+            this.Controls.Add(this.subMessagePanel);
+            this.Controls.Add(this.buttonPanel);
+            this.Controls.Add(this.messagePanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MessageBorx";
@@ -133,19 +137,22 @@ namespace Bortpad
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Shown += new System.EventHandler(this.MessageBorx_Shown);
-            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.messageIcon)).EndInit();
+            this.messagePanel.ResumeLayout(false);
+            this.messagePanel.PerformLayout();
+            this.subMessagePanel.ResumeLayout(false);
+            this.subMessagePanel.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button CancelBtn;
-        private System.Windows.Forms.Button DontSaveButton;
-        private System.Windows.Forms.Button SaveButton;
-        private System.Windows.Forms.Label MessageLabel;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label messageLabel;
         private System.Windows.Forms.Label subMessageLabel;
+        private System.Windows.Forms.PictureBox messageIcon;
+        private System.Windows.Forms.FlowLayoutPanel messagePanel;
+        private System.Windows.Forms.FlowLayoutPanel buttonPanel;
+        private System.Windows.Forms.FlowLayoutPanel subMessagePanel;
     }
 }

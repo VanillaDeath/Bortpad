@@ -7,15 +7,13 @@ namespace Bortpad
         public ReadonlyPrompt(bool currentlyReadOnly = false)
         {
             InitializeComponent();
-            if (!currentlyReadOnly)
-            {
-                editBtn.Text = "OK";
-                buttonPanel.Controls.Remove(cancelBtn);
-            }
-            else
+            if (currentlyReadOnly)
             {
                 cancelBtn.Select();
+                return;
             }
+            editBtn.Text = "OK";
+            buttonPanel.Controls.Remove(cancelBtn);
         }
 
         private void EditBtn_Click(object sender, System.EventArgs e)

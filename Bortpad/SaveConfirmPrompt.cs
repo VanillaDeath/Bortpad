@@ -4,13 +4,23 @@ namespace Bortpad
 {
     public partial class SaveConfirmPrompt : Form
     {
-        public SaveConfirmPrompt(string filename = BortForm._DEFAULT_FILENAME, bool isReadOnly = false)
+        private string _fileName;
+
+        public SaveConfirmPrompt(string fileName)
         {
             InitializeComponent();
-            SaveQuestion.Text = "Do you want to save changes to " + filename + "?";
-            if (isReadOnly)
+            FileName = fileName;
+        }
+
+        public string FileName
+        {
+            get
             {
-                SaveButton.Text = "Save...";
+                return _fileName;
+            }
+            private set
+            {
+                SaveQuestion.Text = "Do you want to save changes to " + (_fileName = value) + "?";
             }
         }
     }

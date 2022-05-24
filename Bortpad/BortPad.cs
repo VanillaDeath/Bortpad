@@ -41,31 +41,6 @@ namespace Bortpad
 
         #endregion _fields
 
-        #region Constructors
-
-        public BortForm(string filenameSpecified = null)
-        {
-            InitializeComponent();
-
-            FileName = filenameSpecified;
-
-            ConfigFile = ProgramName + ".cfg";
-            EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
-            editor.Font = GetSetting<Font>("Font");
-            editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
-            StatusBar = GetSetting<bool>("StatusBar");
-            DarkMode = GetSetting<bool>("DarkMode");
-            windowsLineFeed.Tag = _CRLF;
-            linuxLineFeed.Tag = _LF;
-            macLineFeed.Tag = _CR;
-            editor.ViewEol = GetSetting<bool>("ShowLineEndings");
-            EolSetting = GetSetting<Eol>("LineEnding");
-
-            Text = _DEFAULT_FILENAME + " - " + ProgramName;
-        }
-
-        #endregion Constructors
-
         #region Properties
 
         public EncodingInfo[] CodePages
@@ -180,6 +155,31 @@ namespace Bortpad
         }
 
         #endregion Properties
+
+        #region Constructors
+
+        public BortForm(string filenameSpecified = null)
+        {
+            InitializeComponent();
+
+            FileName = filenameSpecified;
+
+            ConfigFile = ProgramName + ".cfg";
+            EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
+            editor.Font = GetSetting<Font>("Font");
+            editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
+            StatusBar = GetSetting<bool>("StatusBar");
+            DarkMode = GetSetting<bool>("DarkMode");
+            windowsLineFeed.Tag = _CRLF;
+            linuxLineFeed.Tag = _LF;
+            macLineFeed.Tag = _CR;
+            editor.ViewEol = GetSetting<bool>("ShowLineEndings");
+            EolSetting = GetSetting<Eol>("LineEnding");
+
+            Text = _DEFAULT_FILENAME + " - " + ProgramName;
+        }
+
+        #endregion Constructors
 
         #region Static Methods
 
