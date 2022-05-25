@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Bortpad": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "nativeDebugging": true
     }
   }
 }

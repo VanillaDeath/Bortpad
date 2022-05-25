@@ -178,10 +178,6 @@ public partial class BortForm : Form
         EolSetting = GetSetting<Eol>("LineEnding");
 
         Text = _DEFAULT_FILENAME + " - " + ProgramName;
-
-        // _ = MsgBox.Show("test");
-        // _ = MsgBox.Show("test2");
-        // MsgBox.ShowDialog();
     }
 
     #endregion Constructors
@@ -279,7 +275,8 @@ public partial class BortForm : Form
 
     private void FileNotFound()
     {
-        MessageBox.Show("The system cannot find the path specified.", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        // _ = MessageBox.Show("The system cannot find the path specified.", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        _ = MsgBox.Show("The system cannot find the path specified.", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
     }
 
     private bool NewDocument(bool saveFirst = true)
@@ -350,7 +347,8 @@ public partial class BortForm : Form
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // _ = MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -384,9 +382,40 @@ public partial class BortForm : Form
                 {
                     readOnlyNotice.Visible = true;
                 }
-                ReadonlyDecision rod = new();
-                rod.ShowDialog();
-                switch (rod.DialogResult)
+                // ReadonlyDecision rod = new();
+                // rod.ShowDialog();
+                // switch (rod.DialogResult)
+                DialogResult rod = MsgBox.Show("This file is marked as Read-Only", "To Save this file, either\n• Unset the Read - Only flag\n• Save As a new document", ProgramName, new() {
+                    new()
+                    {
+                        Name = "unsetAndSaveBtn",
+                        Text = "&Unset and Save",
+                        DialogResult = DialogResult.Yes,
+                        TabIndex = 0
+                    },
+                    new()
+                    {
+                        Name = "saveAsBtn",
+                        Text = "Save &As...",
+                        DialogResult = DialogResult.OK,
+                        TabIndex = 1
+                    },
+                    new()
+                    {
+                        Name = "dontSaveBtn",
+                        Text = "Do&n't Save",
+                        DialogResult = DialogResult.No,
+                        TabIndex = 2
+                    },
+                    new()
+                    {
+                        Name = "cancelBtn",
+                        Text = "Cancel",
+                        DialogResult = DialogResult.Cancel,
+                        TabIndex = 3
+                    }
+                }, "dontSaveBtn");
+                switch (rod)
                 {
                     case DialogResult.Yes:
                         IsReadOnly = false;
@@ -410,9 +439,33 @@ public partial class BortForm : Form
                         return false;
                 }
             }
-            SaveConfirmPrompt scp = new(FileName);
-            scp.ShowDialog();
-            return scp.DialogResult switch
+            // SaveConfirmPrompt scp = new(FileName);
+            // scp.ShowDialog();
+            DialogResult scp = MsgBox.Show("Do you want to save changes to " + Path.GetFileName(FileName) + "?", "", ProgramName, new()
+            {
+                new()
+                {
+                    Name = "saveBtn",
+                    Text = "&Save",
+                    DialogResult = DialogResult.Yes,
+                    TabIndex = 0
+                },
+                new()
+                {
+                    Name = "dontSaveBtn",
+                    Text = "Do&n't Save",
+                    DialogResult = DialogResult.No,
+                    TabIndex = 1
+                },
+                new()
+                {
+                    Name = "cancelBtn",
+                    Text = "Cancel",
+                    DialogResult = DialogResult.Cancel,
+                    TabIndex = 2
+                }
+            }, "dontSaveBtn");
+            return scp switch
             {
                 DialogResult.Yes => SaveDocument(), // Save/Show Save Dialog
                 DialogResult.No => true,
@@ -440,7 +493,8 @@ public partial class BortForm : Form
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // _ = MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
@@ -544,7 +598,8 @@ public partial class BortForm : Form
             ((GoToPrompt)sender).Close();
             return;
         }
-        MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
+        // _ = MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
+        _ = MsgBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
     }
 
     private void HighlightResult(int pos, string q)
@@ -557,7 +612,8 @@ public partial class BortForm : Form
             UpdatePos();
             return;
         }
-        _ = MessageBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        // _ = MessageBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        _ = MsgBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
     private void ReplaceAll(object sender, EventArgs args)

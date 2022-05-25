@@ -10,7 +10,7 @@ public partial class MsgBox : Form
 {
     private static MsgBox _thisMsgBox;
 
-    private static readonly List<Button> _presetButtons = new()
+    private static readonly Button[] _presets =
     {
         new() { Name = "okBtn", Text = "OK", DialogResult = DialogResult.OK },
         new() { Name = "cancelBtn", Text = "Cancel", DialogResult = DialogResult.Cancel },
@@ -23,12 +23,12 @@ public partial class MsgBox : Form
 
     private static readonly IDictionary<MessageBoxButtons, List<Button>> _buttonSet = new Dictionary<MessageBoxButtons, List<Button>>()
     {
-        { MessageBoxButtons.OK,  GetPresets("ok") },
-        { MessageBoxButtons.OKCancel, GetPresets("ok", "cancel") },
-        { MessageBoxButtons.YesNo, GetPresets("yes", "no") },
-        { MessageBoxButtons.YesNoCancel, GetPresets("yes", "no", "cancel") },
-        { MessageBoxButtons.RetryCancel, GetPresets("retry", "cancel") },
-        { MessageBoxButtons.AbortRetryIgnore, GetPresets("abort", "retry", "ignore") }
+        { MessageBoxButtons.OK, new() { _presets[0] } },
+        { MessageBoxButtons.OKCancel, new() { _presets[0], _presets[1] } },
+        { MessageBoxButtons.YesNo, new() { _presets[2], _presets[3] } },
+        { MessageBoxButtons.YesNoCancel, new() { _presets[2], _presets[3], _presets[1] } },
+        { MessageBoxButtons.RetryCancel, new() { _presets[5], _presets[1] } },
+        { MessageBoxButtons.AbortRetryIgnore, new() { _presets[4], _presets[5], _presets[6] } }
     };
 
     public object Result
@@ -36,7 +36,7 @@ public partial class MsgBox : Form
         get; private set;
     }
 
-    private MsgBox(string message, string subMessage, string caption, MessageBoxIcon icon, List<Button> buttons, string defaultButton)
+    private MsgBox(string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon icon, string defaultButton)
     {
         InitializeComponent();
         SetMessage(message);
@@ -44,16 +44,6 @@ public partial class MsgBox : Form
         SetSubMessage(subMessage);
         SetMessageIcon(icon);
         SetButtons(buttons, defaultButton);
-    }
-
-    private static List<Button> GetPresets(params string[] name)
-    {
-        List<Button> result = new();
-        foreach (string n in name)
-        {
-            result.Add(_presetButtons.Find(b => Equals(b.Name, n + "Btn")));
-        }
-        return result;
     }
 
     private void SetMessage(string message)
@@ -75,7 +65,9 @@ public partial class MsgBox : Form
     {
         if (subMessage == null)
         {
-            Controls.Remove(subMessageLabel);
+            contentPanel.Controls.Remove(subMessageLabel);
+            messageLabel.Font = null;
+            messageLabel.ForeColor = SystemColors.WindowText;
             return;
         }
         subMessageLabel.Text = subMessage;
@@ -87,9 +79,7 @@ public partial class MsgBox : Form
         buttons ??= new();
         if (buttons.Count < 1)
         {
-            buttons.Add(
-                _presetButtons.FirstOrDefault()
-            );
+            buttons.Add(_presets[0]);
         }
 
         // Iterate through each button
@@ -113,6 +103,8 @@ public partial class MsgBox : Form
                     AcceptButton ??= button;
                     break;
             }
+
+            button.AutoSize = true;
         });
 
         // Reverse order since flow panel populates right to left
@@ -120,6 +112,9 @@ public partial class MsgBox : Form
 
         // Add buttons to flow panel
         buttonPanel.Controls.AddRange(buttons.ToArray());
+
+        // Add a spacer to the left
+        buttonPanel.Controls.Add(new Label() { Width = 20 });
 
         // Set pre-selected (default) button
         if (defaultButton == null)
@@ -158,98 +153,102 @@ public partial class MsgBox : Form
     #region Show Method Overloads
 
     // Buttons should at least have Text and DialogResult properties, Tag and TabIndex optionally, and Name if setting as defaultButton
-    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxIcon icon, List<Button> buttons, string defaultButton)
+    public static DialogResult Show(string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon icon, string defaultButton)
     {
-        _thisMsgBox = new(message, subMessage, caption, icon, buttons, defaultButton);
+        _thisMsgBox = new(message, subMessage, caption, buttons, icon, defaultButton);
         return _thisMsgBox.ShowDialog();
     }
 
     public static DialogResult Show(string message)
     {
-        return Show(message, null, null, MessageBoxIcon.None, null, null);
+        return Show(message, null, null, null, MessageBoxIcon.None, null);
     }
 
     public static DialogResult Show(string message, string caption)
     {
-        return Show(message, null, caption, MessageBoxIcon.None, null, null);
+        return Show(message, null, caption, null, MessageBoxIcon.None, null);
     }
 
     public static DialogResult Show(string message, string subMessage, string caption)
     {
-        return Show(message, subMessage, caption, MessageBoxIcon.None, null, null);
+        return Show(message, subMessage, caption, null, MessageBoxIcon.None, null);
     }
 
     public static DialogResult Show(string message, MessageBoxIcon icon)
     {
-        return Show(message, null, null, icon, null, null);
+        return Show(message, null, null, null, icon, null);
     }
 
     public static DialogResult Show(string message, List<Button> buttons)
     {
-        return Show(message, null, null, MessageBoxIcon.None, buttons, null);
+        return Show(message, null, null, buttons, MessageBoxIcon.None, null);
     }
 
     public static DialogResult Show(string message, List<Button> buttons, string defaultButton)
     {
-        return Show(message, null, null, MessageBoxIcon.None, buttons, defaultButton);
+        return Show(message, null, null, buttons, MessageBoxIcon.None, defaultButton);
     }
 
-    public static DialogResult Show(string message, MessageBoxIcon icon, List<Button> buttons)
+    public static DialogResult Show(string message, List<Button> buttons, MessageBoxIcon icon)
     {
-        return Show(message, null, null, icon, buttons, null);
+        return Show(message, null, null, buttons, icon, null);
     }
 
-    public static DialogResult Show(string message, MessageBoxIcon icon, List<Button> buttons, string defaultButton)
+    public static DialogResult Show(string message, List<Button> buttons, MessageBoxIcon icon, string defaultButton)
     {
-        return Show(message, null, null, icon, buttons, defaultButton);
+        return Show(message, null, null, buttons, icon, defaultButton);
     }
 
     public static DialogResult Show(string message, string caption, MessageBoxIcon icon)
     {
-        return Show(message, null, caption, icon, null, null);
+        return Show(message, null, caption, null, icon, null);
     }
 
     public static DialogResult Show(string message, string caption, List<Button> buttons)
     {
-        return Show(message, null, caption, MessageBoxIcon.None, buttons, null);
+        return Show(message, null, caption, buttons, MessageBoxIcon.None, null);
     }
 
     public static DialogResult Show(string message, string caption, List<Button> buttons, string defaultButton)
     {
-        return Show(message, null, caption, MessageBoxIcon.None, buttons, defaultButton);
+        return Show(message, null, caption, buttons, MessageBoxIcon.None, defaultButton);
     }
 
     public static DialogResult Show(string message, string caption, MessageBoxIcon icon, List<Button> buttons)
     {
-        return Show(message, null, caption, icon, buttons, null);
+        return Show(message, null, caption, buttons, icon, null);
     }
 
-    public static DialogResult Show(string message, string caption, MessageBoxIcon icon, List<Button> buttons, string defaultButton)
+    public static DialogResult Show(string message, string caption, List<Button> buttons, MessageBoxIcon icon, string defaultButton)
     {
-        return Show(message, null, caption, icon, buttons, defaultButton);
+        return Show(message, null, caption, buttons, icon, defaultButton);
     }
 
     public static DialogResult Show(string message, string subMessage, string caption, MessageBoxIcon icon)
     {
-        return Show(message, subMessage, caption, icon, null, null);
+        return Show(message, subMessage, caption, null, icon, null);
     }
 
     public static DialogResult Show(string message, string subMessage, string caption, List<Button> buttons)
     {
-        return Show(message, subMessage, caption, MessageBoxIcon.None, buttons, null);
+        return Show(message, subMessage, caption, buttons, MessageBoxIcon.None, null);
     }
 
     public static DialogResult Show(string message, string subMessage, string caption, List<Button> buttons, string defaultButton)
     {
-        return Show(message, subMessage, caption, MessageBoxIcon.None, buttons, defaultButton);
+        return Show(message, subMessage, caption, buttons, MessageBoxIcon.None, defaultButton);
     }
 
-    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxIcon icon, List<Button> buttons)
+    public static DialogResult Show(string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon icon)
     {
-        return Show(message, subMessage, caption, icon, buttons, null);
+        return Show(message, subMessage, caption, buttons, icon, null);
     }
 
-    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxIcon icon, MessageBoxButtons buttons, MessageBoxDefaultButton defaultButton)
+    #endregion Show Method Overloads
+
+    #region Emulate a few standard MessageBox.Show overloads
+
+    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
     {
         List<Button> buttonSet = _buttonSet[buttons];
         string defaultString = defaultButton switch
@@ -259,8 +258,23 @@ public partial class MsgBox : Form
             MessageBoxDefaultButton.Button3 => buttonSet.Count >= 3 ? buttonSet[2].Name : null,
             _ => null
         };
-        return Show(message, subMessage, caption, icon, _buttonSet[buttons], defaultString);
+        return Show(message, subMessage, caption, buttonSet, icon, defaultString);
     }
 
-    #endregion Show Method Overloads
+    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+    {
+        return Show(message, subMessage, caption, buttons, icon, MessageBoxDefaultButton.Button1);
+    }
+
+    public static DialogResult Show(string message, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+    {
+        return Show(message, null, caption, buttons, icon, MessageBoxDefaultButton.Button1);
+    }
+
+    public static DialogResult Show(string message, string caption, MessageBoxButtons buttons)
+    {
+        return Show(message, null, caption, buttons, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+    }
+
+    #endregion Emulate a few standard MessageBox.Show overloads
 }
