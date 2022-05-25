@@ -108,7 +108,7 @@ namespace Bortpad
             this.editorSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.editorSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearch = new System.Windows.Forms.ToolStripMenuItem();
-            this.editor = new Bortpad.Bortilla();
+            this.editor = new WilsonUtils.Bortilla();
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
@@ -970,7 +970,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem pressingEnterUses;
         private System.Windows.Forms.ToolStripStatusLabel readOnlyNotice;
-        internal Bortilla editor;
+        internal WilsonUtils.Bortilla editor;
     }
 }
 
