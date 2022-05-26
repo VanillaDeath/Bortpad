@@ -335,7 +335,6 @@ namespace Bortpad
             // 
             // editFind
             // 
-            this.editFind.Enabled = false;
             this.editFind.Name = "editFind";
             this.editFind.ShortcutKeyDisplayString = "";
             this.editFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));

@@ -8,6 +8,8 @@ namespace WilsonUtils;
 // Generic static MessageBox class - but customizable
 public partial class MsgBox : Form
 {
+    #region Static _fields
+
     private static MsgBox _thisMsgBox;
 
     private static readonly Button[] _presets =
@@ -31,12 +33,25 @@ public partial class MsgBox : Form
         { MessageBoxButtons.AbortRetryIgnore, new() { _presets[4], _presets[5], _presets[6] } }
     };
 
+    #endregion Static _fields
+
+    #region Result Objects
+
+    public Button ButtonClicked
+    {
+        get; private set;
+    }
+
     public object Result
     {
         get; private set;
     }
 
-    private MsgBox(string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon icon, string defaultButton)
+    #endregion Result Objects
+
+    #region Constructors
+
+    private MsgBox(string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon? icon, string defaultButton)
     {
         InitializeComponent();
         SetMessage(message);
@@ -46,9 +61,13 @@ public partial class MsgBox : Form
         SetButtons(buttons, defaultButton);
     }
 
+    #endregion Constructors
+
+    #region Setters
+
     private void SetMessage(string message)
     {
-        if (message == null)
+        if (message is null)
         {
             messagePanel.Controls.Remove(messageLabel);
             return;
@@ -58,12 +77,12 @@ public partial class MsgBox : Form
 
     private void SetCaption(string caption)
     {
-        Text = caption ?? System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        Text = caption;
     }
 
     private void SetSubMessage(string subMessage)
     {
-        if (subMessage == null)
+        if (subMessage is null)
         {
             contentPanel.Controls.Remove(subMessageLabel);
             messageLabel.Font = null;
@@ -75,20 +94,31 @@ public partial class MsgBox : Form
 
     private void SetButtons(List<Button> buttons, string defaultButton)
     {
-        // Show an OK button if no buttons are specified
+        // Reduce List to usable Button objects
         buttons ??= new();
+        buttons = buttons
+            .Where(button => button?.Text is not null && button.Text.Trim().Length > 0)
+            .ToList();
+
+        // Show an OK Button if no usable Buttons
         if (buttons.Count < 1)
         {
             buttons.Add(_presets[0]);
         }
 
-        // Iterate through each button
+        // See if all TabIndex properties are equal
+        int i = buttons.FirstOrDefault().TabIndex;
+        bool allEqual = buttons.All(button => button.TabIndex == i);
+
+        // Iterate through each button that has Text
         buttons.ForEach(button =>
         {
-            // Trigger each to close dialog, setting the Result property to the button's Tag object
+            // Trigger each to close dialog, setting the ButtonClicked property to the Button object,
+            // and the Result property to the button's Tag object
             button.Click += (sender, e) =>
             {
-                Result = ((Button)sender).Tag;
+                ButtonClicked = (Button)sender;
+                Result = ButtonClicked.Tag;
                 Close();
             };
 
@@ -104,6 +134,13 @@ public partial class MsgBox : Form
                     break;
             }
 
+            // Maintain button Tab order as defined if TabIndexes were not set (all 0) or were all set the same
+            if (allEqual)
+            {
+                button.TabIndex = i++;
+            }
+
+            // Stretch buttons to fit Text
             button.AutoSize = true;
         });
 
@@ -117,19 +154,20 @@ public partial class MsgBox : Form
         buttonPanel.Controls.Add(new Label() { Width = 20 });
 
         // Set pre-selected (default) button
-        if (defaultButton == null)
+        if (defaultButton is null)
         {
             return;
         }
-        Control[] findDefault = buttonPanel.Controls.Find(defaultButton, false);
-        if (findDefault.Length > 0)
-        {
-            findDefault.First().Select();
-        }
+        buttonPanel.Controls.Find(defaultButton, false)?.FirstOrDefault()?.Select();
     }
 
-    private void SetMessageIcon(MessageBoxIcon icon)
+    private void SetMessageIcon(MessageBoxIcon? icon)
     {
+        if (icon is null)
+        {
+            messagePanel.Controls.Remove(messageIcon);
+            return;
+        }
         messageIcon.Image = icon switch
         {
             MessageBoxIcon.Information => SystemIcons.Information.ToBitmap(),
@@ -138,143 +176,221 @@ public partial class MsgBox : Form
             MessageBoxIcon.Warning => SystemIcons.Warning.ToBitmap(),
             _ => null,
         };
-        if (messageIcon.Image == null)
-        {
-            messagePanel.Controls.Remove(messageIcon);
-        }
     }
 
-    // Hide the base method ShowDialog() so user can only use Show()
+    #endregion Setters
+
+    #region Hide the base ShowDialog() method overloads so we can only call using static MsgBox.Show() method
+
+    private new DialogResult ShowDialog(IWin32Window owner)
+    {
+        return base.ShowDialog(owner);
+    }
+
     private new DialogResult ShowDialog()
     {
         return base.ShowDialog();
     }
 
-    #region Show Method Overloads
+    #endregion Hide the base ShowDialog() method overloads so we can only call using static MsgBox.Show() method
+
+    #region Root methods that all Show() overloads call
+
+    private static DialogResult ShowCore(IWin32Window owner, string text, string subMessage, string caption, List<Button> buttons, MessageBoxIcon? icon, string defaultButton)
+    {
+        // Instantiate an ephemeral MsgBox object using private constructor
+        _thisMsgBox = new(text, subMessage, caption, buttons, icon, defaultButton);
+        // Return DialogResult back to the static MsgBox.Show() call
+        return owner is null ? _thisMsgBox.ShowDialog() : _thisMsgBox.ShowDialog(owner);
+    }
+
+    private static DialogResult ShowCore(IWin32Window owner, string message, string subMessage, string caption, MessageBoxButtons buttons, MessageBoxIcon? icon, MessageBoxDefaultButton? defaultButton)
+    {
+        // Convert MessageBoxButtons to matching List<Button>
+        List<Button> buttonSet = _buttonSet[buttons];
+        // Convert MessageBoxDefaultButton to expected string
+        int index = ((int?)defaultButton ?? 0) / 256;
+        string defaultString = buttonSet.ElementAtOrDefault(index)?.Name;
+
+        // Pass to ShowCore Prime
+        return ShowCore(owner, message, subMessage, caption, buttonSet, icon, defaultString);
+    }
+
+    #endregion Root methods that all Show() overloads call
+
+    #region Show with SubMessage support
 
     // Buttons should at least have Text and DialogResult properties, Tag and TabIndex optionally, and Name if setting as defaultButton
-    public static DialogResult Show(string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon icon, string defaultButton)
+    public static DialogResult Show(string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon? icon, string defaultButton)
     {
-        _thisMsgBox = new(message, subMessage, caption, buttons, icon, defaultButton);
-        return _thisMsgBox.ShowDialog();
+        return ShowCore(null, message, subMessage, caption, buttons, icon, defaultButton);
     }
 
-    public static DialogResult Show(string message)
+    public static DialogResult Show(string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon? icon)
     {
-        return Show(message, null, null, null, MessageBoxIcon.None, null);
-    }
-
-    public static DialogResult Show(string message, string caption)
-    {
-        return Show(message, null, caption, null, MessageBoxIcon.None, null);
-    }
-
-    public static DialogResult Show(string message, string subMessage, string caption)
-    {
-        return Show(message, subMessage, caption, null, MessageBoxIcon.None, null);
-    }
-
-    public static DialogResult Show(string message, MessageBoxIcon icon)
-    {
-        return Show(message, null, null, null, icon, null);
-    }
-
-    public static DialogResult Show(string message, List<Button> buttons)
-    {
-        return Show(message, null, null, buttons, MessageBoxIcon.None, null);
-    }
-
-    public static DialogResult Show(string message, List<Button> buttons, string defaultButton)
-    {
-        return Show(message, null, null, buttons, MessageBoxIcon.None, defaultButton);
-    }
-
-    public static DialogResult Show(string message, List<Button> buttons, MessageBoxIcon icon)
-    {
-        return Show(message, null, null, buttons, icon, null);
-    }
-
-    public static DialogResult Show(string message, List<Button> buttons, MessageBoxIcon icon, string defaultButton)
-    {
-        return Show(message, null, null, buttons, icon, defaultButton);
-    }
-
-    public static DialogResult Show(string message, string caption, MessageBoxIcon icon)
-    {
-        return Show(message, null, caption, null, icon, null);
-    }
-
-    public static DialogResult Show(string message, string caption, List<Button> buttons)
-    {
-        return Show(message, null, caption, buttons, MessageBoxIcon.None, null);
-    }
-
-    public static DialogResult Show(string message, string caption, List<Button> buttons, string defaultButton)
-    {
-        return Show(message, null, caption, buttons, MessageBoxIcon.None, defaultButton);
-    }
-
-    public static DialogResult Show(string message, string caption, MessageBoxIcon icon, List<Button> buttons)
-    {
-        return Show(message, null, caption, buttons, icon, null);
-    }
-
-    public static DialogResult Show(string message, string caption, List<Button> buttons, MessageBoxIcon icon, string defaultButton)
-    {
-        return Show(message, null, caption, buttons, icon, defaultButton);
-    }
-
-    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxIcon icon)
-    {
-        return Show(message, subMessage, caption, null, icon, null);
+        return ShowCore(null, message, subMessage, caption, buttons, icon, null);
     }
 
     public static DialogResult Show(string message, string subMessage, string caption, List<Button> buttons)
     {
-        return Show(message, subMessage, caption, buttons, MessageBoxIcon.None, null);
+        return ShowCore(null, message, subMessage, caption, buttons, null, null);
     }
 
-    public static DialogResult Show(string message, string subMessage, string caption, List<Button> buttons, string defaultButton)
+    public static DialogResult Show(string message, string subMessage, string caption)
     {
-        return Show(message, subMessage, caption, buttons, MessageBoxIcon.None, defaultButton);
+        return ShowCore(null, message, subMessage, caption, null, null, null);
     }
 
-    public static DialogResult Show(string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon icon)
+    #endregion Show with SubMessage support
+
+    #region Show overloads
+
+    public static DialogResult Show(string message, string caption, List<Button> buttons, MessageBoxIcon? icon, string defaultButton)
     {
-        return Show(message, subMessage, caption, buttons, icon, null);
+        return ShowCore(null, message, null, caption, buttons, icon, defaultButton);
     }
 
-    #endregion Show Method Overloads
-
-    #region Emulate a few standard MessageBox.Show overloads
-
-    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
+    public static DialogResult Show(string message, string caption, List<Button> buttons, MessageBoxIcon? icon)
     {
-        List<Button> buttonSet = _buttonSet[buttons];
-        string defaultString = defaultButton switch
-        {
-            MessageBoxDefaultButton.Button1 => buttonSet.Count >= 1 ? buttonSet[0].Name : null,
-            MessageBoxDefaultButton.Button2 => buttonSet.Count >= 2 ? buttonSet[1].Name : null,
-            MessageBoxDefaultButton.Button3 => buttonSet.Count >= 3 ? buttonSet[2].Name : null,
-            _ => null
-        };
-        return Show(message, subMessage, caption, buttonSet, icon, defaultString);
+        return ShowCore(null, message, null, caption, buttons, icon, null);
     }
 
-    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+    public static DialogResult Show(string message, string caption, List<Button> buttons)
     {
-        return Show(message, subMessage, caption, buttons, icon, MessageBoxDefaultButton.Button1);
+        return ShowCore(null, message, null, caption, buttons, null, null);
     }
 
-    public static DialogResult Show(string message, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+    public static DialogResult Show(string message, string caption)
     {
-        return Show(message, null, caption, buttons, icon, MessageBoxDefaultButton.Button1);
+        return ShowCore(null, message, null, caption, null, null, null);
+    }
+
+    public static DialogResult Show(string message)
+    {
+        return ShowCore(null, message, null, null, null, null, null);
+    }
+
+    #endregion Show overloads
+
+    #region Show with SubMessage and Owner support
+
+    // Buttons should at least have Text and DialogResult properties, Tag and TabIndex optionally, and Name if setting as defaultButton
+    public static DialogResult Show(IWin32Window owner, string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon? icon, string defaultButton)
+    {
+        return ShowCore(owner, message, subMessage, caption, buttons, icon, defaultButton);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string subMessage, string caption, List<Button> buttons, MessageBoxIcon? icon)
+    {
+        return ShowCore(owner, message, subMessage, caption, buttons, icon, null);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string subMessage, string caption, List<Button> buttons)
+    {
+        return ShowCore(owner, message, subMessage, caption, buttons, null, null);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string subMessage, string caption)
+    {
+        return ShowCore(owner, message, subMessage, caption, null, null, null);
+    }
+
+    #endregion Show with SubMessage and Owner support
+
+    #region Show with Owner support
+
+    public static DialogResult Show(IWin32Window owner, string message, string caption, List<Button> buttons, MessageBoxIcon? icon, string defaultButton)
+    {
+        return ShowCore(owner, message, null, caption, buttons, icon, defaultButton);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string caption, List<Button> buttons, MessageBoxIcon? icon)
+    {
+        return ShowCore(owner, message, null, caption, buttons, icon, null);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string caption, List<Button> buttons)
+    {
+        return ShowCore(owner, message, null, caption, buttons, null, null);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string caption)
+    {
+        return ShowCore(owner, message, null, caption, null, null, null);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message)
+    {
+        return ShowCore(owner, message, null, null, null, null, null);
+    }
+
+    #endregion Show with Owner support
+
+    #region Emulate standard MessageBox.Show overloads (just no messageboxoptions or helpinfo params)
+
+    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxButtons buttons, MessageBoxIcon? icon, MessageBoxDefaultButton? defaultButton)
+    {
+        return ShowCore(null, message, subMessage, caption, buttons, icon, defaultButton);
+    }
+
+    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxButtons buttons, MessageBoxIcon? icon)
+    {
+        return ShowCore(null, message, subMessage, caption, buttons, icon, null);
+    }
+
+    public static DialogResult Show(string message, string subMessage, string caption, MessageBoxButtons buttons)
+    {
+        return ShowCore(null, message, subMessage, caption, buttons, null, null);
+    }
+
+    public static DialogResult Show(string message, string caption, MessageBoxButtons buttons, MessageBoxIcon? icon, MessageBoxDefaultButton? defaultButton)
+    {
+        return ShowCore(null, message, null, caption, buttons, icon, defaultButton);
+    }
+
+    public static DialogResult Show(string message, string caption, MessageBoxButtons buttons, MessageBoxIcon? icon)
+    {
+        return ShowCore(null, message, null, caption, buttons, icon, null);
     }
 
     public static DialogResult Show(string message, string caption, MessageBoxButtons buttons)
     {
-        return Show(message, null, caption, buttons, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+        return ShowCore(null, message, null, caption, buttons, null, null);
     }
 
-    #endregion Emulate a few standard MessageBox.Show overloads
+    #endregion Emulate standard MessageBox.Show overloads (just no messageboxoptions or helpinfo params)
+
+    #region Standard MessageBox.Show emulation with owner
+
+    public static DialogResult Show(IWin32Window owner, string message, string subMessage, string caption, MessageBoxButtons buttons, MessageBoxIcon? icon, MessageBoxDefaultButton? defaultButton)
+    {
+        return ShowCore(owner, message, subMessage, caption, buttons, icon, defaultButton);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string subMessage, string caption, MessageBoxButtons buttons, MessageBoxIcon? icon)
+    {
+        return ShowCore(owner, message, subMessage, caption, buttons, icon, null);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string subMessage, string caption, MessageBoxButtons buttons)
+    {
+        return ShowCore(owner, message, subMessage, caption, buttons, null, null);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string caption, MessageBoxButtons buttons, MessageBoxIcon? icon, MessageBoxDefaultButton? defaultButton)
+    {
+        return ShowCore(owner, message, null, caption, buttons, icon, defaultButton);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string caption, MessageBoxButtons buttons, MessageBoxIcon? icon)
+    {
+        return ShowCore(owner, message, null, caption, buttons, icon, null);
+    }
+
+    public static DialogResult Show(IWin32Window owner, string message, string caption, MessageBoxButtons buttons)
+    {
+        return ShowCore(owner, message, null, caption, buttons, null, null);
+    }
+
+    #endregion Standard MessageBox.Show emulation with owner
 }

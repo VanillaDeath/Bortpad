@@ -1,6 +1,7 @@
 ﻿using ScintillaNET;
 using SharpConfig;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -27,7 +28,10 @@ public partial class BortForm : Form
     internal const string _DEFAULT_FILENAME = "Untitled";
     internal const string _DEFAULT_FONT = "Consolas, 11.25pt";
     internal const string _DEFAULT_SECTION = "General";
+    internal const string _FEEDBACK_URL = "https://stevenwilson.ca/contact";
+    internal const string _HELP_URL = "https://stevenwilson.ca/bortpad/help";
     internal const Eol _LF = Eol.Lf;
+    internal const string _SEARCH_URI = "https://google.com/search?q=";
 
     #endregion _CONSTANTS
 
@@ -82,23 +86,13 @@ public partial class BortForm : Form
 
     public Encoding EncodingSetting
     {
-        get
-        {
-            return _encodingSetting;
-        }
-        private set
-        {
-            _encodingSetting = value ?? Encoding.GetEncoding(GetSetting<int>("DefaultEncoding"));
-            SetEncodingStatus(_encodingSetting);
-        }
+        get => _encodingSetting ?? Encoding.GetEncoding(GetSetting<int>("DefaultEncoding"));
+        private set => _encodingSetting = value;
     }
 
     public Eol EolSetting
     {
-        get
-        {
-            return _eolSetting;
-        }
+        get => _eolSetting;
         private set
         {
             _eolSetting = value;
@@ -114,7 +108,7 @@ public partial class BortForm : Form
         private set => _filename = value;
     }
 
-    public bool IsFile => _filename != null && File.Exists(_filename);
+    public bool IsFile => _filename is not null && File.Exists(_filename);
 
     public bool IsReadOnly
     {
@@ -129,7 +123,7 @@ public partial class BortForm : Form
     public string MainStatus
     {
         get => statusBarLeft.Text;
-        private set => statusBarLeft.Text = value ?? "";
+        private set => statusBarLeft.Text = value;
     }
 
     public FileInfo OpenFilesInfo => IsFile ? new(_filename) : null;
@@ -165,7 +159,7 @@ public partial class BortForm : Form
 
         FileName = filenameSpecified;
 
-        ConfigFile = ProgramName + ".cfg";
+        ConfigFile = $"{ProgramName}.cfg";
         EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
         editor.Font = GetSetting<Font>("Font");
         editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
@@ -177,7 +171,7 @@ public partial class BortForm : Form
         editor.ViewEol = GetSetting<bool>("ShowLineEndings");
         EolSetting = GetSetting<Eol>("LineEnding");
 
-        Text = _DEFAULT_FILENAME + " - " + ProgramName;
+        Text = $"{_DEFAULT_FILENAME} - {ProgramName}";
     }
 
     #endregion Constructors
@@ -218,11 +212,11 @@ public partial class BortForm : Form
 
     private T GetSetting<T>(string key, string section = _DEFAULT_SECTION)
     {
-        if (Settings == null || !Settings.Any())
+        if (Settings is null || !Settings.Any())
         {
             LoadSettings();
         }
-        return (T)Settings[section][key].GetValue<T>();
+        return Settings[section][key].GetValue<T>();
     }
 
     private bool LoadSettings()
@@ -276,22 +270,23 @@ public partial class BortForm : Form
     private void FileNotFound()
     {
         // _ = MessageBox.Show("The system cannot find the path specified.", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        _ = MsgBox.Show("The system cannot find the path specified.", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        _ = MsgBox.Show(
+            "The system cannot find the path specified.",
+            ProgramName,
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning);
     }
 
     private bool NewDocument(bool saveFirst = true)
     {
-        if (!saveFirst || SaveConfirmPrompt(false))
+        if (!saveFirst || SaveConfirmPrompt(force: false, pendingAction: true))
         {
-            editor.ReadOnly = false;
-            editor.ClearAll();
+            editor.Reset();
+            readOnlyNotice.Visible = false;
             editor.EmptyUndoBuffer();
 
             FileName = null;
-            // OpenFilesInfo = null;
-            EncodingSetting = null;
-            editor.ReadOnly = false;
-            readOnlyNotice.Visible = false;
+            SetEncodingStatus(EncodingSetting = null);
             editor.SetSavePoint();
             editor.Select();
             return true;
@@ -299,61 +294,55 @@ public partial class BortForm : Form
         return false;
     }
 
-    private bool OpenDocument(bool saveFirst = true, string openFilename = null)
+    private bool OpenDocument(bool saveFirst = true, string fileName = null)
     {
-        if (!saveFirst || SaveConfirmPrompt(false))
+        if (saveFirst && !SaveConfirmPrompt(force: false, pendingAction: true))
         {
-            try
-            {
-                if (openFilename == null)
-                {
-                    // No filename as param, get filename from Open Dialog
-                    if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                    {
-                        openFilename = openFileDialog1.FileName;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                if (File.Exists(openFilename))
-                {
-                    // OpenFilesInfo = new FileInfo(openFilename);
-                    DetectionDetail getEncoding = CharsetDetector.DetectFromFile(openFilename).Detected;
-                    EncodingSetting = getEncoding?.Encoding;
-                    editor.ReadOnly = false;
-                    readOnlyNotice.Visible = false;
-                    editor.Clear();
-                    editor.Text = File.ReadAllText(openFilename, EncodingSetting);
-                    FileName = openFilename;
-                    SetEncodingStatus(EncodingSetting, true, getEncoding != null ? getEncoding.Confidence : 0);
-                    editor.EmptyUndoBuffer();
-                    editor.ReadOnly = IsReadOnly;
-                    readOnlyNotice.Visible = editor.ReadOnly;
-                    editor.SetSavePoint();
-                    editor.Select();
-                    return true;
-                }
-                else
-                {
-                    throw new FileNotFoundException();
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                FileNotFound();
-                return false;
-            }
-            catch (Exception e)
-            {
-                // _ = MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+            // User clicked Cancel on SaveConfirmPrompt
+            return false;
         }
-        // User clicked Cancel on SaveConfirmPrompt
-        return false;
+        try
+        {
+            // If no filename as param, get filename from Open Dialog
+            string openFileName
+                = fileName
+                ?? (openFileDialog1.ShowDialog() == DialogResult.OK
+                    ? openFileDialog1.FileName
+                    : null);
+            if (openFileName is null)
+            {
+                // No filename as param and Open Dialog cancelled?
+                return false;
+            }
+            if (!File.Exists(openFileName))
+            {
+                // Where is file? :(
+                throw new FileNotFoundException();
+            }
+            DetectionDetail getEncoding = CharsetDetector.DetectFromFile(openFileName)?.Detected;
+            SetEncodingStatus(EncodingSetting = getEncoding?.Encoding, true, getEncoding?.Confidence ?? 0);
+            editor.Reset();
+            readOnlyNotice.Visible = false;
+            editor.Text = File.ReadAllText(openFileName, EncodingSetting);
+            FileName = openFileName;
+            editor.EmptyUndoBuffer();
+            editor.ReadOnly = IsReadOnly;
+            readOnlyNotice.Visible = editor.ReadOnly;
+            editor.SetSavePoint();
+            editor.Select();
+            return true;
+        }
+        catch (FileNotFoundException)
+        {
+            FileNotFound();
+            return false;
+        }
+        catch (Exception e)
+        {
+            // _ = MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return false;
+        }
     }
 
     private void PageSetup()
@@ -372,146 +361,156 @@ public partial class BortForm : Form
         }
     }
 
-    private bool SaveConfirmPrompt(bool force = false)
+    private bool SaveConfirmPrompt(bool force = false, bool pendingAction = false)
     {
-        if (force || editor.Modified)
+        if (!force && !editor.Modified)
         {
-            if (IsReadOnly)
+            // Return: false = cancel pending open dialog/close app action
+            // true = we're good to proceed and launch open dialog/new/exit
+            return true;
+        }
+        if (IsReadOnly)
+        {
+            if (!readOnlyNotice.Visible)
             {
-                if (!readOnlyNotice.Visible)
-                {
-                    readOnlyNotice.Visible = true;
-                }
-                // ReadonlyDecision rod = new();
-                // rod.ShowDialog();
-                // switch (rod.DialogResult)
-                DialogResult rod = MsgBox.Show("This file is marked as Read-Only", "To Save this file, either\n• Unset the Read - Only flag\n• Save As a new document", ProgramName, new() {
-                    new()
-                    {
-                        Name = "unsetAndSaveBtn",
-                        Text = "&Unset and Save",
-                        DialogResult = DialogResult.Yes,
-                        TabIndex = 0
-                    },
-                    new()
-                    {
-                        Name = "saveAsBtn",
-                        Text = "Save &As...",
-                        DialogResult = DialogResult.OK,
-                        TabIndex = 1
-                    },
-                    new()
-                    {
-                        Name = "dontSaveBtn",
-                        Text = "Do&n't Save",
-                        DialogResult = DialogResult.No,
-                        TabIndex = 2
-                    },
-                    new()
-                    {
-                        Name = "cancelBtn",
-                        Text = "Cancel",
-                        DialogResult = DialogResult.Cancel,
-                        TabIndex = 3
-                    }
-                }, "dontSaveBtn");
-                switch (rod)
-                {
-                    case DialogResult.Yes:
-                        IsReadOnly = false;
-                        editor.ReadOnly = IsReadOnly;
-                        readOnlyNotice.Visible = editor.ReadOnly;
-                        return SaveDocument();
-
-                    case DialogResult.OK:
-                        if (SaveDocument(true))
-                        {
-                            editor.ReadOnly = IsReadOnly;
-                            readOnlyNotice.Visible = editor.ReadOnly;
-                            return true;
-                        }
-                        return false;
-
-                    case DialogResult.No:
-                        return true;
-
-                    default:
-                        return false;
-                }
+                readOnlyNotice.Visible = true;
             }
-            // SaveConfirmPrompt scp = new(FileName);
-            // scp.ShowDialog();
-            DialogResult scp = MsgBox.Show("Do you want to save changes to " + Path.GetFileName(FileName) + "?", "", ProgramName, new()
-            {
+            // ReadonlyDecision rod = new();
+            // rod.ShowDialog();
+            // switch (rod.DialogResult)
+            List<Button> buttons = new() {
                 new()
                 {
-                    Name = "saveBtn",
-                    Text = "&Save",
-                    DialogResult = DialogResult.Yes,
-                    TabIndex = 0
+                    Name = "unsetAndSaveBtn",
+                    Text = "&Unset and Save",
+                    DialogResult = DialogResult.Yes
                 },
                 new()
                 {
-                    Name = "dontSaveBtn",
-                    Text = "Do&n't Save",
-                    DialogResult = DialogResult.No,
-                    TabIndex = 1
+                    Name = "saveAsBtn",
+                    Text = "Save &As...",
+                    DialogResult = DialogResult.OK
                 },
                 new()
                 {
                     Name = "cancelBtn",
                     Text = "Cancel",
-                    DialogResult = DialogResult.Cancel,
-                    TabIndex = 2
+                    DialogResult = DialogResult.Cancel
                 }
-            }, "dontSaveBtn");
-            return scp switch
-            {
-                DialogResult.Yes => SaveDocument(), // Save/Show Save Dialog
-                DialogResult.No => true,
-                _ => false,
             };
+            if (pendingAction)
+            {
+                // "Don't Save" and "Cancel" are the same unless prompt was triggered by Open/New/Exit
+                buttons.Insert(2,
+                    new()
+                    {
+                        Name = "dontSaveBtn",
+                        Text = "Do&n't Save",
+                        DialogResult = DialogResult.No
+                    });
+            }
+            DialogResult rod = MsgBox.Show(
+                $"{Path.GetFileName(FileName)} is marked as Read-Only",
+                "To Save this file, either\n• Unset the Read - Only flag\n• Save As a new document",
+                ProgramName,
+                buttons,
+                null,
+                "saveAsBtn");
+            switch (rod)
+            {
+                case DialogResult.Yes:
+                    IsReadOnly = false;
+                    editor.ReadOnly = IsReadOnly;
+                    readOnlyNotice.Visible = editor.ReadOnly;
+                    return SaveDocument();
+
+                case DialogResult.OK:
+                    if (SaveDocument(true))
+                    {
+                        editor.ReadOnly = IsReadOnly;
+                        readOnlyNotice.Visible = editor.ReadOnly;
+                        return true;
+                    }
+                    return false;
+
+                case DialogResult.No:
+                    return true;
+
+                default:
+                    return false;
+            }
         }
-        // Return: false = cancel open dialog/close app action
-        // true = we're good to proceed and launch open dialog/close app/etc
-        return true;
+        // SaveConfirmPrompt scp = new(FileName);
+        // scp.ShowDialog();
+        DialogResult scp = MsgBox.Show(
+            $"Do you want to save changes to {Path.GetFileName(FileName)}?",
+            "",
+            ProgramName,
+            new()
+            {
+                new()
+                {
+                    Name = "saveBtn",
+                    Text = "&Save",
+                    DialogResult = DialogResult.Yes
+                },
+                new()
+                {
+                    Name = "dontSaveBtn",
+                    Text = "Do&n't Save",
+                    DialogResult = DialogResult.No
+                },
+                new()
+                {
+                    Name = "cancelBtn",
+                    Text = "Cancel",
+                    DialogResult = DialogResult.Cancel
+                }
+            },
+            null,
+            "saveBtn");
+        return scp switch
+        {
+            DialogResult.Yes => SaveDocument(), // Save/Show Save Dialog
+            DialogResult.No => true,
+            _ => false,
+        };
     }
 
     private bool SaveDocument(bool saveAs = false)
     {
+        string fileName;
         if (IsFile && !saveAs)
         {
-            try
+            if (IsReadOnly)
             {
-                if (!IsReadOnly)
-                {
-                    File.WriteAllText(FileName, editor.Text, EncodingSetting);
-                    editor.SetSavePoint();
-                    return true;
-                }
-                return SaveConfirmPrompt(true);
+                return SaveConfirmPrompt(force: true, pendingAction: false);
             }
-            catch (Exception e)
-            {
-                // _ = MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+            fileName = FileName;
         }
         else
         {
             saveFileDialog1.FileName = Path.GetFileName(FileName);
             saveFileDialog1.InitialDirectory = Path.GetDirectoryName(FileName);
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog1.ShowDialog() != DialogResult.OK)
             {
-                FileName = saveFileDialog1.FileName;
-                // OpenFilesInfo = new FileInfo(FileName);
-                File.WriteAllText(FileName, editor.Text, EncodingSetting);
-                editor.SetSavePoint();
-                return true;
+                return false;
             }
+            fileName = saveFileDialog1.FileName;
         }
-        return false;
+
+        try
+        {
+            File.WriteAllText(fileName, editor.Text, EncodingSetting);
+            FileName = fileName;
+            editor.SetSavePoint();
+            return true;
+        }
+        catch (Exception e)
+        {
+            _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return false;
+        }
     }
 
     private void SetFont()
@@ -535,7 +534,7 @@ public partial class BortForm : Form
 
     private void Find()
     {
-        if (_find != null && _find.Visible)
+        if (_find is not null && _find.Visible)
         {
             _find.BringToFront();
             return;
@@ -571,11 +570,17 @@ public partial class BortForm : Form
     {
         string searchQuery = GetSetting<string>("Search", "Find");
         bool searchMatchCase = GetSetting<bool>("MatchCase", "Find");
-        int pos = OmniIndexOf(searchQuery, editor.Text, prev, editor.SelectionStart + (prev ? 0 : editor.SelectionLength), searchMatchCase);
+        // FIXME (reverse find borken), selectionstart and currentposition both not working
+        int current = editor.SelectionStart;
+        int length = editor.SelectionLength;
+        int pos =
+            (prev && current == 0)
+            ? -1
+            : OmniIndexOf(searchQuery, editor.Text, prev, current + (prev ? -1 : length), searchMatchCase);
         if (pos == -1 && GetSetting<bool>("WrapAround", "Find"))
         {
             pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
-            MainStatus = pos == -1 ? "" : "Found next from the " + (prev ? "bottom" : "top");
+            MainStatus = pos == -1 ? "" : $"Found next from the {(prev ? "bottom" : "top")}";
         }
         else
         {
@@ -592,28 +597,28 @@ public partial class BortForm : Form
     private void GoToLineFromPrompt(object sender, EventArgs args)
     {
         long ln = ((GoToPrompt)sender).LineNumber;
-        if (ln >= 1 && ln <= editor.NumLines)
+        if (ln < 1 || ln > editor.NumLines)
         {
-            editor.Ln = (int)ln;
-            ((GoToPrompt)sender).Close();
+            // _ = MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
+            _ = MsgBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
             return;
         }
-        // _ = MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
-        _ = MsgBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
+        editor.Ln = (int)ln;
+        ((GoToPrompt)sender).Close();
     }
 
     private void HighlightResult(int pos, string q)
     {
-        if (pos != -1)
+        if (pos == -1)
         {
-            editor.Pos = pos;
-            editor.SetSelection(pos, pos + q.Length);
-            editor.ScrollCaret();
-            UpdatePos();
+            // _ = MessageBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _ = MsgBox.Show($"Cannot find \"{q}\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
             return;
         }
-        // _ = MessageBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        _ = MsgBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        editor.Pos = pos;
+        editor.SetSelection(pos, pos + q.Length);
+        editor.ScrollCaret();
+        UpdatePos();
     }
 
     private void ReplaceAll(object sender, EventArgs args)
@@ -660,7 +665,7 @@ public partial class BortForm : Form
 
     private void ReplacePrompt()
     {
-        if (_replace != null && _replace.Visible)
+        if (_replace is not null && _replace.Visible)
         {
             _replace.BringToFront();
             return;
@@ -682,9 +687,10 @@ public partial class BortForm : Form
 
     private void SetEncodingStatus(Encoding encoding, bool detected = false, float confidence = 1)
     {
+        encoding ??= EncodingSetting;
         encodingStatus.DropDownItems.Clear();
-        encodingStatus.Text = encoding.EncodingName;
-        encodingStatus.ToolTipText = detected ? "Confidence: " + (confidence * 100) + "%" : "";
+        encodingStatus.Text = encoding?.EncodingName;
+        encodingStatus.ToolTipText = detected ? $"Confidence: {confidence * 100}%" : "";
 
         ToolStripMenuItem[] items = CodePages.Select(e =>
             {
@@ -706,11 +712,11 @@ public partial class BortForm : Form
             }
         )
             .OrderByDescending(i => i.Checked)
-            .ThenByDescending(i => ((EncodingInfo)(i.Tag)).CodePage == _DEFAULT_CODEPAGE)
+            .ThenByDescending(i => ((EncodingInfo)(i.Tag))?.CodePage == _DEFAULT_CODEPAGE)
             .ThenBy(i => i.Text)
             .ToArray();
         encodingStatus.DropDownItems.AddRange(items);
-        encodingStatus.DropDownItems.Insert(encoding.CodePage == _DEFAULT_CODEPAGE ? 1 : 2, new ToolStripSeparator());
+        encodingStatus.DropDownItems.Insert(encoding?.CodePage == _DEFAULT_CODEPAGE ? 1 : 2, new ToolStripSeparator());
     }
 
     private void SetEolStatus(Eol eolMode)
@@ -719,12 +725,13 @@ public partial class BortForm : Form
         ToolStripItemCollection items = lineReturnType.DropDownItems;
         foreach (ToolStripMenuItem item in items.OfType<ToolStripMenuItem>())
         {
-            if (item.Tag != null && item.Tag.GetType().Equals(typeof(Eol)))
+            if (item?.Tag is not null && item.Tag.GetType().Equals(typeof(Eol)))
             {
                 if (Equals(item.Tag, eolMode))
                 {
                     item.Checked = true;
                     lineReturnType.Text = Regex.Replace(item.Text, "&(.)", "$1");
+                    lineReturnType.Tag = item.Tag;
                     continue;
                 }
                 item.Checked = false;
@@ -738,7 +745,7 @@ public partial class BortForm : Form
         {
             return;
         }
-        position.Text = "Ln " + editor.Ln + ", Col " + editor.Col;
+        position.Text = $"Ln {editor.Ln}, Col {editor.Col}";
     }
 
     #endregion Instance Methods: Status Bar
@@ -798,14 +805,14 @@ public partial class BortForm : Form
 
     private void BortForm_FormClosing(object sender, FormClosingEventArgs e)
     {
-        e.Cancel = !SaveConfirmPrompt();
+        e.Cancel = !SaveConfirmPrompt(force: false, pendingAction: true);
     }
 
     private void BortForm_Shown(object sender, EventArgs e)
     {
-        if (_filename == null || !OpenDocument(false, _filename))
+        if (_filename is null || !OpenDocument(false, _filename))
         {
-            NewDocument(false);
+            _ = NewDocument(false);
         }
     }
 
@@ -823,7 +830,15 @@ public partial class BortForm : Form
 
     private void ConvertLineEndings_Click(object sender, EventArgs e)
     {
-        if (MessageBox.Show("Convert all End of Line characters in this document to " + lineReturnType.Text + "?", ProgramName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+        string target = ((Eol)lineReturnType.Tag).ToString();
+        if (MsgBox.Show(
+                $"Convert all End of Line characters in this document to {lineReturnType.Text}?",
+                $"Any line endings in this document that are not already {target} will be converted to {target}",
+                ProgramName,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button2)
+            == DialogResult.Yes)
         {
             editor.ConvertEols(editor.EolMode);
         }
@@ -836,6 +851,7 @@ public partial class BortForm : Form
 
     private void Edit_DropDownClosed(object sender, EventArgs e)
     {
+        // This is just a workaround to make the Ctrl+E shortcut work reliably
         editSearch.Enabled = true;
     }
 
@@ -884,7 +900,7 @@ public partial class BortForm : Form
 
             case "fileSave":
                 _ = IsReadOnly
-                    ? SaveConfirmPrompt(true)
+                    ? SaveConfirmPrompt(force: true, pendingAction: false)
                     : SaveDocument();
                 break;
 
@@ -941,7 +957,7 @@ public partial class BortForm : Form
             case "editSearch":
             case "editorSearch":
                 _ = editor.SelectionLength > 0
-                    ? Process.Start("https://google.com/search?q=" + WebUtility.UrlEncode(editor.SelectedText))
+                    ? Process.Start(_SEARCH_URI + WebUtility.UrlEncode(editor.SelectedText))
                     : null;
                 break;
 
@@ -1025,11 +1041,11 @@ public partial class BortForm : Form
             #region Help Menu
 
             case "helpViewHelp":
-                Process.Start("https://stevenwilson.ca/bortpad/help");
+                Process.Start(_HELP_URL);
                 break;
 
             case "helpSendFeedback":
-                Process.Start("https://stevenwilson.ca/contact");
+                Process.Start(_FEEDBACK_URL);
                 break;
 
             case "helpAbout":
@@ -1055,8 +1071,34 @@ public partial class BortForm : Form
 
     private void ModifyAttempt(object sender, EventArgs e)
     {
-        ReadonlyPrompt ro = new(editor.ReadOnly);
-        if (ro.ShowDialog(this) == DialogResult.OK && editor.ReadOnly)
+        // ReadonlyPrompt ro = new(editor.ReadOnly);
+        // if (ro.ShowDialog() == DialogResult.OK && editor.ReadOnly)
+        List<Button> buttons = new()
+        {
+            new()
+            {
+                Name = "editBtn",
+                Text = editor.ReadOnly ? "&Edit" : "OK",
+                DialogResult = DialogResult.OK
+            }
+        };
+        if (editor.ReadOnly)
+        {
+            buttons.Add(new()
+            {
+                Name = "cancelBtn",
+                Text = "Cancel",
+                DialogResult = DialogResult.Cancel
+            });
+        }
+        DialogResult ro = MsgBox.Show(
+            $"{Path.GetFileName(FileName)} is marked as Read-Only",
+            "If you choose to edit this file, when you Save you will be prompted to either:\n• Unset the Read - Only flag\n• Save As a new document",
+            ProgramName,
+            buttons,
+            null,
+            editor.ReadOnly ? "cancelBtn" : "editBtn");
+        if (ro == DialogResult.OK && editor.ReadOnly)
         {
             editor.ReadOnly = false;
             readOnlyNotice.DisplayStyle = ToolStripItemDisplayStyle.Text;

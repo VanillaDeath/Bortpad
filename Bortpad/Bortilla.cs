@@ -43,4 +43,11 @@ public class Bortilla : Scintilla
             CurrentPosition = value;
         }
     }
+
+    public void Reset()
+    {
+        ReadOnly = false;
+        ClearAll();
+        ScrollWidth = 1;
+    }
 }

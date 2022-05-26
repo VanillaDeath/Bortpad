@@ -64,7 +64,7 @@ partial class MsgBox
             this.subMessageLabel.Location = new System.Drawing.Point(23, 49);
             this.subMessageLabel.Margin = new System.Windows.Forms.Padding(23, 3, 23, 3);
             this.subMessageLabel.Name = "subMessageLabel";
-            this.subMessageLabel.Size = new System.Drawing.Size(254, 13);
+            this.subMessageLabel.Size = new System.Drawing.Size(114, 13);
             this.subMessageLabel.TabIndex = 5;
             this.subMessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.subMessageLabel.UseMnemonic = false;
@@ -99,10 +99,10 @@ partial class MsgBox
             this.buttonPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.buttonPanel.Location = new System.Drawing.Point(0, 70);
             this.buttonPanel.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.buttonPanel.MinimumSize = new System.Drawing.Size(300, 0);
+            this.buttonPanel.MinimumSize = new System.Drawing.Size(160, 0);
             this.buttonPanel.Name = "buttonPanel";
-            this.buttonPanel.Padding = new System.Windows.Forms.Padding(10);
-            this.buttonPanel.Size = new System.Drawing.Size(300, 20);
+            this.buttonPanel.Padding = new System.Windows.Forms.Padding(8);
+            this.buttonPanel.Size = new System.Drawing.Size(160, 16);
             this.buttonPanel.TabIndex = 8;
             // 
             // contentPanel
@@ -116,8 +116,9 @@ partial class MsgBox
             this.contentPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.contentPanel.Location = new System.Drawing.Point(0, 0);
             this.contentPanel.Name = "contentPanel";
-            this.contentPanel.Size = new System.Drawing.Size(224, 121);
+            this.contentPanel.Size = new System.Drawing.Size(144, 81);
             this.contentPanel.TabIndex = 9;
+            this.contentPanel.WrapContents = false;
             // 
             // MsgBox
             // 
@@ -126,13 +127,13 @@ partial class MsgBox
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(224, 121);
+            this.ClientSize = new System.Drawing.Size(144, 81);
             this.Controls.Add(this.contentPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(240, 39);
+            this.MinimumSize = new System.Drawing.Size(160, 120);
             this.Name = "MsgBox";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
