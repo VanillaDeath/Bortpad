@@ -10,11 +10,8 @@ public class Bortilla : Scintilla
     {
     }
 
-    public int SelectionLength => SelectionEnd - SelectionStart;
-
+    public int Col => GetColumn(CurrentPosition) + 1;
     public bool HasText => TextLength > 0;
-
-    public int NumLines => Lines.Count < 1 ? 1 : Lines.Count;
 
     public int Ln
     {
@@ -29,7 +26,7 @@ public class Bortilla : Scintilla
         }
     }
 
-    public int Col => GetColumn(CurrentPosition) + 1;
+    public int NumLines => Lines.Count < 1 ? 1 : Lines.Count;
 
     public int Pos
     {
@@ -43,6 +40,8 @@ public class Bortilla : Scintilla
             CurrentPosition = value;
         }
     }
+
+    public int SelectionLength => SelectionEnd - SelectionStart;
 
     public void Reset()
     {

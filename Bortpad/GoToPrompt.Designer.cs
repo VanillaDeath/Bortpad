@@ -32,7 +32,7 @@
             this.lineNumberLabel = new System.Windows.Forms.Label();
             this.CancelBtn = new System.Windows.Forms.Button();
             this.GoToButton = new System.Windows.Forms.Button();
-            this.lineNumber = new NumBox();
+            this.lineNumber = new WilsonUtils.NumBox();
             this.SuspendLayout();
             // 
             // lineNumberLabel
@@ -107,7 +107,7 @@
         #endregion
 
         private System.Windows.Forms.Label lineNumberLabel;
-        private NumBox lineNumber;
+        private WilsonUtils.NumBox lineNumber;
         private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.Button GoToButton;
     }

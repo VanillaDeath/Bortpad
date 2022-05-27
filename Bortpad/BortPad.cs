@@ -1,4 +1,5 @@
-﻿using ScintillaNET;
+﻿using PropertyChanged;
+using ScintillaNET;
 using SharpConfig;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using WilsonUtils;
 
 namespace Bortpad;
 
+[AddINotifyPropertyChangedInterface]
 public partial class BortForm : Form
 {
     #region _CONSTANTS
@@ -25,7 +27,7 @@ public partial class BortForm : Form
     internal const int _DEFAULT_CODEPAGE = 65001;
     internal const string _DEFAULT_CONFIG_FILE = "Bortpad.cfg";
     internal const Eol _DEFAULT_EOL = _CRLF;
-    internal const string _DEFAULT_FILENAME = "Untitled";
+    internal const string _DEFAULT_FILENAME = "Untitlted";
     internal const string _DEFAULT_FONT = "Consolas, 11.25pt";
     internal const string _DEFAULT_SECTION = "General";
     internal const string _FEEDBACK_URL = "https://stevenwilson.ca/contact";
@@ -37,9 +39,7 @@ public partial class BortForm : Form
 
     #region _fields
 
-    private bool _darkMode;
     private Encoding _encodingSetting;
-    private Eol _eolSetting;
     private string _filename;
     private FindPrompt _find;
     private ReplacePrompt _replace;
@@ -64,24 +64,7 @@ public partial class BortForm : Form
 
     public bool DarkMode
     {
-        get => _darkMode;
-        set
-        {
-            editor.Styles[Style.Default].BackColor = value ? Color.Black : Color.White;
-            editor.Styles[Style.Default].ForeColor = value ? Color.White : Color.Black;
-            editor.StyleClearAll();
-            editor.CaretForeColor = value ? Color.White : Color.Black;
-            editor.CaretLineBackColor = value ? Color.Black : Color.White;
-            editor.CaretLineBackColorAlpha = 256;
-            darkMode.Text = value ? "☀" : "🌙";
-            ColorSwapItem(darkMode, !value);
-            ColorSwap(statusBar, value);
-            readOnlyNotice.LinkColor = value ? SystemColors.Control : SystemColors.ControlText;
-            readOnlyNotice.Image = value ? Properties.Resources.readonlyw : Properties.Resources._readonly;
-
-            darkMode.Checked = value;
-            SetSetting("DarkMode", _darkMode = value);
-        }
+        get; private set;
     }
 
     public Encoding EncodingSetting
@@ -92,14 +75,7 @@ public partial class BortForm : Form
 
     public Eol EolSetting
     {
-        get => _eolSetting;
-        private set
-        {
-            _eolSetting = value;
-            editor.EolMode = _eolSetting;
-            SetSetting("LineEnding", _eolSetting);
-            SetEolStatus(_eolSetting);
-        }
+        get; private set;
     }
 
     public string FileName
@@ -115,15 +91,13 @@ public partial class BortForm : Form
         get => IsFile && OpenFilesInfo.IsReadOnly;
         private set
         {
-            OpenFilesInfo.IsReadOnly = value;
-            readOnlyNotice.Visible = OpenFilesInfo.IsReadOnly;
+            // See OnPropertyChanged event
         }
     }
 
     public string MainStatus
     {
-        get => statusBarLeft.Text;
-        private set => statusBarLeft.Text = value;
+        get; private set;
     }
 
     public FileInfo OpenFilesInfo => IsFile ? new(_filename) : null;
@@ -140,13 +114,7 @@ public partial class BortForm : Form
 
     public bool StatusBar
     {
-        get => statusBar.Visible;
-        private set
-        {
-            SetSetting("StatusBar", statusBar.Visible = value);
-            viewStatusBar.Checked = statusBar.Visible;
-            if (value) { UpdatePos(); }
-        }
+        get; private set;
     }
 
     #endregion Properties
@@ -158,6 +126,8 @@ public partial class BortForm : Form
         InitializeComponent();
 
         FileName = filenameSpecified;
+
+        // PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
 
         ConfigFile = $"{ProgramName}.cfg";
         EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
@@ -600,7 +570,7 @@ public partial class BortForm : Form
         if (ln < 1 || ln > editor.NumLines)
         {
             // _ = MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
-            _ = MsgBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
+            _ = MsgBox.Show("The line number is beyond the total number of lines", $"{ProgramName} - Goto Line", MessageBoxButtons.OK);
             return;
         }
         editor.Ln = (int)ln;
@@ -1055,6 +1025,9 @@ public partial class BortForm : Form
                 }
                 break;
 
+            default:
+                break;
+
                 #endregion Help Menu
         }
     }
@@ -1177,6 +1150,62 @@ public partial class BortForm : Form
     private void ZoomLevel_MouseLeave(object sender, EventArgs e)
     {
         statusBar.MouseWheel -= ScrollZoom;
+    }
+
+    private void OnPropertyChanged(string propertyName, object before, object after)
+    {
+        // Side effects of property changes performed here
+        if (Equals(before, after))
+        {
+            return;
+        }
+        switch (propertyName)
+        {
+            case "StatusBar":
+                bool statusBarValue = (bool)after;
+                SetSetting("StatusBar", statusBar.Visible = statusBarValue);
+                viewStatusBar.Checked = statusBar.Visible;
+                if (statusBarValue) { UpdatePos(); }
+                break;
+
+            case "DarkMode":
+                bool darkModeValue = (bool)after;
+                editor.Styles[Style.Default].BackColor = darkModeValue ? Color.Black : Color.White;
+                editor.Styles[Style.Default].ForeColor = darkModeValue ? Color.White : Color.Black;
+                editor.StyleClearAll();
+                editor.CaretForeColor = darkModeValue ? Color.White : Color.Black;
+                editor.CaretLineBackColor = darkModeValue ? Color.Black : Color.White;
+                editor.CaretLineBackColorAlpha = 256;
+                darkMode.Text = darkModeValue ? "☀" : "🌙";
+                ColorSwapItem(darkMode, !darkModeValue);
+                ColorSwap(statusBar, darkModeValue);
+                readOnlyNotice.LinkColor = darkModeValue ? SystemColors.Control : SystemColors.ControlText;
+                readOnlyNotice.Image = darkModeValue ? Properties.Resources.readonlyw : Properties.Resources._readonly;
+
+                darkMode.Checked = darkModeValue;
+                SetSetting("DarkMode", darkModeValue);
+                break;
+
+            case "EolSetting":
+                Eol eolSetting = (Eol)after;
+                editor.EolMode = eolSetting;
+                SetSetting("LineEnding", eolSetting);
+                SetEolStatus(eolSetting);
+                break;
+
+            case "IsReadOnly":
+                bool isReadOnly = (bool)after;
+                OpenFilesInfo.IsReadOnly = isReadOnly;
+                readOnlyNotice.Visible = OpenFilesInfo.IsReadOnly;
+                break;
+
+            case "MainStatus":
+                statusBarLeft.Text = (string)after;
+                break;
+
+            default:
+                break;
+        }
     }
 
     #endregion Instance Methods: Events
