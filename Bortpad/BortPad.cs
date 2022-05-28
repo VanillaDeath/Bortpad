@@ -42,8 +42,6 @@ public partial class Bortpad : Form
 
     private Encoding _encodingSetting;
     private string _filename;
-    private FindPrompt _find;
-    private ReplacePrompt _replace;
 
     #endregion _fields
 
@@ -503,18 +501,19 @@ public partial class Bortpad : Form
 
     private void Find()
     {
-        if (_find is not null && _find.Visible)
+        FindPrompt find = Application.OpenForms.OfType<FindPrompt>().FirstOrDefault();
+        if (find is not null)
         {
-            _find.BringToFront();
+            find.BringToFront();
             return;
         }
-        _find = new FindPrompt(
+        find = new(
             GetSetting<string>("Search", "Find"),
             GetSetting<bool>("Up", "Find"),
             GetSetting<bool>("MatchCase", "Find"),
             GetSetting<bool>("WrapAround", "Find"));
-        _find.FindClick += FindFromPrompt;
-        _find.Show();
+        find.FindClick += FindFromPrompt;
+        find.Show();
     }
 
     private void FindFromPrompt(object sender, EventArgs args)
@@ -633,20 +632,21 @@ public partial class Bortpad : Form
 
     private void ReplacePrompt()
     {
-        if (_replace is not null && _replace.Visible)
+        ReplacePrompt replace = Application.OpenForms.OfType<ReplacePrompt>().FirstOrDefault();
+        if (replace is not null)
         {
-            _replace.BringToFront();
+            replace.BringToFront();
             return;
         }
-        _replace = new ReplacePrompt(
+        replace = new(
             GetSetting<string>("Search", "Find"),
             GetSetting<string>("Replace", "Find"),
             GetSetting<bool>("MatchCase", "Find"),
             GetSetting<bool>("WrapAround", "Find"));
-        _replace.FindClick += FindNext;
-        _replace.ReplaceClick += ReplaceOne;
-        _replace.ReplaceAllClick += ReplaceAll;
-        _replace.Show();
+        replace.FindClick += FindNext;
+        replace.ReplaceClick += ReplaceOne;
+        replace.ReplaceAllClick += ReplaceAll;
+        replace.Show();
     }
 
     #endregion Instance Methods: Find & Replace
