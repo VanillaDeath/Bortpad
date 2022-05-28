@@ -145,4 +145,89 @@
   <data name="readonlyw" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\readonlyw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="cancelBtn.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DefaultFilename" xml:space="preserve">
+    <value>Untitled</value>
+  </data>
+  <data name="dontSaveBtn.Text" xml:space="preserve">
+    <value>Do&amp;n't Save</value>
+  </data>
+  <data name="IsMarkedAsReadOnly" xml:space="preserve">
+    <value>{0} is marked as Read-Only</value>
+  </data>
+  <data name="PathNotFound" xml:space="preserve">
+    <value>The system cannot find the path specified.</value>
+  </data>
+  <data name="ReadOnlyOptions" xml:space="preserve">
+    <value>To Save this file, either
+• Unset the Read - Only flag
+• Save As a new document</value>
+  </data>
+  <data name="saveAsBtn.Text" xml:space="preserve">
+    <value>Save &amp;As...</value>
+  </data>
+  <data name="unsetAndSaveBtn.Text" xml:space="preserve">
+    <value>&amp;Unset and Save</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About {0}</value>
+  </data>
+  <data name="CannotFind" xml:space="preserve">
+    <value>Cannot find "{0}"</value>
+  </data>
+  <data name="ChooseToEdit" xml:space="preserve">
+    <value>If you choose to edit this file, when you Save you will be prompted to either:
+• Unset the Read - Only flag
+• Save As a new document</value>
+  </data>
+  <data name="Col" xml:space="preserve">
+    <value>Col</value>
+  </data>
+  <data name="Confidence" xml:space="preserve">
+    <value>Confidence: {0}%</value>
+  </data>
+  <data name="ConvertLineEndings" xml:space="preserve">
+    <value>Convert all End of Line characters in this document to {0}?</value>
+  </data>
+  <data name="ConvertLineEndingsDesc" xml:space="preserve">
+    <value>Any line endings in this document that are not already {0} will be converted to {0}</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Detected" xml:space="preserve">
+    <value>Detected</value>
+  </data>
+  <data name="editBtn.Text" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="FoundNextBottom" xml:space="preserve">
+    <value>Found next from the bottom</value>
+  </data>
+  <data name="FoundNextTop" xml:space="preserve">
+    <value>Found next from the top</value>
+  </data>
+  <data name="GotoLine" xml:space="preserve">
+    <value>Goto Line</value>
+  </data>
+  <data name="LineNumberBeyond" xml:space="preserve">
+    <value>The line number is beyond the total number of lines</value>
+  </data>
+  <data name="Ln" xml:space="preserve">
+    <value>Ln</value>
+  </data>
+  <data name="okBtn.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="saveBtn.Text" xml:space="preserve">
+    <value>&amp;Save</value>
+  </data>
+  <data name="SaveChangesTo" xml:space="preserve">
+    <value>Do you want to save changes to {0}?</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
 </root>

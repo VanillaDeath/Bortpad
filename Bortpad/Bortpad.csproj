@@ -106,6 +106,7 @@
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <!-- <LogicalName>$(RootNamespace).Properties.Resources.resources</LogicalName> -->
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -5,8 +5,6 @@ namespace Bortpad
 {
     public partial class GoToPrompt : Form
     {
-        // private BortForm BortParent;
-
         public event EventHandler GoToClick;
 
         public int OriginalLineNumber

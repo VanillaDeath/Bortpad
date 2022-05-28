@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using Bortpad.Properties;
+using PropertyChanged;
 using ScintillaNET;
 using SharpConfig;
 using System;
@@ -18,7 +19,7 @@ using WilsonUtils;
 namespace Bortpad;
 
 [AddINotifyPropertyChangedInterface]
-public partial class BortForm : Form
+public partial class Bortpad : Form
 {
     #region _CONSTANTS
 
@@ -80,7 +81,7 @@ public partial class BortForm : Form
 
     public string FileName
     {
-        get => _filename ?? _DEFAULT_FILENAME;
+        get => _filename ?? Resources.DefaultFilename ?? _DEFAULT_FILENAME;
         private set => _filename = value;
     }
 
@@ -121,13 +122,11 @@ public partial class BortForm : Form
 
     #region Constructors
 
-    public BortForm(string filenameSpecified = null)
+    public Bortpad(string filenameSpecified = null)
     {
         InitializeComponent();
 
         FileName = filenameSpecified;
-
-        // PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
 
         ConfigFile = $"{ProgramName}.cfg";
         EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
@@ -141,7 +140,7 @@ public partial class BortForm : Form
         editor.ViewEol = GetSetting<bool>("ShowLineEndings");
         EolSetting = GetSetting<Eol>("LineEnding");
 
-        Text = $"{_DEFAULT_FILENAME} - {ProgramName}";
+        Text = $"{Resources.DefaultFilename ?? _DEFAULT_FILENAME} - {ProgramName}";
     }
 
     #endregion Constructors
@@ -241,7 +240,7 @@ public partial class BortForm : Form
     {
         // _ = MessageBox.Show("The system cannot find the path specified.", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         _ = MsgBox.Show(
-            "The system cannot find the path specified.",
+            Resources.PathNotFound,
             ProgramName,
             MessageBoxButtons.OK,
             MessageBoxIcon.Warning);
@@ -352,19 +351,19 @@ public partial class BortForm : Form
                 new()
                 {
                     Name = "unsetAndSaveBtn",
-                    Text = "&Unset and Save",
+                    Text = Resources.unsetAndSaveBtn_Text,
                     DialogResult = DialogResult.Yes
                 },
                 new()
                 {
                     Name = "saveAsBtn",
-                    Text = "Save &As...",
+                    Text = Resources.saveAsBtn_Text,
                     DialogResult = DialogResult.OK
                 },
                 new()
                 {
                     Name = "cancelBtn",
-                    Text = "Cancel",
+                    Text = Resources.cancelBtn_Text,
                     DialogResult = DialogResult.Cancel
                 }
             };
@@ -375,13 +374,13 @@ public partial class BortForm : Form
                     new()
                     {
                         Name = "dontSaveBtn",
-                        Text = "Do&n't Save",
+                        Text = Resources.dontSaveBtn_Text,
                         DialogResult = DialogResult.No
-                    });
+                    }); ;
             }
             DialogResult rod = MsgBox.Show(
-                $"{Path.GetFileName(FileName)} is marked as Read-Only",
-                "To Save this file, either\n• Unset the Read - Only flag\n• Save As a new document",
+                string.Format(Resources.IsMarkedAsReadOnly, Path.GetFileName(FileName)),
+                Resources.ReadOnlyOptions,
                 ProgramName,
                 buttons,
                 null,
@@ -413,7 +412,7 @@ public partial class BortForm : Form
         // SaveConfirmPrompt scp = new(FileName);
         // scp.ShowDialog();
         DialogResult scp = MsgBox.Show(
-            $"Do you want to save changes to {Path.GetFileName(FileName)}?",
+            string.Format(Resources.SaveChangesTo, Path.GetFileName(FileName)),
             "",
             ProgramName,
             new()
@@ -421,19 +420,19 @@ public partial class BortForm : Form
                 new()
                 {
                     Name = "saveBtn",
-                    Text = "&Save",
+                    Text = Resources.saveBtn_Text,
                     DialogResult = DialogResult.Yes
                 },
                 new()
                 {
                     Name = "dontSaveBtn",
-                    Text = "Do&n't Save",
+                    Text = Resources.dontSaveBtn_Text,
                     DialogResult = DialogResult.No
                 },
                 new()
                 {
                     Name = "cancelBtn",
-                    Text = "Cancel",
+                    Text = Resources.cancelBtn_Text,
                     DialogResult = DialogResult.Cancel
                 }
             },
@@ -540,7 +539,6 @@ public partial class BortForm : Form
     {
         string searchQuery = GetSetting<string>("Search", "Find");
         bool searchMatchCase = GetSetting<bool>("MatchCase", "Find");
-        // FIXME (reverse find borken), selectionstart and currentposition both not working
         int current = editor.SelectionStart;
         int length = editor.SelectionLength;
         int pos =
@@ -550,7 +548,7 @@ public partial class BortForm : Form
         if (pos == -1 && GetSetting<bool>("WrapAround", "Find"))
         {
             pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
-            MainStatus = pos == -1 ? "" : $"Found next from the {(prev ? "bottom" : "top")}";
+            MainStatus = pos == -1 ? "" : string.Format(prev ? Resources.FoundNextBottom : Resources.FoundNextTop);
         }
         else
         {
@@ -570,7 +568,7 @@ public partial class BortForm : Form
         if (ln < 1 || ln > editor.NumLines)
         {
             // _ = MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
-            _ = MsgBox.Show("The line number is beyond the total number of lines", $"{ProgramName} - Goto Line", MessageBoxButtons.OK);
+            _ = MsgBox.Show(Resources.LineNumberBeyond, $"{ProgramName} - {Resources.GotoLine}", MessageBoxButtons.OK);
             return;
         }
         editor.Ln = (int)ln;
@@ -582,7 +580,7 @@ public partial class BortForm : Form
         if (pos == -1)
         {
             // _ = MessageBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            _ = MsgBox.Show($"Cannot find \"{q}\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _ = MsgBox.Show(string.Format(Resources.CannotFind, q), ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
             return;
         }
         editor.Pos = pos;
@@ -660,7 +658,7 @@ public partial class BortForm : Form
         encoding ??= EncodingSetting;
         encodingStatus.DropDownItems.Clear();
         encodingStatus.Text = encoding?.EncodingName;
-        encodingStatus.ToolTipText = detected ? $"Confidence: {confidence * 100}%" : "";
+        encodingStatus.ToolTipText = detected ? string.Format(Resources.Confidence, confidence * 100) : "";
 
         ToolStripMenuItem[] items = CodePages.Select(e =>
             {
@@ -669,7 +667,7 @@ public partial class BortForm : Form
                 ToolStripMenuItem i = new()
                 {
                     Name = e.Name,
-                    Text = e.DisplayName + (detected && current ? " (Detected)" : "") + (defaultopt ? " (Default)" : ""),
+                    Text = e.DisplayName + (detected && current ? $" ({Resources.Detected})" : "") + (defaultopt ? $" ({Resources.Default})" : ""),
                     Tag = e,
                     Checked = current,
                     Font = defaultopt ? new Font(this.Font, FontStyle.Bold) : null,
@@ -715,7 +713,7 @@ public partial class BortForm : Form
         {
             return;
         }
-        position.Text = $"Ln {editor.Ln}, Col {editor.Col}";
+        position.Text = $"{Resources.Ln} {editor.Ln}, {Resources.Col} {editor.Col}";
     }
 
     #endregion Instance Methods: Status Bar
@@ -725,7 +723,7 @@ public partial class BortForm : Form
     private void BortForm_DragDrop(object sender, DragEventArgs e)
     {
         holdShiftNotice.Visible = false;
-        holdShiftNotice.Image = Properties.Resources.shift;
+        holdShiftNotice.Image = Resources.shift;
         if (e.Data.GetDataPresent(DataFormats.FileDrop))
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -746,7 +744,7 @@ public partial class BortForm : Form
     private void BortForm_DragLeave(object sender, EventArgs e)
     {
         holdShiftNotice.Visible = false;
-        holdShiftNotice.Image = Properties.Resources.shift;
+        holdShiftNotice.Image = Resources.shift;
     }
 
     private void BortForm_DragOver(object sender, DragEventArgs e)
@@ -757,17 +755,17 @@ public partial class BortForm : Form
             if ((e.KeyState & 4) != 4)
             {
                 e.Effect = DragDropEffects.Copy;
-                holdShiftNotice.Image = Properties.Resources.shift;
+                holdShiftNotice.Image = Resources.shift;
                 return;
             }
             e.Effect = DragDropEffects.Move;
-            holdShiftNotice.Image = Properties.Resources.check;
+            holdShiftNotice.Image = Resources.check;
         }
     }
 
     private void BortForm_FormClosed(object sender, FormClosedEventArgs e)
     {
-        if (!Application.OpenForms.OfType<BortForm>().Any())
+        if (!Application.OpenForms.OfType<Bortpad>().Any())
         {
             Application.Exit();
         }
@@ -800,10 +798,9 @@ public partial class BortForm : Form
 
     private void ConvertLineEndings_Click(object sender, EventArgs e)
     {
-        string target = ((Eol)lineReturnType.Tag).ToString();
         if (MsgBox.Show(
-                $"Convert all End of Line characters in this document to {lineReturnType.Text}?",
-                $"Any line endings in this document that are not already {target} will be converted to {target}",
+                string.Format(Resources.ConvertLineEndings, lineReturnType.Text),
+                string.Format(Resources.ConvertLineEndingsDesc, ((Eol)lineReturnType.Tag).ToString()),
                 ProgramName,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question,
@@ -814,7 +811,7 @@ public partial class BortForm : Form
         }
     }
 
-    private void CursorPosition_Changed(object sender, EventArgs e)
+    private void CursorPosition_Changed(object sender, UpdateUIEventArgs e)
     {
         UpdatePos();
     }
@@ -1051,7 +1048,7 @@ public partial class BortForm : Form
             new()
             {
                 Name = "editBtn",
-                Text = editor.ReadOnly ? "&Edit" : "OK",
+                Text = editor.ReadOnly ? Resources.editBtn_Text : Resources.okBtn_Text,
                 DialogResult = DialogResult.OK
             }
         };
@@ -1060,13 +1057,13 @@ public partial class BortForm : Form
             buttons.Add(new()
             {
                 Name = "cancelBtn",
-                Text = "Cancel",
+                Text = Resources.cancelBtn_Text,
                 DialogResult = DialogResult.Cancel
             });
         }
         DialogResult ro = MsgBox.Show(
-            $"{Path.GetFileName(FileName)} is marked as Read-Only",
-            "If you choose to edit this file, when you Save you will be prompted to either:\n• Unset the Read - Only flag\n• Save As a new document",
+            string.Format(Resources.IsMarkedAsReadOnly, Path.GetFileName(FileName)),
+            Resources.ChooseToEdit,
             ProgramName,
             buttons,
             null,

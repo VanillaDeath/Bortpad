@@ -41,12 +41,12 @@ namespace Bortpad
             WrapAround = setWrapAround;
         }
 
-        private void cancel_Click(object sender, EventArgs e)
+        private void Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void findNext_Click(object sender, EventArgs e)
+        private void FindNext_Click(object sender, EventArgs e)
         {
             // findNext();
             FindClick?.Invoke(this, EventArgs.Empty);
@@ -65,7 +65,7 @@ namespace Bortpad
             }
         }
 
-        private void searchQuery_TextChanged(object sender, EventArgs e)
+        private void SearchQuery_TextChanged(object sender, EventArgs e)
         {
             findNextButton.Enabled = SearchQuery.Length > 0;
         }

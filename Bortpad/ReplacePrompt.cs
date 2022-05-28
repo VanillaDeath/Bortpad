@@ -5,7 +5,6 @@ namespace Bortpad
 {
     public partial class ReplacePrompt : Form
     {
-        // private BortForm BortParent;
         public event EventHandler FindClick;
 
         public event EventHandler ReplaceClick;
@@ -52,7 +51,6 @@ namespace Bortpad
 
         private void FindNext_Click(object sender, EventArgs e)
         {
-            // findNext();
             FindClick?.Invoke(this, e);
         }
 

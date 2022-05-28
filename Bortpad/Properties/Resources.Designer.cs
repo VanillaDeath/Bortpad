@@ -71,6 +71,15 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About {0}.
+        /// </summary>
+        public static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon bortpad {
@@ -91,12 +100,176 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string cancelBtn_Text {
+            get {
+                return ResourceManager.GetString("cancelBtn.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find &quot;{0}&quot;.
+        /// </summary>
+        public static string CannotFind {
+            get {
+                return ResourceManager.GetString("CannotFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap check {
             get {
                 object obj = ResourceManager.GetObject("check", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you choose to edit this file, when you Save you will be prompted to either:
+        ///• Unset the Read - Only flag
+        ///• Save As a new document.
+        /// </summary>
+        public static string ChooseToEdit {
+            get {
+                return ResourceManager.GetString("ChooseToEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Col.
+        /// </summary>
+        public static string Col {
+            get {
+                return ResourceManager.GetString("Col", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confidence: {0}%.
+        /// </summary>
+        public static string Confidence {
+            get {
+                return ResourceManager.GetString("Confidence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Convert all End of Line characters in this document to {0}?.
+        /// </summary>
+        public static string ConvertLineEndings {
+            get {
+                return ResourceManager.GetString("ConvertLineEndings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Any line endings in this document that are not already {0} will be converted to {0}.
+        /// </summary>
+        public static string ConvertLineEndingsDesc {
+            get {
+                return ResourceManager.GetString("ConvertLineEndingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        public static string Default {
+            get {
+                return ResourceManager.GetString("Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Untitled.
+        /// </summary>
+        public static string DefaultFilename {
+            get {
+                return ResourceManager.GetString("DefaultFilename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detected.
+        /// </summary>
+        public static string Detected {
+            get {
+                return ResourceManager.GetString("Detected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do&amp;n&apos;t Save.
+        /// </summary>
+        public static string dontSaveBtn_Text {
+            get {
+                return ResourceManager.GetString("dontSaveBtn.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Edit.
+        /// </summary>
+        public static string editBtn_Text {
+            get {
+                return ResourceManager.GetString("editBtn.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found next from the bottom.
+        /// </summary>
+        public static string FoundNextBottom {
+            get {
+                return ResourceManager.GetString("FoundNextBottom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found next from the top.
+        /// </summary>
+        public static string FoundNextTop {
+            get {
+                return ResourceManager.GetString("FoundNextTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goto Line.
+        /// </summary>
+        public static string GotoLine {
+            get {
+                return ResourceManager.GetString("GotoLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is marked as Read-Only.
+        /// </summary>
+        public static string IsMarkedAsReadOnly {
+            get {
+                return ResourceManager.GetString("IsMarkedAsReadOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The line number is beyond the total number of lines.
+        /// </summary>
+        public static string LineNumberBeyond {
+            get {
+                return ResourceManager.GetString("LineNumberBeyond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ln.
+        /// </summary>
+        public static string Ln {
+            get {
+                return ResourceManager.GetString("Ln", resourceCulture);
             }
         }
         
@@ -111,12 +284,41 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string okBtn_Text {
+            get {
+                return ResourceManager.GetString("okBtn.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap os9 {
             get {
                 object obj = ResourceManager.GetObject("os9", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The system cannot find the path specified..
+        /// </summary>
+        public static string PathNotFound {
+            get {
+                return ResourceManager.GetString("PathNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To Save this file, either
+        ///• Unset the Read - Only flag
+        ///• Save As a new document.
+        /// </summary>
+        public static string ReadOnlyOptions {
+            get {
+                return ResourceManager.GetString("ReadOnlyOptions", resourceCulture);
             }
         }
         
@@ -131,12 +333,57 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save &amp;As....
+        /// </summary>
+        public static string saveAsBtn_Text {
+            get {
+                return ResourceManager.GetString("saveAsBtn.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Save.
+        /// </summary>
+        public static string saveBtn_Text {
+            get {
+                return ResourceManager.GetString("saveBtn.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to save changes to {0}?.
+        /// </summary>
+        public static string SaveChangesTo {
+            get {
+                return ResourceManager.GetString("SaveChangesTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap shift {
             get {
                 object obj = ResourceManager.GetObject("shift", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Unset and Save.
+        /// </summary>
+        public static string unsetAndSaveBtn_Text {
+            get {
+                return ResourceManager.GetString("unsetAndSaveBtn.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
         

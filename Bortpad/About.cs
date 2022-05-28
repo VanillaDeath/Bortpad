@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bortpad.Properties;
+using System;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -9,9 +10,9 @@ namespace Bortpad
         public About()
         {
             InitializeComponent();
-            this.Text = String.Format("About {0}", AssemblyTitle);
+            this.Text = String.Format(Resources.About, AssemblyTitle);
             this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            this.labelVersion.Text = String.Format(Resources.Version, AssemblyVersion);
             this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
             this.textBoxDescription.Text = AssemblyDescription;
@@ -98,7 +99,7 @@ namespace Bortpad
 
         #endregion Assembly Attribute Accessors
 
-        private void okButton_Click(object sender, EventArgs e)
+        private void OKButton_Click(object sender, EventArgs e)
         {
             Close();
         }

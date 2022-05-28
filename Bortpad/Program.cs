@@ -18,7 +18,7 @@ namespace Bortpad
             // Application.SetHighDpiMode(HighDpiMode.SystemAware); // .NET Core only
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new BortForm(filename));
+            Application.Run(new Bortpad(filename));
         }
     }
 }

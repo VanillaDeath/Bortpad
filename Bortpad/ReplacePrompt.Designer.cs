@@ -43,120 +43,74 @@
             // 
             // findWhat
             // 
-            this.findWhat.AutoSize = true;
-            this.findWhat.Location = new System.Drawing.Point(10, 13);
+            resources.ApplyResources(this.findWhat, "findWhat");
             this.findWhat.Name = "findWhat";
-            this.findWhat.Size = new System.Drawing.Size(56, 13);
-            this.findWhat.TabIndex = 0;
-            this.findWhat.Text = "Fi&nd what:";
             // 
             // searchQuery
             // 
-            this.searchQuery.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.searchQuery, "searchQuery");
             this.searchQuery.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.searchQuery.Location = new System.Drawing.Point(88, 11);
             this.searchQuery.Name = "searchQuery";
-            this.searchQuery.Size = new System.Drawing.Size(177, 20);
-            this.searchQuery.TabIndex = 1;
             this.searchQuery.TextChanged += new System.EventHandler(this.SearchQuery_TextChanged);
             // 
             // findNextButton
             // 
-            this.findNextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.findNextButton.Enabled = false;
-            this.findNextButton.Location = new System.Drawing.Point(282, 8);
+            resources.ApplyResources(this.findNextButton, "findNextButton");
             this.findNextButton.Name = "findNextButton";
-            this.findNextButton.Size = new System.Drawing.Size(75, 23);
-            this.findNextButton.TabIndex = 5;
-            this.findNextButton.Text = "&Find Next";
             this.findNextButton.UseVisualStyleBackColor = true;
             this.findNextButton.Click += new System.EventHandler(this.FindNext_Click);
             // 
             // cancelBtn
             // 
-            this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.cancelBtn, "cancelBtn");
             this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelBtn.Location = new System.Drawing.Point(282, 95);
             this.cancelBtn.Name = "cancelBtn";
-            this.cancelBtn.Size = new System.Drawing.Size(75, 23);
-            this.cancelBtn.TabIndex = 8;
-            this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // wrapAround
             // 
-            this.wrapAround.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.wrapAround.AutoSize = true;
-            this.wrapAround.Location = new System.Drawing.Point(13, 129);
+            resources.ApplyResources(this.wrapAround, "wrapAround");
             this.wrapAround.Name = "wrapAround";
-            this.wrapAround.Size = new System.Drawing.Size(88, 17);
-            this.wrapAround.TabIndex = 4;
-            this.wrapAround.Text = "W&rap around";
             this.wrapAround.UseVisualStyleBackColor = true;
             // 
             // matchCase
             // 
-            this.matchCase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.matchCase.AutoSize = true;
-            this.matchCase.Location = new System.Drawing.Point(13, 106);
+            resources.ApplyResources(this.matchCase, "matchCase");
             this.matchCase.Name = "matchCase";
-            this.matchCase.Size = new System.Drawing.Size(82, 17);
-            this.matchCase.TabIndex = 3;
-            this.matchCase.Text = "Match &case";
             this.matchCase.UseVisualStyleBackColor = true;
             // 
             // replaceWithLabel
             // 
-            this.replaceWithLabel.AutoSize = true;
-            this.replaceWithLabel.Location = new System.Drawing.Point(10, 39);
+            resources.ApplyResources(this.replaceWithLabel, "replaceWithLabel");
             this.replaceWithLabel.Name = "replaceWithLabel";
-            this.replaceWithLabel.Size = new System.Drawing.Size(72, 13);
-            this.replaceWithLabel.TabIndex = 7;
-            this.replaceWithLabel.Text = "Re&place with:";
             // 
             // replaceWith
             // 
-            this.replaceWith.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.replaceWith, "replaceWith");
             this.replaceWith.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.replaceWith.Location = new System.Drawing.Point(88, 37);
             this.replaceWith.Name = "replaceWith";
-            this.replaceWith.Size = new System.Drawing.Size(177, 20);
-            this.replaceWith.TabIndex = 2;
             // 
             // replaceButton
             // 
-            this.replaceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.replaceButton.Enabled = false;
-            this.replaceButton.Location = new System.Drawing.Point(282, 37);
+            resources.ApplyResources(this.replaceButton, "replaceButton");
             this.replaceButton.Name = "replaceButton";
-            this.replaceButton.Size = new System.Drawing.Size(75, 23);
-            this.replaceButton.TabIndex = 6;
-            this.replaceButton.Text = "&Replace";
             this.replaceButton.UseVisualStyleBackColor = true;
             this.replaceButton.Click += new System.EventHandler(this.ReplaceButton_Click);
             // 
             // replaceAllButton
             // 
-            this.replaceAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.replaceAllButton.Enabled = false;
-            this.replaceAllButton.Location = new System.Drawing.Point(282, 66);
+            resources.ApplyResources(this.replaceAllButton, "replaceAllButton");
             this.replaceAllButton.Name = "replaceAllButton";
-            this.replaceAllButton.Size = new System.Drawing.Size(75, 23);
-            this.replaceAllButton.TabIndex = 7;
-            this.replaceAllButton.Text = "Replace &All";
             this.replaceAllButton.UseVisualStyleBackColor = true;
             this.replaceAllButton.Click += new System.EventHandler(this.ReplaceAllButton_Click);
             // 
             // ReplacePrompt
             // 
             this.AcceptButton = this.findNextButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelBtn;
-            this.ClientSize = new System.Drawing.Size(369, 158);
             this.Controls.Add(this.replaceAllButton);
             this.Controls.Add(this.replaceButton);
             this.Controls.Add(this.replaceWith);
@@ -168,15 +122,12 @@
             this.Controls.Add(this.searchQuery);
             this.Controls.Add(this.findWhat);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ReplacePrompt";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Replace";
             this.TopMost = true;
             this.VisibleChanged += new System.EventHandler(this.FindPrompt_VisibleChanged);
             this.ResumeLayout(false);

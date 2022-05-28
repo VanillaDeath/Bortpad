@@ -8,17 +8,19 @@ namespace WilsonUtils;
 internal class NumBox : TextBox
 {
     private const int WM_PASTE = 0x0302;
-    private ToolTip err;
+    private readonly ToolTip err;
 
     [DllImport("user32.dll")]
     private static extern bool GetCaretPos(out Point lpPoint);
 
     public NumBox() : base()
     {
-        err = new ToolTip();
-        err.IsBalloon = true;
-        err.ToolTipIcon = ToolTipIcon.Error;
-        err.ToolTipTitle = "Unacceptable Character";
+        err = new ToolTip
+        {
+            IsBalloon = true,
+            ToolTipIcon = ToolTipIcon.Error,
+            ToolTipTitle = "Unacceptable Character"
+        };
     }
 
     protected override void WndProc(ref Message m)
@@ -30,15 +32,13 @@ internal class NumBox : TextBox
         }
         else
         {
-            if (double.TryParse(Clipboard.GetText(), out double value))
+            if (double.TryParse(Clipboard.GetText(), out _))
             {
-                // Text = value.ToString();
-                // SelectedText = value.ToString();
                 base.WndProc(ref m);
             }
             else
             {
-                errorBubble();
+                ErrorBubble();
             }
         }
     }
@@ -93,12 +93,12 @@ internal class NumBox : TextBox
 
         if (!modifier && nonNumber)
         {
-            errorBubble();
+            ErrorBubble();
             e.SuppressKeyPress = true;
         }
     }
 
-    protected void errorBubble()
+    protected void ErrorBubble()
     {
         GetCaretPos(out Point pt);
         err.Show(String.Empty, this, pt.X, pt.Y + 13, 1);
