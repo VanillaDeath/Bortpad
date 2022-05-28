@@ -117,6 +117,7 @@ namespace Bortpad
             // 
             // mainMenu
             // 
+            resources.ApplyResources(this.mainMenu, "mainMenu");
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMenu,
             this.editMenu,
@@ -125,12 +126,12 @@ namespace Bortpad
             this.helpMenu,
             this.darkMode,
             this.holdShiftNotice});
-            resources.ApplyResources(this.mainMenu, "mainMenu");
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             // 
             // fileMenu
             // 
+            resources.ApplyResources(this.fileMenu, "fileMenu");
             this.fileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileNew,
             this.fileNewWindow,
@@ -143,68 +144,68 @@ namespace Bortpad
             this.fileSeparator2,
             this.fileExit});
             this.fileMenu.Name = "fileMenu";
-            resources.ApplyResources(this.fileMenu, "fileMenu");
             // 
             // fileNew
             // 
-            this.fileNew.Name = "fileNew";
             resources.ApplyResources(this.fileNew, "fileNew");
+            this.fileNew.Name = "fileNew";
             this.fileNew.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // fileNewWindow
             // 
-            this.fileNewWindow.Name = "fileNewWindow";
             resources.ApplyResources(this.fileNewWindow, "fileNewWindow");
+            this.fileNewWindow.Name = "fileNewWindow";
             this.fileNewWindow.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // fileOpen
             // 
-            this.fileOpen.Name = "fileOpen";
             resources.ApplyResources(this.fileOpen, "fileOpen");
+            this.fileOpen.Name = "fileOpen";
             this.fileOpen.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // fileSave
             // 
-            this.fileSave.Name = "fileSave";
             resources.ApplyResources(this.fileSave, "fileSave");
+            this.fileSave.Name = "fileSave";
             this.fileSave.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // fileSaveAs
             // 
-            this.fileSaveAs.Name = "fileSaveAs";
             resources.ApplyResources(this.fileSaveAs, "fileSaveAs");
+            this.fileSaveAs.Name = "fileSaveAs";
             this.fileSaveAs.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // fileSeparator1
             // 
-            this.fileSeparator1.Name = "fileSeparator1";
             resources.ApplyResources(this.fileSeparator1, "fileSeparator1");
+            this.fileSeparator1.Name = "fileSeparator1";
             // 
             // filePageSetup
             // 
-            this.filePageSetup.Name = "filePageSetup";
             resources.ApplyResources(this.filePageSetup, "filePageSetup");
+            this.filePageSetup.Name = "filePageSetup";
             this.filePageSetup.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // filePrint
             // 
-            this.filePrint.Name = "filePrint";
             resources.ApplyResources(this.filePrint, "filePrint");
+            this.filePrint.Name = "filePrint";
             this.filePrint.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // fileSeparator2
             // 
-            this.fileSeparator2.Name = "fileSeparator2";
             resources.ApplyResources(this.fileSeparator2, "fileSeparator2");
+            this.fileSeparator2.Name = "fileSeparator2";
             // 
             // fileExit
             // 
-            this.fileExit.Name = "fileExit";
             resources.ApplyResources(this.fileExit, "fileExit");
+            this.fileExit.Name = "fileExit";
             this.fileExit.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // editMenu
             // 
+            resources.ApplyResources(this.editMenu, "editMenu");
             this.editMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editUndo,
             this.editRedo,
@@ -224,7 +225,6 @@ namespace Bortpad
             this.editSelectAll,
             this.editTimeDate});
             this.editMenu.Name = "editMenu";
-            resources.ApplyResources(this.editMenu, "editMenu");
             this.editMenu.DropDownClosed += new System.EventHandler(this.Edit_DropDownClosed);
             this.editMenu.DropDownOpening += new System.EventHandler(this.Menu_Opening);
             // 
@@ -242,8 +242,8 @@ namespace Bortpad
             // 
             // editSeparator1
             // 
-            this.editSeparator1.Name = "editSeparator1";
             resources.ApplyResources(this.editSeparator1, "editSeparator1");
+            this.editSeparator1.Name = "editSeparator1";
             // 
             // editCut
             // 
@@ -271,8 +271,8 @@ namespace Bortpad
             // 
             // editSeparator2
             // 
-            this.editSeparator2.Name = "editSeparator2";
             resources.ApplyResources(this.editSeparator2, "editSeparator2");
+            this.editSeparator2.Name = "editSeparator2";
             // 
             // editSearch
             // 
@@ -282,8 +282,8 @@ namespace Bortpad
             // 
             // editFind
             // 
-            this.editFind.Name = "editFind";
             resources.ApplyResources(this.editFind, "editFind");
+            this.editFind.Name = "editFind";
             this.editFind.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // editFindNext
@@ -300,136 +300,136 @@ namespace Bortpad
             // 
             // editReplace
             // 
-            this.editReplace.Name = "editReplace";
             resources.ApplyResources(this.editReplace, "editReplace");
+            this.editReplace.Name = "editReplace";
             this.editReplace.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // editGoTo
             // 
-            this.editGoTo.Name = "editGoTo";
             resources.ApplyResources(this.editGoTo, "editGoTo");
+            this.editGoTo.Name = "editGoTo";
             this.editGoTo.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // editSeparator3
             // 
-            this.editSeparator3.Name = "editSeparator3";
             resources.ApplyResources(this.editSeparator3, "editSeparator3");
+            this.editSeparator3.Name = "editSeparator3";
             // 
             // editSelectAll
             // 
-            this.editSelectAll.Name = "editSelectAll";
             resources.ApplyResources(this.editSelectAll, "editSelectAll");
+            this.editSelectAll.Name = "editSelectAll";
             this.editSelectAll.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // editTimeDate
             // 
-            this.editTimeDate.Name = "editTimeDate";
             resources.ApplyResources(this.editTimeDate, "editTimeDate");
+            this.editTimeDate.Name = "editTimeDate";
             this.editTimeDate.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // formatMenu
             // 
+            resources.ApplyResources(this.formatMenu, "formatMenu");
             this.formatMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.formatWordWrap,
             this.formatFont});
             this.formatMenu.Name = "formatMenu";
-            resources.ApplyResources(this.formatMenu, "formatMenu");
             this.formatMenu.DropDownOpening += new System.EventHandler(this.Menu_Opening);
             // 
             // formatWordWrap
             // 
-            this.formatWordWrap.Name = "formatWordWrap";
             resources.ApplyResources(this.formatWordWrap, "formatWordWrap");
+            this.formatWordWrap.Name = "formatWordWrap";
             this.formatWordWrap.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // formatFont
             // 
-            this.formatFont.Name = "formatFont";
             resources.ApplyResources(this.formatFont, "formatFont");
+            this.formatFont.Name = "formatFont";
             this.formatFont.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // viewMenu
             // 
+            resources.ApplyResources(this.viewMenu, "viewMenu");
             this.viewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewZoom,
             this.viewStatusBar});
             this.viewMenu.Name = "viewMenu";
-            resources.ApplyResources(this.viewMenu, "viewMenu");
             this.viewMenu.DropDownOpening += new System.EventHandler(this.Menu_Opening);
             // 
             // viewZoom
             // 
+            resources.ApplyResources(this.viewZoom, "viewZoom");
             this.viewZoom.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zoomIn,
             this.zoomOut,
             this.restoreDefaultZoom});
             this.viewZoom.Name = "viewZoom";
-            resources.ApplyResources(this.viewZoom, "viewZoom");
             // 
             // zoomIn
             // 
-            this.zoomIn.Name = "zoomIn";
             resources.ApplyResources(this.zoomIn, "zoomIn");
+            this.zoomIn.Name = "zoomIn";
             this.zoomIn.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // zoomOut
             // 
-            this.zoomOut.Name = "zoomOut";
             resources.ApplyResources(this.zoomOut, "zoomOut");
+            this.zoomOut.Name = "zoomOut";
             this.zoomOut.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // restoreDefaultZoom
             // 
-            this.restoreDefaultZoom.Name = "restoreDefaultZoom";
             resources.ApplyResources(this.restoreDefaultZoom, "restoreDefaultZoom");
+            this.restoreDefaultZoom.Name = "restoreDefaultZoom";
             this.restoreDefaultZoom.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // viewStatusBar
             // 
+            resources.ApplyResources(this.viewStatusBar, "viewStatusBar");
             this.viewStatusBar.Checked = true;
             this.viewStatusBar.CheckOnClick = true;
             this.viewStatusBar.CheckState = System.Windows.Forms.CheckState.Checked;
             this.viewStatusBar.Name = "viewStatusBar";
-            resources.ApplyResources(this.viewStatusBar, "viewStatusBar");
             this.viewStatusBar.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // helpMenu
             // 
+            resources.ApplyResources(this.helpMenu, "helpMenu");
             this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.helpViewHelp,
             this.helpSendFeedback,
             this.helpSeparator1,
             this.helpAbout});
             this.helpMenu.Name = "helpMenu";
-            resources.ApplyResources(this.helpMenu, "helpMenu");
             // 
             // helpViewHelp
             // 
-            this.helpViewHelp.Name = "helpViewHelp";
             resources.ApplyResources(this.helpViewHelp, "helpViewHelp");
+            this.helpViewHelp.Name = "helpViewHelp";
             this.helpViewHelp.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // helpSendFeedback
             // 
-            this.helpSendFeedback.Name = "helpSendFeedback";
             resources.ApplyResources(this.helpSendFeedback, "helpSendFeedback");
+            this.helpSendFeedback.Name = "helpSendFeedback";
             this.helpSendFeedback.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // helpSeparator1
             // 
-            this.helpSeparator1.Name = "helpSeparator1";
             resources.ApplyResources(this.helpSeparator1, "helpSeparator1");
+            this.helpSeparator1.Name = "helpSeparator1";
             // 
             // helpAbout
             // 
-            this.helpAbout.Name = "helpAbout";
             resources.ApplyResources(this.helpAbout, "helpAbout");
+            this.helpAbout.Name = "helpAbout";
             this.helpAbout.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // darkMode
             // 
-            this.darkMode.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             resources.ApplyResources(this.darkMode, "darkMode");
+            this.darkMode.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.darkMode.BackColor = System.Drawing.SystemColors.ControlText;
             this.darkMode.ForeColor = System.Drawing.SystemColors.Control;
             this.darkMode.Name = "darkMode";
@@ -437,13 +437,14 @@ namespace Bortpad
             // 
             // holdShiftNotice
             // 
-            this.holdShiftNotice.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             resources.ApplyResources(this.holdShiftNotice, "holdShiftNotice");
+            this.holdShiftNotice.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.holdShiftNotice.Image = global::Bortpad.Properties.Resources.shift;
             this.holdShiftNotice.Name = "holdShiftNotice";
             // 
             // statusBar
             // 
+            resources.ApplyResources(this.statusBar, "statusBar");
             this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusBarLeft,
             this.readOnlyNotice,
@@ -451,21 +452,20 @@ namespace Bortpad
             this.zoomLevel,
             this.lineReturnType,
             this.encodingStatus});
-            resources.ApplyResources(this.statusBar, "statusBar");
             this.statusBar.Name = "statusBar";
             this.statusBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.statusBar.ShowItemToolTips = true;
             // 
             // statusBarLeft
             // 
-            this.statusBarLeft.Name = "statusBarLeft";
             resources.ApplyResources(this.statusBarLeft, "statusBarLeft");
+            this.statusBarLeft.Name = "statusBarLeft";
             this.statusBarLeft.Spring = true;
             // 
             // readOnlyNotice
             // 
-            this.readOnlyNotice.ActiveLinkColor = System.Drawing.Color.LightCoral;
             resources.ApplyResources(this.readOnlyNotice, "readOnlyNotice");
+            this.readOnlyNotice.ActiveLinkColor = System.Drawing.Color.LightCoral;
             this.readOnlyNotice.Image = global::Bortpad.Properties.Resources._readonly;
             this.readOnlyNotice.IsLink = true;
             this.readOnlyNotice.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
@@ -509,23 +509,24 @@ namespace Bortpad
             this.lineReturnType.Name = "lineReturnType";
             this.lineReturnType.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lineReturnType.ShowDropDownArrow = false;
+            this.lineReturnType.DropDownOpening += new System.EventHandler(this.LineReturnType_DropDownOpening);
             // 
             // showLineEndings
             // 
-            this.showLineEndings.Name = "showLineEndings";
             resources.ApplyResources(this.showLineEndings, "showLineEndings");
+            this.showLineEndings.Name = "showLineEndings";
             this.showLineEndings.Click += new System.EventHandler(this.ShowLineEndings_Click);
             // 
             // convertLineEndings
             // 
-            this.convertLineEndings.Name = "convertLineEndings";
             resources.ApplyResources(this.convertLineEndings, "convertLineEndings");
+            this.convertLineEndings.Name = "convertLineEndings";
             this.convertLineEndings.Click += new System.EventHandler(this.ConvertLineEndings_Click);
             // 
             // toolStripSeparator4
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
             resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
             // 
             // pressingEnterUses
             // 
@@ -535,27 +536,27 @@ namespace Bortpad
             // 
             // windowsLineFeed
             // 
+            resources.ApplyResources(this.windowsLineFeed, "windowsLineFeed");
             this.windowsLineFeed.Checked = true;
             this.windowsLineFeed.CheckState = System.Windows.Forms.CheckState.Checked;
             this.windowsLineFeed.Image = global::Bortpad.Properties.Resources.windows;
             this.windowsLineFeed.Name = "windowsLineFeed";
-            resources.ApplyResources(this.windowsLineFeed, "windowsLineFeed");
             this.windowsLineFeed.Tag = "CRLF";
             this.windowsLineFeed.Click += new System.EventHandler(this.SetEOL);
             // 
             // linuxLineFeed
             // 
+            resources.ApplyResources(this.linuxLineFeed, "linuxLineFeed");
             this.linuxLineFeed.Image = global::Bortpad.Properties.Resources.macos;
             this.linuxLineFeed.Name = "linuxLineFeed";
-            resources.ApplyResources(this.linuxLineFeed, "linuxLineFeed");
             this.linuxLineFeed.Tag = "LF";
             this.linuxLineFeed.Click += new System.EventHandler(this.SetEOL);
             // 
             // macLineFeed
             // 
+            resources.ApplyResources(this.macLineFeed, "macLineFeed");
             this.macLineFeed.Image = global::Bortpad.Properties.Resources.os9;
             this.macLineFeed.Name = "macLineFeed";
-            resources.ApplyResources(this.macLineFeed, "macLineFeed");
             this.macLineFeed.Tag = "CR";
             this.macLineFeed.Click += new System.EventHandler(this.SetEOL);
             // 
@@ -599,6 +600,7 @@ namespace Bortpad
             // 
             // editorContextMenu
             // 
+            resources.ApplyResources(this.editorContextMenu, "editorContextMenu");
             this.editorContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editorUndo,
             this.editorRedo,
@@ -612,7 +614,6 @@ namespace Bortpad
             this.editorSeparator3,
             this.editorSearch});
             this.editorContextMenu.Name = "editorContextMenu";
-            resources.ApplyResources(this.editorContextMenu, "editorContextMenu");
             this.editorContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenu_Opening);
             // 
             // editorUndo
@@ -629,8 +630,8 @@ namespace Bortpad
             // 
             // editorSeparator1
             // 
-            this.editorSeparator1.Name = "editorSeparator1";
             resources.ApplyResources(this.editorSeparator1, "editorSeparator1");
+            this.editorSeparator1.Name = "editorSeparator1";
             // 
             // editorCut
             // 
@@ -658,19 +659,19 @@ namespace Bortpad
             // 
             // editorSeparator2
             // 
-            this.editorSeparator2.Name = "editorSeparator2";
             resources.ApplyResources(this.editorSeparator2, "editorSeparator2");
+            this.editorSeparator2.Name = "editorSeparator2";
             // 
             // editorSelectAll
             // 
-            this.editorSelectAll.Name = "editorSelectAll";
             resources.ApplyResources(this.editorSelectAll, "editorSelectAll");
+            this.editorSelectAll.Name = "editorSelectAll";
             this.editorSelectAll.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // editorSeparator3
             // 
-            this.editorSeparator3.Name = "editorSeparator3";
             resources.ApplyResources(this.editorSeparator3, "editorSeparator3");
+            this.editorSeparator3.Name = "editorSeparator3";
             // 
             // editorSearch
             // 
@@ -680,6 +681,7 @@ namespace Bortpad
             // 
             // editor
             // 
+            resources.ApplyResources(this.editor, "editor");
             this.editor.AllowDrop = true;
             this.editor.AutoCMaxHeight = 9;
             this.editor.BiDirectionality = ScintillaNET.BiDirectionalDisplayType.LeftToRight;
@@ -688,7 +690,6 @@ namespace Bortpad
             this.editor.CaretLineBackColor = System.Drawing.Color.White;
             this.editor.CaretLineVisible = true;
             this.editor.ContextMenuStrip = this.editorContextMenu;
-            resources.ApplyResources(this.editor, "editor");
             this.editor.LexerName = null;
             this.editor.Name = "editor";
             this.editor.ScrollWidth = 1;
@@ -705,8 +706,8 @@ namespace Bortpad
             // 
             // Bortpad
             // 
-            this.AllowDrop = true;
             resources.ApplyResources(this, "$this");
+            this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.editor);
             this.Controls.Add(this.statusBar);

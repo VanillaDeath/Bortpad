@@ -28,7 +28,7 @@ public partial class Bortpad : Form
     internal const int _DEFAULT_CODEPAGE = 65001;
     internal const string _DEFAULT_CONFIG_FILE = "Bortpad.cfg";
     internal const Eol _DEFAULT_EOL = _CRLF;
-    internal const string _DEFAULT_FILENAME = "Untitlted";
+    internal const string _DEFAULT_FILENAME = "Untitled";
     internal const string _DEFAULT_FONT = "Consolas, 11.25pt";
     internal const string _DEFAULT_SECTION = "General";
     internal const string _FEEDBACK_URL = "https://stevenwilson.ca/contact";
@@ -116,6 +116,11 @@ public partial class Bortpad : Form
         get; private set;
     }
 
+    public bool ViewEol
+    {
+        get; private set;
+    }
+
     #endregion Properties
 
     #region Constructors
@@ -135,7 +140,7 @@ public partial class Bortpad : Form
         windowsLineFeed.Tag = _CRLF;
         linuxLineFeed.Tag = _LF;
         macLineFeed.Tag = _CR;
-        editor.ViewEol = GetSetting<bool>("ShowLineEndings");
+        ViewEol = GetSetting<bool>("ShowLineEndings");
         EolSetting = GetSetting<Eol>("LineEnding");
 
         Text = $"{Resources.DefaultFilename ?? _DEFAULT_FILENAME} - {ProgramName}";
@@ -822,6 +827,11 @@ public partial class Bortpad : Form
         editSearch.Enabled = true;
     }
 
+    private void LineReturnType_DropDownOpening(object sender, EventArgs e)
+    {
+        showLineEndings.Checked = editor.ViewEol;
+    }
+
     private void Menu_Opening(object sender, EventArgs e)
     {
         switch (((ToolStripMenuItem)sender).Name)
@@ -1075,80 +1085,6 @@ public partial class Bortpad : Form
         }
     }
 
-    private void PrintPage(object sender, PrintPageEventArgs e)
-    {
-        e.Graphics.DrawString(editor.Text, editor.Font, Brushes.Black, 20, 20);
-    }
-
-    private void ReadOnlyNotice_Click(object sender, EventArgs e)
-    {
-        ModifyAttempt(sender, e);
-    }
-
-    private void ReadOnlyNotice_VisibleChanged(object sender, EventArgs e)
-    {
-        readOnlyNotice.Enabled = readOnlyNotice.Visible;
-        readOnlyNotice.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-    }
-
-    private void ScrollZoom(object sender, MouseEventArgs e)
-    {
-        if (e.Delta > 0)
-        {
-            MenuItem_Click(zoomIn, e);
-            return;
-        }
-        MenuItem_Click(zoomOut, e);
-    }
-
-    private void SetEncoding(object sender, EventArgs e)
-    {
-        SetEncodingStatus(EncodingSetting = ((EncodingInfo)((ToolStripMenuItem)sender).Tag).GetEncoding(), false);
-    }
-
-    private void SetEOL(object sender, EventArgs e)
-    {
-        ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
-        EolSetting = (Eol)clickedItem.Tag;
-    }
-
-    private void ShowLineEndings_Click(object sender, EventArgs e)
-    {
-        editor.ViewEol = !editor.ViewEol;
-        showLineEndings.Checked = editor.ViewEol;
-        SetSetting("ShowLineEndings", editor.ViewEol);
-    }
-
-    private void ToggleDarkMode(object sender, EventArgs e)
-    {
-        DarkMode = !DarkMode;
-    }
-
-    private void UpdateTitle(object sender, EventArgs e)
-    {
-        Text = (editor.Modified ? "*" : "") + (IsFile ? Path.GetFileName(FileName) : FileName) + " - " + ProgramName;
-    }
-
-    private void Zoom_Changed(object sender, EventArgs e)
-    {
-        zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
-    }
-
-    private void ZoomLevel_DoubleClick(object sender, EventArgs e)
-    {
-        editor.Zoom = 0;
-    }
-
-    private void ZoomLevel_MouseEnter(object sender, EventArgs e)
-    {
-        statusBar.MouseWheel += ScrollZoom;
-    }
-
-    private void ZoomLevel_MouseLeave(object sender, EventArgs e)
-    {
-        statusBar.MouseWheel -= ScrollZoom;
-    }
-
     private void OnPropertyChanged(string propertyName, object before, object after)
     {
         // Side effects of property changes performed here
@@ -1200,9 +1136,87 @@ public partial class Bortpad : Form
                 statusBarLeft.Text = (string)after;
                 break;
 
+            case "ViewEol":
+                editor.ViewEol = (bool)after;
+                showLineEndings.Checked = editor.ViewEol;
+                SetSetting("ShowLineEndings", editor.ViewEol);
+                break;
+
             default:
                 break;
         }
+    }
+
+    private void PrintPage(object sender, PrintPageEventArgs e)
+    {
+        e.Graphics.DrawString(editor.Text, editor.Font, Brushes.Black, 20, 20);
+    }
+
+    private void ReadOnlyNotice_Click(object sender, EventArgs e)
+    {
+        ModifyAttempt(sender, e);
+    }
+
+    private void ReadOnlyNotice_VisibleChanged(object sender, EventArgs e)
+    {
+        readOnlyNotice.Enabled = readOnlyNotice.Visible;
+        readOnlyNotice.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+    }
+
+    private void ScrollZoom(object sender, MouseEventArgs e)
+    {
+        if (e.Delta > 0)
+        {
+            MenuItem_Click(zoomIn, e);
+            return;
+        }
+        MenuItem_Click(zoomOut, e);
+    }
+
+    private void SetEncoding(object sender, EventArgs e)
+    {
+        SetEncodingStatus(EncodingSetting = ((EncodingInfo)((ToolStripMenuItem)sender).Tag).GetEncoding(), false);
+    }
+
+    private void SetEOL(object sender, EventArgs e)
+    {
+        ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
+        EolSetting = (Eol)clickedItem.Tag;
+    }
+
+    private void ShowLineEndings_Click(object sender, EventArgs e)
+    {
+        ViewEol = !ViewEol;
+    }
+
+    private void ToggleDarkMode(object sender, EventArgs e)
+    {
+        DarkMode = !DarkMode;
+    }
+
+    private void UpdateTitle(object sender, EventArgs e)
+    {
+        Text = (editor.Modified ? "*" : "") + (IsFile ? Path.GetFileName(FileName) : FileName) + " - " + ProgramName;
+    }
+
+    private void Zoom_Changed(object sender, EventArgs e)
+    {
+        zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
+    }
+
+    private void ZoomLevel_DoubleClick(object sender, EventArgs e)
+    {
+        editor.Zoom = 0;
+    }
+
+    private void ZoomLevel_MouseEnter(object sender, EventArgs e)
+    {
+        statusBar.MouseWheel += ScrollZoom;
+    }
+
+    private void ZoomLevel_MouseLeave(object sender, EventArgs e)
+    {
+        statusBar.MouseWheel -= ScrollZoom;
     }
 
     #endregion Instance Methods: Events

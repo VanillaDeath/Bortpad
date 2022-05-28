@@ -118,42 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="fileMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 20</value>
-  </data>
-  <data name="fileMenu.Text" xml:space="preserve">
-    <value>&amp;Fichier</value>
-  </data>
-  <data name="editMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 20</value>
-  </data>
-  <data name="editMenu.Text" xml:space="preserve">
-    <value>&amp;Édition</value>
-  </data>
-  <data name="viewMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 20</value>
-  </data>
-  <data name="viewMenu.Text" xml:space="preserve">
-    <value>&amp;Affichage</value>
-  </data>
-  <data name="helpMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 20</value>
-  </data>
-  <data name="helpMenu.Text" xml:space="preserve">
-    <value>A&amp;ider</value>
-  </data>
-  <data name="darkMode.ToolTipText" xml:space="preserve">
-    <value>Mode Sombre</value>
-  </data>
-  <data name="holdShiftNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 20</value>
-  </data>
-  <data name="holdShiftNotice.Text" xml:space="preserve">
-    <value>Ouvrir dans une Nouvelle Fenêtre</value>
-  </data>
-  <data name="mainMenu.Text" xml:space="preserve">
-    <value>Menu Principal</value>
-  </data>
   <data name="fileNew.Size" type="System.Drawing.Size, System.Drawing">
     <value>238, 22</value>
   </data>
@@ -207,6 +171,12 @@
   </data>
   <data name="fileExit.Text" xml:space="preserve">
     <value>Fe&amp;rmer</value>
+  </data>
+  <data name="fileMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 20</value>
+  </data>
+  <data name="fileMenu.Text" xml:space="preserve">
+    <value>&amp;Fichier</value>
   </data>
   <data name="editUndo.Size" type="System.Drawing.Size, System.Drawing">
     <value>239, 22</value>
@@ -278,7 +248,7 @@
     <value>239, 22</value>
   </data>
   <data name="editReplace.Text" xml:space="preserve">
-    <value>Remplacer</value>
+    <value>Remplacer...</value>
   </data>
   <data name="editGoTo.Size" type="System.Drawing.Size, System.Drawing">
     <value>239, 22</value>
@@ -301,20 +271,23 @@
   <data name="editTimeDate.Text" xml:space="preserve">
     <value>Heure/Date</value>
   </data>
+  <data name="editMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 20</value>
+  </data>
+  <data name="editMenu.Text" xml:space="preserve">
+    <value>&amp;Édition</value>
+  </data>
   <data name="formatWordWrap.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 22</value>
+    <value>182, 22</value>
   </data>
   <data name="formatWordWrap.Text" xml:space="preserve">
     <value>&amp;Retour à la ligne</value>
   </data>
   <data name="formatFont.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 22</value>
+    <value>182, 22</value>
   </data>
   <data name="formatFont.Text" xml:space="preserve">
-    <value>&amp;Police de caractère</value>
-  </data>
-  <data name="viewZoom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 22</value>
+    <value>&amp;Police de caractère...</value>
   </data>
   <data name="zoomIn.Size" type="System.Drawing.Size, System.Drawing">
     <value>265, 22</value>
@@ -334,11 +307,20 @@
   <data name="restoreDefaultZoom.Text" xml:space="preserve">
     <value>&amp;Restaurer le zoom par défaut</value>
   </data>
+  <data name="viewZoom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
   <data name="viewStatusBar.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 22</value>
   </data>
   <data name="viewStatusBar.Text" xml:space="preserve">
     <value>&amp;Barre d'état</value>
+  </data>
+  <data name="viewMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 20</value>
+  </data>
+  <data name="viewMenu.Text" xml:space="preserve">
+    <value>&amp;Affichage</value>
   </data>
   <data name="helpViewHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 22</value>
@@ -361,8 +343,23 @@
   <data name="helpAbout.Text" xml:space="preserve">
     <value>&amp;Au sujet de Bortpad</value>
   </data>
-  <data name="statusBar.Text" xml:space="preserve">
-    <value>Barre d'état</value>
+  <data name="helpMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 20</value>
+  </data>
+  <data name="helpMenu.Text" xml:space="preserve">
+    <value>A&amp;ider</value>
+  </data>
+  <data name="darkMode.ToolTipText" xml:space="preserve">
+    <value>Mode Sombre</value>
+  </data>
+  <data name="holdShiftNotice.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 20</value>
+  </data>
+  <data name="holdShiftNotice.Text" xml:space="preserve">
+    <value>Ouvrir dans une Nouvelle Fenêtre</value>
+  </data>
+  <data name="mainMenu.Text" xml:space="preserve">
+    <value>Menu Principal</value>
   </data>
   <data name="readOnlyNotice.Text" xml:space="preserve">
     <value>Non-Modifiable</value>
@@ -404,6 +401,9 @@ Double-clic: restaurer le zoom par défaut</value>
   </data>
   <data name="macLineFeed.Text" xml:space="preserve">
     <value>&amp;Mac hérité (CR)</value>
+  </data>
+  <data name="statusBar.Text" xml:space="preserve">
+    <value>Barre d'état</value>
   </data>
   <data name="saveFileDialog1.Filter" xml:space="preserve">
     <value>Fichiers texte|*.txt|Tous les fichiers|*.*</value>
@@ -476,9 +476,5 @@ Double-clic: restaurer le zoom par défaut</value>
   </data>
   <data name="editorContextMenu.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 198</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
   </data>
 </root>
