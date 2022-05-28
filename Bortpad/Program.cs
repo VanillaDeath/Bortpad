@@ -13,13 +13,12 @@ namespace Bortpad
         private static void Main()
         {
             // DEBUG
-            LanguageSetter.SetLanguage("fr");
+            // LanguageSetter.SetLanguage("fr");
 
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 1 ? args[1] : null;
 
             Application.EnableVisualStyles();
-            // Application.SetHighDpiMode(HighDpiMode.SystemAware); // .NET Core only
             Application.SetCompatibleTextRenderingDefault(false);
 
             Application.Run(new Bortpad(filename));

@@ -11,10 +11,6 @@ It is primarily a C# learning project for myself.
 📚 Multi-file drag-and-drop to open  
 
 
-## Missing Features
-🌍 Localization  
-
-
 ## Known Issues
 ⛔ Page Setup doesn't work (throws exception).  
 ⏳ Print dialog takes a long time to appear  
@@ -34,7 +30,7 @@ Bortpad is a C# WinForms application, built on .NET Framework 4.8, designed to c
 - Search web for selection is hard-coded to *Google* instead of a competitor's search engine.  
 - Supports command-line argument to open file.  
 - Supports text drag-and-drop on editor, file drag-and-drop on window.  
-- All language strings are hard-coded in English-only for now.  
+- Localized to English and French (v1.0.4).  
 - Printing is still a work in progress.  
 
 ---

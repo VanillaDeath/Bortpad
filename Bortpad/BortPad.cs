@@ -184,9 +184,33 @@ public partial class Bortpad : Form
 
     private T GetSetting<T>(string key, string section = _DEFAULT_SECTION)
     {
-        if (Settings is null || !Settings.Any())
+        bool keyNotFound = false;
+        try
         {
-            LoadSettings();
+            if (Settings is null || !Settings.Any())
+            {
+                LoadSettings();
+            }
+            if (!Settings.Contains(section ??= _DEFAULT_SECTION))
+            {
+                throw new KeyNotFoundException();
+            }
+            if (!Settings[section].Contains(key ??= ""))
+            {
+                keyNotFound = true;
+                throw new KeyNotFoundException();
+            }
+            return Settings[section][key].GetValue<T>();
+        }
+        catch (KeyNotFoundException e)
+        {
+            _ = MsgBox.Show(string.Format(keyNotFound ? Resources.SettingsKeyNotFound : Resources.SettingsSectionNotFound, section, key), e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Application.Exit();
+        }
+        catch (Exception e)
+        {
+            _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Application.Exit();
         }
         return Settings[section][key].GetValue<T>();
     }

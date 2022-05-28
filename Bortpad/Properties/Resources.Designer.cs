@@ -360,6 +360,24 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings file setting &quot;{1}&quot; not found (section &quot;{0}&quot;)..
+        /// </summary>
+        public static string SettingsKeyNotFound {
+            get {
+                return ResourceManager.GetString("SettingsKeyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings file section &quot;{0}&quot; not found..
+        /// </summary>
+        public static string SettingsSectionNotFound {
+            get {
+                return ResourceManager.GetString("SettingsSectionNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap shift {

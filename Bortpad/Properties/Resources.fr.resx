@@ -124,7 +124,7 @@
     <value>Annuler</value>
   </data>
   <data name="CannotFind" xml:space="preserve">
-    <value>Ne peux trouver "{0}"</value>
+    <value>Ne peux trouver «{0}»</value>
   </data>
   <data name="ChooseToEdit" xml:space="preserve">
     <value>Si vous choisissez de modifier ce fichier, lors de l'enregistrement, vous serez invité à:
@@ -195,6 +195,12 @@
   </data>
   <data name="SaveChangesTo" xml:space="preserve">
     <value>Voulez-vous enregistrer les modifications apportées à {0}?</value>
+  </data>
+  <data name="SettingsKeyNotFound" xml:space="preserve">
+    <value>Paramètre «{1}» introuvable dans le fichier de paramètres (section «{0}»).</value>
+  </data>
+  <data name="SettingsSectionNotFound" xml:space="preserve">
+    <value>Section «{0}» du fichier de paramètres introuvable.</value>
   </data>
   <data name="unsetAndSaveBtn.Text" xml:space="preserve">
     <value>&amp;Désactiver et enregistrer</value>
