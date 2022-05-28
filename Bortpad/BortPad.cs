@@ -1113,7 +1113,7 @@ public partial class Bortpad : Form
                 ColorSwapItem(darkMode, !darkModeValue);
                 ColorSwap(statusBar, darkModeValue);
                 readOnlyNotice.LinkColor = darkModeValue ? SystemColors.Control : SystemColors.ControlText;
-                readOnlyNotice.Image = darkModeValue ? Properties.Resources.readonlyw : Properties.Resources._readonly;
+                readOnlyNotice.Image = darkModeValue ? Resources.readonlyw : Resources._readonly;
 
                 darkMode.Checked = darkModeValue;
                 SetSetting("DarkMode", darkModeValue);
@@ -1128,8 +1128,11 @@ public partial class Bortpad : Form
 
             case "IsReadOnly":
                 bool isReadOnly = (bool)after;
-                OpenFilesInfo.IsReadOnly = isReadOnly;
-                readOnlyNotice.Visible = OpenFilesInfo.IsReadOnly;
+                if (IsFile && OpenFilesInfo.IsReadOnly != isReadOnly)
+                {
+                    OpenFilesInfo.IsReadOnly = isReadOnly;
+                }
+                readOnlyNotice.Visible = isReadOnly;
                 break;
 
             case "MainStatus":
