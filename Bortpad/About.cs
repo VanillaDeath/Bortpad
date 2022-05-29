@@ -10,12 +10,12 @@ namespace Bortpad
         public About()
         {
             InitializeComponent();
-            this.Text = String.Format(Resources.About, AssemblyTitle);
-            this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = String.Format(Resources.Version, AssemblyVersion);
-            this.labelCopyright.Text = AssemblyCopyright;
-            this.labelCompanyName.Text = AssemblyCompany;
-            this.textBoxDescription.Text = AssemblyDescription;
+            Text = string.Format(Resources.About, AssemblyTitle);
+            labelProductName.Text = string.Format(Resources.AssemblyProduct, AssemblyProduct);
+            labelVersion.Text = string.Format(Resources.AssemblyVersion, AssemblyVersion);
+            labelCopyright.Text = string.Format(Resources.AssemblyCopyright, AssemblyCopyright);
+            labelCompanyName.Text = string.Format(Resources.AssemblyCompany, AssemblyCompany);
+            textBoxDescription.Text = string.Format(Resources.AssemblyDescription, AssemblyDescription);
         }
 
         #region Assembly Attribute Accessors

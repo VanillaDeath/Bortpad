@@ -120,6 +120,24 @@
   <data name="About" xml:space="preserve">
     <value>Au sujet de {0}</value>
   </data>
+  <data name="AssemblyCompany" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AssemblyCopyright" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AssemblyDescription" xml:space="preserve">
+    <value>Un éditeur de texte de style familier construit en C#.</value>
+  </data>
+  <data name="AssemblyProduct" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AssemblyTitle" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AssemblyVersion" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
   <data name="cancelBtn.Text" xml:space="preserve">
     <value>Annuler</value>
   </data>
@@ -204,8 +222,5 @@
   </data>
   <data name="unsetAndSaveBtn.Text" xml:space="preserve">
     <value>&amp;Désactiver et enregistrer</value>
-  </data>
-  <data name="Version" xml:space="preserve">
-    <value>Version {0}</value>
   </data>
 </root>

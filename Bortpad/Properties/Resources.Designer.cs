@@ -80,6 +80,60 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        public static string AssemblyCompany {
+            get {
+                return ResourceManager.GetString("AssemblyCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        public static string AssemblyCopyright {
+            get {
+                return ResourceManager.GetString("AssemblyCopyright", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        public static string AssemblyDescription {
+            get {
+                return ResourceManager.GetString("AssemblyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        public static string AssemblyProduct {
+            get {
+                return ResourceManager.GetString("AssemblyProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        public static string AssemblyTitle {
+            get {
+                return ResourceManager.GetString("AssemblyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        public static string AssemblyVersion {
+            get {
+                return ResourceManager.GetString("AssemblyVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon bortpad {
@@ -393,15 +447,6 @@ namespace Bortpad.Properties {
         public static string unsetAndSaveBtn_Text {
             get {
                 return ResourceManager.GetString("unsetAndSaveBtn.Text", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Version {0}.
-        /// </summary>
-        public static string Version {
-            get {
-                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
         

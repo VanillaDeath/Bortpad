@@ -142,6 +142,7 @@ public partial class Bortpad : Form
         macLineFeed.Tag = _CR;
         ViewEol = GetSetting<bool>("ShowLineEndings");
         EolSetting = GetSetting<Eol>("LineEnding");
+        SetEolStatus(EolSetting);
 
         Text = $"{Resources.DefaultFilename ?? _DEFAULT_FILENAME} - {ProgramName}";
     }
@@ -1109,7 +1110,10 @@ public partial class Bortpad : Form
         }
     }
 
+#pragma warning disable IDE0051 // Remove unused private members
+
     private void OnPropertyChanged(string propertyName, object before, object after)
+#pragma warning restore IDE0051 // Remove unused private members
     {
         // Side effects of property changes performed here
         if (Equals(before, after))

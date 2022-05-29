@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Bortpad")]
-[assembly: AssemblyDescription("A familar-style text editor built in C#.")]
+[assembly: AssemblyDescription("A familiar-style text editor built in C#.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("stevenwilson.ca")]
 [assembly: AssemblyProduct("Bortpad")]

@@ -227,8 +227,23 @@
   <data name="SaveChangesTo" xml:space="preserve">
     <value>Do you want to save changes to {0}?</value>
   </data>
-  <data name="Version" xml:space="preserve">
+  <data name="AssemblyVersion" xml:space="preserve">
     <value>Version {0}</value>
+  </data>
+  <data name="AssemblyCompany" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AssemblyCopyright" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AssemblyDescription" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AssemblyProduct" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AssemblyTitle" xml:space="preserve">
+    <value>{0}</value>
   </data>
   <data name="SettingsKeyNotFound" xml:space="preserve">
     <value>Settings file setting "{1}" not found (section "{0}").</value>
