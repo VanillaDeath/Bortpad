@@ -68,7 +68,7 @@ public partial class Bortpad : Form
 
     public Encoding EncodingSetting
     {
-        get => _encodingSetting ?? Encoding.GetEncoding(GetSetting<int>("DefaultEncoding"));
+        get => _encodingSetting ?? Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")) ?? Encoding.GetEncoding(_DEFAULT_CODEPAGE);
         private set => _encodingSetting = value;
     }
 
@@ -132,7 +132,7 @@ public partial class Bortpad : Form
         FileName = filenameSpecified;
 
         ConfigFile = string.Format(Resources.ConfigFile ?? _DEFAULT_CONFIG_FILE, ProgramName);
-        EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
+        EncodingSetting = null; // Default for new files
         editor.Font = GetSetting<Font>("Font");
         editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
         StatusBar = GetSetting<bool>("StatusBar");
@@ -185,7 +185,6 @@ public partial class Bortpad : Form
 
     private T GetSetting<T>(string key, string section = _DEFAULT_SECTION)
     {
-        bool keyNotFound = false;
         try
         {
             if (Settings is null || !Settings.Any())
@@ -194,26 +193,19 @@ public partial class Bortpad : Form
             }
             if (!Settings.Contains(section ??= _DEFAULT_SECTION))
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException(string.Format(Resources.SettingsSectionNotFound, section));
             }
             if (!Settings[section].Contains(key ??= ""))
             {
-                keyNotFound = true;
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException(string.Format(Resources.SettingsKeyNotFound, section, key));
             }
             return Settings[section][key].GetValue<T>();
         }
-        catch (KeyNotFoundException e)
-        {
-            _ = MsgBox.Show(string.Format(keyNotFound ? Resources.SettingsKeyNotFound : Resources.SettingsSectionNotFound, section, key), e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            Application.Exit();
-        }
         catch (Exception e)
         {
-            _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            Application.Exit();
+            ErrorBox(e);
+            return default;
         }
-        return Settings[section][key].GetValue<T>();
     }
 
     private bool LoadSettings()
@@ -247,17 +239,28 @@ public partial class Bortpad : Form
 
     private void SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION, bool save = true)
     {
-        Settings[section][key].SetValue(value);
-        if (save)
+        try
         {
-            SaveSettings();
+            if (key is null || key.Trim().Length == 0)
+            {
+                throw new ArgumentException(Resources.InvalidSettingName);
+            }
+            Settings[section ?? _DEFAULT_SECTION][key].SetValue(value);
+            if (save)
+            {
+                SaveSettings();
+            }
+        }
+        catch (Exception e)
+        {
+            ErrorBox(e);
         }
     }
 
-    private bool ToggleSetting(string key)
+    private bool ToggleSetting(string key, string section = _DEFAULT_SECTION)
     {
-        SetSetting(key, !GetSetting<bool>(key));
-        return GetSetting<bool>(key);
+        SetSetting(key, !GetSetting<bool>(key, section), section);
+        return GetSetting<bool>(key, section);
     }
 
     #endregion Instance Methods: Settings
@@ -266,7 +269,6 @@ public partial class Bortpad : Form
 
     private void FileNotFound()
     {
-        // _ = MessageBox.Show("The system cannot find the path specified.", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
         _ = MsgBox.Show(
             Resources.PathNotFound,
             ProgramName,
@@ -332,13 +334,12 @@ public partial class Bortpad : Form
         catch (FileNotFoundException)
         {
             FileNotFound();
-            return false;
+            return default;
         }
         catch (Exception e)
         {
-            // _ = MessageBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return false;
+            ErrorBox(e);
+            return default;
         }
     }
 
@@ -372,9 +373,6 @@ public partial class Bortpad : Form
             {
                 readOnlyNotice.Visible = true;
             }
-            // ReadonlyDecision rod = new();
-            // rod.ShowDialog();
-            // switch (rod.DialogResult)
             List<Button> buttons = new() {
                 new()
                 {
@@ -437,8 +435,6 @@ public partial class Bortpad : Form
                     return false;
             }
         }
-        // SaveConfirmPrompt scp = new(FileName);
-        // scp.ShowDialog();
         DialogResult scp = MsgBox.Show(
             string.Format(Resources.SaveChangesTo, Path.GetFileName(FileName)),
             "",
@@ -505,8 +501,8 @@ public partial class Bortpad : Form
         }
         catch (Exception e)
         {
-            _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return false;
+            ErrorBox(e);
+            return default;
         }
     }
 
@@ -553,8 +549,8 @@ public partial class Bortpad : Form
         SetSetting("Up", thisPrompt.Up, "Find");
         SetSetting("MatchCase", thisPrompt.MatchCase, "Find");
         SetSetting("WrapAround", thisPrompt.WrapAround, "Find");
-        editFindNext.Enabled = CanRepeatFind();
-        editFindPrevious.Enabled = editFindNext.Enabled;
+        // editFindNext.Enabled = CanRepeatFind();
+        // editFindPrevious.Enabled = editFindNext.Enabled;
 
         FindNextPrev(thisPrompt.Up);
     }
@@ -596,7 +592,6 @@ public partial class Bortpad : Form
         long ln = ((GoToPrompt)sender).LineNumber;
         if (ln < 1 || ln > editor.NumLines)
         {
-            // _ = MessageBox.Show("The line number is beyond the total number of lines", ProgramName + " - Goto Line", MessageBoxButtons.OK);
             _ = MsgBox.Show(Resources.LineNumberBeyond, $"{ProgramName} - {Resources.GotoLine}", MessageBoxButtons.OK);
             return;
         }
@@ -608,7 +603,6 @@ public partial class Bortpad : Form
     {
         if (pos == -1)
         {
-            // _ = MessageBox.Show("Cannot find \"" + q + "\"", ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
             _ = MsgBox.Show(string.Format(Resources.CannotFind, q), ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
             return;
         }
@@ -692,15 +686,15 @@ public partial class Bortpad : Form
 
         ToolStripMenuItem[] items = CodePages.Select(e =>
             {
-                bool defaultopt = e.CodePage == _DEFAULT_CODEPAGE;
-                bool current = Equals(e.GetEncoding(), encoding);
+                bool defaultEnc = e.CodePage == _DEFAULT_CODEPAGE;
+                bool currentEnc = Equals(e.GetEncoding(), encoding);
                 ToolStripMenuItem i = new()
                 {
                     Name = e.Name,
-                    Text = e.DisplayName + (detected && current ? $" ({Resources.Detected})" : "") + (defaultopt ? $" ({Resources.Default})" : ""),
+                    Text = e.DisplayName + (detected && currentEnc ? $" ({Resources.Detected})" : "") + (defaultEnc ? $" ({Resources.Default})" : ""),
                     Tag = e,
-                    Checked = current,
-                    Font = defaultopt ? new Font(this.Font, FontStyle.Bold) : null,
+                    Checked = currentEnc,
+                    Font = defaultEnc ? new Font(Font, FontStyle.Bold) : null,
                 };
                 if (!i.Checked)
                 {
@@ -725,14 +719,14 @@ public partial class Bortpad : Form
         {
             if (item?.Tag is not null && item.Tag.GetType().Equals(typeof(Eol)))
             {
-                if (Equals(item.Tag, eolMode))
+                if (!Equals(item.Tag, eolMode))
                 {
-                    item.Checked = true;
-                    lineReturnType.Text = Regex.Replace(item.Text, "&(.)", "$1");
-                    lineReturnType.Tag = item.Tag;
+                    item.Checked = false;
                     continue;
                 }
-                item.Checked = false;
+                item.Checked = true;
+                lineReturnType.Text = Regex.Replace(item.Text, "&(.)", "$1");
+                lineReturnType.Tag = item.Tag;
             }
         }
     }
@@ -816,7 +810,7 @@ public partial class Bortpad : Form
 
     private void ContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        bool isSelected = editor.SelectionLength > 0;
+        bool isSelected = editor.HasSelection;
         editorCut.Enabled = isSelected;
         editorCopy.Enabled = isSelected;
         editorDelete.Enabled = isSelected;
@@ -852,6 +846,11 @@ public partial class Bortpad : Form
         {
             item.Enabled = true;
         }
+    }
+
+    private void ErrorBox(Exception e)
+    {
+        _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
     private void LineReturnType_DropDownOpening(object sender, EventArgs e)
@@ -964,7 +963,7 @@ public partial class Bortpad : Form
 
             case "editSearch":
             case "editorSearch":
-                _ = editor.SelectionLength > 0
+                _ = editor.HasSelection
                     ? Process.Start(_SEARCH_URI + WebUtility.UrlEncode(editor.SelectedText))
                     : null;
                 break;
@@ -1070,20 +1069,8 @@ public partial class Bortpad : Form
         }
     }
 
-    private void Modified(object sender, EventArgs e)
-    {
-        // editFind.Enabled = editor.HasText;
-        // editFindNext.Enabled = CanRepeatFind();
-        // editFindPrevious.Enabled = CanRepeatFind();
-        // replaceToolStripMenuItem.Enabled = editor.HasText;
-        // goToToolStripMenuItem.Enabled = editor.HasText;
-        // selectAllToolStripMenuItem.Enabled = editor.HasText;
-    }
-
     private void ModifyAttempt(object sender, EventArgs e)
     {
-        // ReadonlyPrompt ro = new(editor.ReadOnly);
-        // if (ro.ShowDialog() == DialogResult.OK && editor.ReadOnly)
         List<Button> buttons = new()
         {
             new()
@@ -1178,9 +1165,6 @@ public partial class Bortpad : Form
                 showLineEndings.Checked = editor.ViewEol;
                 SetSetting("ShowLineEndings", editor.ViewEol);
                 break;
-
-            default:
-                break;
         }
     }
 
@@ -1221,7 +1205,7 @@ public partial class Bortpad : Form
         EolSetting = (Eol)clickedItem.Tag;
     }
 
-    private void ShowLineEndings_Click(object sender, EventArgs e)
+    private void ToggleShowLineEndings(object sender, EventArgs e)
     {
         ViewEol = !ViewEol;
     }

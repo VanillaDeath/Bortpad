@@ -117,160 +117,1018 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="mainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="&gt;&gt;editFindNext.Name" xml:space="preserve">
+    <value>editFindNext</value>
+  </data>
+  <data name="editGoTo.Text" xml:space="preserve">
+    <value>&amp;Go To...</value>
+  </data>
+  <data name="&gt;&gt;formatWordWrap.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="editorRedo.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;editSelectAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="fileNewWindow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 22</value>
+  </data>
+  <data name="&gt;&gt;fileExit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editReplace.Name" xml:space="preserve">
+    <value>editReplace</value>
+  </data>
+  <data name="fileSave.Text" xml:space="preserve">
+    <value>&amp;Save</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="darkMode.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Alt+D</value>
+  </data>
+  <data name="helpAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="editorSelectAll.Text" xml:space="preserve">
+    <value>Select &amp;All</value>
+  </data>
+  <data name="editCut.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="restoreDefaultZoom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>229, 22</value>
+  </data>
+  <data name="fileOpen.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+O</value>
+  </data>
+  <data name="formatMenu.Text" xml:space="preserve">
+    <value>F&amp;ormat</value>
+  </data>
+  <data name="&gt;&gt;editorPaste.Name" xml:space="preserve">
+    <value>editorPaste</value>
+  </data>
+  <data name="position.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="zoomIn.Text" xml:space="preserve">
+    <value>Zoom &amp;In</value>
+  </data>
+  <data name="helpSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 6</value>
+  </data>
+  <data name="editPaste.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+V</value>
+  </data>
+  <data name="encodingStatus.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;encodingStatus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="zoomLevel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 20</value>
+  </data>
+  <data name="fileSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>217, 6</value>
+  </data>
+  <data name="editorPaste.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;position.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="zoomLevel.ToolTipText" xml:space="preserve">
+    <value>Scroll Up: Zoom In
+Scroll Down: Zoom Out
+Double Click: Restore Default Zoom</value>
+  </data>
+  <data name="&gt;&gt;editorSeparator2.Name" xml:space="preserve">
+    <value>editorSeparator2</value>
+  </data>
+  <data name="&gt;&gt;fontDlg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editorCopy.Name" xml:space="preserve">
+    <value>editorCopy</value>
+  </data>
+  <data name="&gt;&gt;holdShiftNotice.Name" xml:space="preserve">
+    <value>holdShiftNotice</value>
+  </data>
+  <data name="editorPaste.Text" xml:space="preserve">
+    <value>&amp;Paste</value>
+  </data>
+  <data name="editCopy.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;windowsLineFeed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="helpViewHelp.Text" xml:space="preserve">
+    <value>View &amp;Help</value>
+  </data>
+  <data name="&gt;&gt;viewStatusBar.Name" xml:space="preserve">
+    <value>viewStatusBar</value>
+  </data>
+  <data name="&gt;&gt;fileNewWindow.Name" xml:space="preserve">
+    <value>fileNewWindow</value>
+  </data>
+  <data name="&gt;&gt;fileSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;fileSave.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editorRedo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editTimeDate.Name" xml:space="preserve">
+    <value>editTimeDate</value>
+  </data>
+  <data name="&gt;&gt;editSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editDelete.Name" xml:space="preserve">
+    <value>editDelete</value>
+  </data>
+  <data name="editSelectAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="zoomLevel.Text" xml:space="preserve">
+    <value>100%</value>
+  </data>
+  <data name="editorCopy.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mainMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1008, 24</value>
+  </data>
+  <data name="editDelete.Text" xml:space="preserve">
+    <value>De&amp;lete</value>
+  </data>
+  <data name="editTimeDate.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F5</value>
+  </data>
+  <data name="&gt;&gt;editorCut.Name" xml:space="preserve">
+    <value>editorCut</value>
+  </data>
+  <data name="formatMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 20</value>
+  </data>
+  <data name="&gt;&gt;fileSaveAs.Name" xml:space="preserve">
+    <value>fileSaveAs</value>
+  </data>
+  <data name="&gt;&gt;filePrint.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;filePageSetup.Name" xml:space="preserve">
+    <value>filePageSetup</value>
+  </data>
+  <data name="&gt;&gt;editorDelete.Name" xml:space="preserve">
+    <value>editorDelete</value>
+  </data>
+  <data name="lineReturnType.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lineReturnType.Text" xml:space="preserve">
+    <value>Windows (CRLF)</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="convertLineEndings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="position.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 20</value>
+  </data>
+  <data name="mainMenu.Text" xml:space="preserve">
+    <value>Main Menu</value>
+  </data>
+  <data name="openFileDialog1.Title" xml:space="preserve">
+    <value>Open File...</value>
+  </data>
+  <data name="fileSaveAs.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+S</value>
+  </data>
+  <data name="readOnlyNotice.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="pressingEnterUses.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="zoomLevel.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;printDocument1.Type" xml:space="preserve">
+    <value>System.Drawing.Printing.PrintDocument, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="&gt;&gt;editFindNext.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="editUndo.Text" xml:space="preserve">
+    <value>&amp;Undo</value>
+  </data>
+  <data name="&gt;&gt;editGoTo.Name" xml:space="preserve">
+    <value>editGoTo</value>
+  </data>
+  <data name="&gt;&gt;fileNew.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;filePageSetup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>1008, 561</value>
+  </data>
+  <data name="&gt;&gt;editFindPrevious.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;openFileDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;readOnlyNotice.Name" xml:space="preserve">
+    <value>readOnlyNotice</value>
+  </data>
+  <data name="editor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 24</value>
+  </data>
+  <data name="&gt;&gt;editUndo.Name" xml:space="preserve">
+    <value>editUndo</value>
+  </data>
+  <data name="viewMenu.Text" xml:space="preserve">
+    <value>&amp;View</value>
+  </data>
+  <data name="&gt;&gt;editorSelectAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="encodingStatus.Text" xml:space="preserve">
+    <value>UTF-8</value>
+  </data>
+  <data name="editReplace.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="editRedo.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Y</value>
+  </data>
+  <data name="&gt;&gt;editor.Type" xml:space="preserve">
+    <value>WilsonUtils.Bortilla, Bortpad, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="editorSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 6</value>
+  </data>
   <data name="fileNew.ShortcutKeyDisplayString" xml:space="preserve">
     <value />
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="fileNew.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+N</value>
+  <data name="&gt;&gt;editRedo.Name" xml:space="preserve">
+    <value>editRedo</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="&gt;&gt;helpSeparator1.Name" xml:space="preserve">
+    <value>helpSeparator1</value>
+  </data>
+  <data name="&gt;&gt;lineReturnType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="formatWordWrap.Text" xml:space="preserve">
+    <value>&amp;Word Wrap</value>
+  </data>
+  <data name="&gt;&gt;editRedo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mainMenu.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;macLineFeed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="editGoTo.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;lineReturnType.Name" xml:space="preserve">
+    <value>lineReturnType</value>
+  </data>
+  <data name="zoomOut.Size" type="System.Drawing.Size, System.Drawing">
+    <value>229, 22</value>
+  </data>
+  <data name="&gt;&gt;viewZoom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoomOut.Name" xml:space="preserve">
+    <value>zoomOut</value>
+  </data>
+  <data name="editFindNext.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F3</value>
+  </data>
+  <data name="saveFileDialog1.Filter" xml:space="preserve">
+    <value>Text files|*.txt|All files|*.*</value>
+  </data>
+  <data name="statusBarLeft.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;mainMenu.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;editCut.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;showLineEndings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="holdShiftNotice.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="&gt;&gt;helpAbout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;helpViewHelp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;readOnlyNotice.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="filePrint.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+P</value>
+  </data>
+  <data name="fileOpen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 22</value>
+  </data>
+  <data name="&gt;&gt;fileOpen.Name" xml:space="preserve">
+    <value>fileOpen</value>
+  </data>
+  <data name="position.Text" xml:space="preserve">
+    <value>Ln 1, Col 1</value>
+  </data>
+  <data name="&gt;&gt;fileSave.Name" xml:space="preserve">
+    <value>fileSave</value>
+  </data>
+  <data name="restoreDefaultZoom.Text" xml:space="preserve">
+    <value>&amp;Restore Default Zoom</value>
+  </data>
+  <data name="fileSaveAs.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;fileOpen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="darkMode.Text" xml:space="preserve">
+    <value>🌙</value>
+  </data>
+  <data name="&gt;&gt;editorContextMenu.Name" xml:space="preserve">
+    <value>editorContextMenu</value>
+  </data>
+  <data name="fileOpen.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;toolStripSeparator4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;printDocument1.Name" xml:space="preserve">
+    <value>printDocument1</value>
+  </data>
+  <data name="&gt;&gt;statusBar.Name" xml:space="preserve">
+    <value>statusBar</value>
+  </data>
+  <data name="pressingEnterUses.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="editSearch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="editTimeDate.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="editorPaste.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="filePrint.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 22</value>
+  </data>
+  <data name="&gt;&gt;editorContextMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="convertLineEndings.Text" xml:space="preserve">
+    <value>&amp;Convert to...</value>
+  </data>
+  <data name="&gt;&gt;mainMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="editSelectAll.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+A</value>
+  </data>
+  <data name="&gt;&gt;convertLineEndings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;encodingStatus.Name" xml:space="preserve">
+    <value>encodingStatus</value>
+  </data>
+  <data name="saveFileDialog1.Title" xml:space="preserve">
+    <value>Save File As...</value>
+  </data>
+  <data name="&gt;&gt;formatMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editor.Name" xml:space="preserve">
+    <value>editor</value>
+  </data>
+  <data name="editSearch.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="editSearch.Text" xml:space="preserve">
+    <value>&amp;Search with Google...</value>
+  </data>
+  <data name="editSelectAll.Text" xml:space="preserve">
+    <value>Select &amp;All</value>
+  </data>
+  <data name="statusBarLeft.Size" type="System.Drawing.Size, System.Drawing">
+    <value>523, 20</value>
+  </data>
+  <data name="&gt;&gt;zoomIn.Name" xml:space="preserve">
+    <value>zoomIn</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Bortpad</value>
+  </data>
+  <data name="viewStatusBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 22</value>
+  </data>
+  <data name="filePrint.Text" xml:space="preserve">
+    <value>&amp;Print...</value>
+  </data>
+  <data name="&gt;&gt;printDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PrintDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editUndo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editReplace.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editSearch.Name" xml:space="preserve">
+    <value>editSearch</value>
+  </data>
+  <data name="fileMenu.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="editorUndo.Text" xml:space="preserve">
+    <value>&amp;Undo</value>
+  </data>
+  <data name="helpSendFeedback.Text" xml:space="preserve">
+    <value>Send &amp;Feedback</value>
+  </data>
+  <data name="&gt;&gt;position.Name" xml:space="preserve">
+    <value>position</value>
+  </data>
+  <data name="fileSaveAs.Text" xml:space="preserve">
+    <value>Save &amp;As...</value>
+  </data>
+  <data name="zoomLevel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="helpViewHelp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="&gt;&gt;mainMenu.Name" xml:space="preserve">
+    <value>mainMenu</value>
+  </data>
+  <data name="&gt;&gt;viewMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pageSetupDialog1.Name" xml:space="preserve">
+    <value>pageSetupDialog1</value>
+  </data>
+  <data name="editUndo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="formatWordWrap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="readOnlyNotice.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;editorSearch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editorPaste.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;formatWordWrap.Name" xml:space="preserve">
+    <value>formatWordWrap</value>
+  </data>
+  <data name="holdShiftNotice.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt, style=Bold</value>
+  </data>
+  <data name="&gt;&gt;editFind.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="editSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 6</value>
+  </data>
+  <data name="&gt;&gt;showLineEndings.Name" xml:space="preserve">
+    <value>showLineEndings</value>
+  </data>
+  <data name="&gt;&gt;editorSeparator3.Name" xml:space="preserve">
+    <value>editorSeparator3</value>
+  </data>
+  <data name="editRedo.Text" xml:space="preserve">
+    <value>R&amp;edo</value>
+  </data>
+  <data name="helpAbout.Text" xml:space="preserve">
+    <value>&amp;About Bortpad</value>
+  </data>
+  <data name="&gt;&gt;editorUndo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;helpViewHelp.Name" xml:space="preserve">
+    <value>helpViewHelp</value>
+  </data>
+  <data name="&gt;&gt;darkMode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editCut.Name" xml:space="preserve">
+    <value>editCut</value>
+  </data>
+  <data name="&gt;&gt;editSeparator3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;restoreDefaultZoom.Name" xml:space="preserve">
+    <value>restoreDefaultZoom</value>
+  </data>
+  <data name="darkMode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="zoomIn.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Oemplus</value>
+  </data>
+  <data name="editorCopy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="editorUndo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="editSearch.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;statusBar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;fontDlg.Name" xml:space="preserve">
+    <value>fontDlg</value>
+  </data>
+  <data name="fileNewWindow.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;editorSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;fileMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editMenu.Name" xml:space="preserve">
+    <value>editMenu</value>
+  </data>
+  <data name="editSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 6</value>
+  </data>
+  <data name="holdShiftNotice.Text" xml:space="preserve">
+    <value>Open in New Window</value>
+  </data>
+  <data name="editMenu.Text" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="zoomOut.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Ctrl+Minus</value>
+  </data>
+  <data name="filePageSetup.Text" xml:space="preserve">
+    <value>Page Set&amp;up...</value>
+  </data>
+  <data name="editFind.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="editCut.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+X</value>
+  </data>
+  <data name="&gt;&gt;fileSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;formatFont.Name" xml:space="preserve">
+    <value>formatFont</value>
+  </data>
+  <data name="editRedo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="&gt;&gt;editorSelectAll.Name" xml:space="preserve">
+    <value>editorSelectAll</value>
+  </data>
+  <data name="editUndo.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Z</value>
+  </data>
+  <data name="editFind.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+F</value>
+  </data>
+  <data name="mainMenu.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="encodingStatus.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="editDelete.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Del</value>
+  </data>
+  <data name="viewZoom.Text" xml:space="preserve">
+    <value>&amp;Zoom</value>
+  </data>
+  <data name="showLineEndings.Text" xml:space="preserve">
+    <value>&amp;Show EOL Characters</value>
+  </data>
+  <data name="editorSelectAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="&gt;&gt;windowsLineFeed.Name" xml:space="preserve">
+    <value>windowsLineFeed</value>
+  </data>
+  <data name="editorUndo.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="fileMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="&gt;&gt;fileSaveAs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="editFindNext.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator4.Name" xml:space="preserve">
+    <value>toolStripSeparator4</value>
+  </data>
+  <data name="encodingStatus.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="restoreDefaultZoom.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="editorSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 6</value>
+  </data>
+  <data name="readOnlyNotice.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;helpMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="fileNew.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 22</value>
   </data>
   <data name="fileNew.Text" xml:space="preserve">
     <value>&amp;New</value>
   </data>
-  <data name="fileNewWindow.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
+  <data name="&gt;&gt;fileNewWindow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="fileNewWindow.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+N</value>
-  </data>
-  <data name="fileNewWindow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
-  </data>
-  <data name="fileNewWindow.Text" xml:space="preserve">
-    <value>New &amp;Window</value>
-  </data>
-  <data name="fileOpen.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="fileOpen.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+O</value>
-  </data>
-  <data name="fileOpen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
-  </data>
-  <data name="fileOpen.Text" xml:space="preserve">
-    <value>&amp;Open...</value>
-  </data>
-  <data name="fileSave.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="fileSave.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+S</value>
-  </data>
-  <data name="fileSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
-  </data>
-  <data name="fileSave.Text" xml:space="preserve">
-    <value>&amp;Save</value>
-  </data>
-  <data name="fileSaveAs.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="fileSaveAs.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+S</value>
-  </data>
-  <data name="fileSaveAs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
-  </data>
-  <data name="fileSaveAs.Text" xml:space="preserve">
-    <value>Save &amp;As...</value>
-  </data>
-  <data name="fileSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 6</value>
-  </data>
-  <data name="filePageSetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
-  </data>
-  <data name="filePageSetup.Text" xml:space="preserve">
-    <value>Page Set&amp;up...</value>
-  </data>
-  <data name="filePrint.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="filePrint.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+P</value>
-  </data>
-  <data name="filePrint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
-  </data>
-  <data name="filePrint.Text" xml:space="preserve">
-    <value>&amp;Print...</value>
-  </data>
-  <data name="fileSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 6</value>
-  </data>
-  <data name="fileExit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 22</value>
-  </data>
-  <data name="fileExit.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
-  </data>
-  <data name="fileMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="fileMenu.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="editUndo.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editUndo.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Z</value>
-  </data>
-  <data name="editUndo.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="editTimeDate.Size" type="System.Drawing.Size, System.Drawing">
     <value>225, 22</value>
   </data>
-  <data name="editUndo.Text" xml:space="preserve">
-    <value>&amp;Undo</value>
+  <data name="&gt;&gt;helpMenu.Name" xml:space="preserve">
+    <value>helpMenu</value>
   </data>
-  <data name="editRedo.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Y</value>
-  </data>
-  <data name="editRedo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editRedo.Text" xml:space="preserve">
-    <value>R&amp;edo</value>
-  </data>
-  <data name="editSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 6</value>
-  </data>
-  <data name="editCut.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editCut.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+X</value>
-  </data>
-  <data name="editCut.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editCut.Text" xml:space="preserve">
-    <value>Cu&amp;t</value>
-  </data>
-  <data name="editCopy.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
+  <data name="windowsLineFeed.Text" xml:space="preserve">
+    <value>&amp;Windows (CRLF)</value>
   </data>
   <data name="editCopy.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+C</value>
   </data>
-  <data name="editCopy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
+  <data name="helpSendFeedback.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
   </data>
-  <data name="editCopy.Text" xml:space="preserve">
-    <value>&amp;Copy</value>
+  <data name="editor.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;editPaste.Name" xml:space="preserve">
+    <value>editPaste</value>
+  </data>
+  <data name="editor.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="macLineFeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="&gt;&gt;viewStatusBar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="editPaste.ShortcutKeyDisplayString" xml:space="preserve">
     <value />
   </data>
-  <data name="editPaste.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+V</value>
+  <data name="editorRedo.Text" xml:space="preserve">
+    <value>R&amp;edo</value>
+  </data>
+  <data name="statusBar.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="fileSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>217, 6</value>
+  </data>
+  <data name="statusBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1008, 25</value>
+  </data>
+  <data name="editorDelete.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="&gt;&gt;editFindPrevious.Name" xml:space="preserve">
+    <value>editFindPrevious</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Bortpad</value>
+  </data>
+  <data name="&gt;&gt;macLineFeed.Name" xml:space="preserve">
+    <value>macLineFeed</value>
+  </data>
+  <data name="pressingEnterUses.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI Semibold, 9.75pt, style=Bold</value>
+  </data>
+  <data name="&gt;&gt;zoomOut.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linuxLineFeed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="editorCut.Text" xml:space="preserve">
+    <value>Cu&amp;t</value>
+  </data>
+  <data name="&gt;&gt;linuxLineFeed.Name" xml:space="preserve">
+    <value>linuxLineFeed</value>
+  </data>
+  <data name="holdShiftNotice.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 20</value>
+  </data>
+  <data name="&gt;&gt;editorRedo.Name" xml:space="preserve">
+    <value>editorRedo</value>
+  </data>
+  <data name="&gt;&gt;editTimeDate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="editCopy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="editMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 20</value>
+  </data>
+  <data name="editorSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 6</value>
+  </data>
+  <data name="macLineFeed.Text" xml:space="preserve">
+    <value>Legacy &amp;Mac (CR)</value>
+  </data>
+  <data name="editDelete.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="darkMode.ToolTipText" xml:space="preserve">
+    <value>Dark Mode</value>
+  </data>
+  <data name="editCut.Text" xml:space="preserve">
+    <value>Cu&amp;t</value>
+  </data>
+  <data name="&gt;&gt;fileSeparator1.Name" xml:space="preserve">
+    <value>fileSeparator1</value>
+  </data>
+  <data name="readOnlyNotice.Text" xml:space="preserve">
+    <value>Read-Only</value>
+  </data>
+  <data name="helpViewHelp.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F1</value>
+  </data>
+  <data name="fileSaveAs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 22</value>
+  </data>
+  <data name="zoomOut.Text" xml:space="preserve">
+    <value>Zoom &amp;Out</value>
+  </data>
+  <data name="&gt;&gt;fileExit.Name" xml:space="preserve">
+    <value>fileExit</value>
+  </data>
+  <data name="editorDelete.Text" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="&gt;&gt;filePrint.Name" xml:space="preserve">
+    <value>filePrint</value>
+  </data>
+  <data name="pressingEnterUses.Text" xml:space="preserve">
+    <value>Pressing Return uses:</value>
+  </data>
+  <data name="&gt;&gt;editorSeparator1.Name" xml:space="preserve">
+    <value>editorSeparator1</value>
+  </data>
+  <data name="&gt;&gt;statusBar.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="showLineEndings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="&gt;&gt;editorDelete.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editFind.Name" xml:space="preserve">
+    <value>editFind</value>
+  </data>
+  <data name="zoomOut.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+OemMinus</value>
+  </data>
+  <data name="lineReturnType.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="editFindNext.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="viewZoom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 22</value>
+  </data>
+  <data name="statusBar.Text" xml:space="preserve">
+    <value>Status Bar</value>
+  </data>
+  <data name="editFind.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;viewMenu.Name" xml:space="preserve">
+    <value>viewMenu</value>
+  </data>
+  <data name="editSelectAll.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="darkMode.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="editCut.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="&gt;&gt;openFileDialog1.Name" xml:space="preserve">
+    <value>openFileDialog1</value>
+  </data>
+  <data name="&gt;&gt;fileNew.Name" xml:space="preserve">
+    <value>fileNew</value>
+  </data>
+  <data name="editorRedo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
+  </data>
+  <data name="&gt;&gt;statusBarLeft.Name" xml:space="preserve">
+    <value>statusBarLeft</value>
+  </data>
+  <data name="&gt;&gt;helpSendFeedback.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;viewZoom.Name" xml:space="preserve">
+    <value>viewZoom</value>
+  </data>
+  <data name="editFindPrevious.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="editCopy.Text" xml:space="preserve">
+    <value>&amp;Copy</value>
+  </data>
+  <data name="zoomIn.ShortcutKeyDisplayString" xml:space="preserve">
+    <value>Ctrl+Plus</value>
+  </data>
+  <data name="&gt;&gt;editPaste.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 6</value>
+  </data>
+  <data name="&gt;&gt;editor.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="editReplace.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+H</value>
+  </data>
+  <data name="&gt;&gt;zoomIn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="editorContextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 198</value>
+  </data>
+  <data name="&gt;&gt;editorCopy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editCopy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;formatFont.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="editorCopy.Text" xml:space="preserve">
+    <value>&amp;Copy</value>
+  </data>
+  <data name="fileSave.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="editReplace.Text" xml:space="preserve">
+    <value>&amp;Replace...</value>
+  </data>
+  <data name="lineReturnType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 23</value>
+  </data>
+  <data name="&gt;&gt;editorSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editorSeparator3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editCopy.Name" xml:space="preserve">
+    <value>editCopy</value>
+  </data>
+  <data name="statusBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 536</value>
+  </data>
+  <data name="mainMenu.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="filePageSetup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 22</value>
+  </data>
+  <data name="restoreDefaultZoom.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+0</value>
+  </data>
+  <data name="&gt;&gt;fileMenu.Name" xml:space="preserve">
+    <value>fileMenu</value>
+  </data>
+  <data name="editFindPrevious.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Shift+F3</value>
+  </data>
+  <data name="&gt;&gt;restoreDefaultZoom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;zoomLevel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="editUndo.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="position.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="editorDelete.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="fileSave.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+S</value>
+  </data>
+  <data name="editTimeDate.Text" xml:space="preserve">
+    <value>Time/&amp;Date</value>
+  </data>
+  <data name="windowsLineFeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
+  </data>
+  <data name="&gt;&gt;pageSetupDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PageSetupDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="encodingStatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 23</value>
+  </data>
+  <data name="openFileDialog1.Filter" xml:space="preserve">
+    <value>Text Files|*.txt|All files|*.*</value>
+  </data>
+  <data name="editFindPrevious.Text" xml:space="preserve">
+    <value>Find Pre&amp;vious</value>
+  </data>
+  <data name="editReplace.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="editGoTo.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+G</value>
+  </data>
+  <data name="editFindPrevious.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="&gt;&gt;holdShiftNotice.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="helpMenu.Text" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="&gt;&gt;editSelectAll.Name" xml:space="preserve">
+    <value>editSelectAll</value>
+  </data>
+  <data name="&gt;&gt;editSeparator2.Name" xml:space="preserve">
+    <value>editSeparator2</value>
+  </data>
+  <data name="viewStatusBar.Text" xml:space="preserve">
+    <value>&amp;Status Bar</value>
+  </data>
+  <data name="&gt;&gt;editorSearch.Name" xml:space="preserve">
+    <value>editorSearch</value>
+  </data>
+  <data name="editorCut.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;statusBarLeft.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;editSeparator3.Name" xml:space="preserve">
+    <value>editSeparator3</value>
+  </data>
+  <data name="formatFont.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
   </data>
   <data name="editPaste.Size" type="System.Drawing.Size, System.Drawing">
     <value>225, 22</value>
@@ -278,1048 +1136,190 @@
   <data name="editPaste.Text" xml:space="preserve">
     <value>&amp;Paste</value>
   </data>
-  <data name="editDelete.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editDelete.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Del</value>
-  </data>
-  <data name="editDelete.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editDelete.Text" xml:space="preserve">
-    <value>De&amp;lete</value>
-  </data>
   <data name="editSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 6</value>
-  </data>
-  <data name="editSearch.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editSearch.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+E</value>
-  </data>
-  <data name="editSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editSearch.Text" xml:space="preserve">
-    <value>&amp;Search with Google...</value>
-  </data>
-  <data name="editFind.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editFind.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+F</value>
-  </data>
-  <data name="editFind.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editFind.Text" xml:space="preserve">
-    <value>&amp;Find...</value>
-  </data>
-  <data name="editFindNext.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editFindNext.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>F3</value>
-  </data>
-  <data name="editFindNext.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editFindNext.Text" xml:space="preserve">
-    <value>Find &amp;Next</value>
-  </data>
-  <data name="editFindPrevious.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editFindPrevious.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Shift+F3</value>
-  </data>
-  <data name="editFindPrevious.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editFindPrevious.Text" xml:space="preserve">
-    <value>Find Pre&amp;vious</value>
-  </data>
-  <data name="editReplace.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editReplace.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+H</value>
-  </data>
-  <data name="editReplace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editReplace.Text" xml:space="preserve">
-    <value>&amp;Replace...</value>
-  </data>
-  <data name="editGoTo.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editGoTo.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+G</value>
-  </data>
-  <data name="editGoTo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editGoTo.Text" xml:space="preserve">
-    <value>&amp;Go To...</value>
-  </data>
-  <data name="editSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 6</value>
-  </data>
-  <data name="editSelectAll.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editSelectAll.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+A</value>
-  </data>
-  <data name="editSelectAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editSelectAll.Text" xml:space="preserve">
-    <value>Select &amp;All</value>
-  </data>
-  <data name="editTimeDate.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="editTimeDate.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>F5</value>
-  </data>
-  <data name="editTimeDate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 22</value>
-  </data>
-  <data name="editTimeDate.Text" xml:space="preserve">
-    <value>Time/&amp;Date</value>
-  </data>
-  <data name="editMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 20</value>
-  </data>
-  <data name="editMenu.Text" xml:space="preserve">
-    <value>&amp;Edit</value>
-  </data>
-  <data name="formatWordWrap.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 22</value>
-  </data>
-  <data name="formatWordWrap.Text" xml:space="preserve">
-    <value>&amp;Word Wrap</value>
-  </data>
-  <data name="formatFont.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 22</value>
-  </data>
-  <data name="formatFont.Text" xml:space="preserve">
-    <value>&amp;Font...</value>
-  </data>
-  <data name="formatMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 20</value>
-  </data>
-  <data name="formatMenu.Text" xml:space="preserve">
-    <value>F&amp;ormat</value>
-  </data>
-  <data name="zoomIn.ShortcutKeyDisplayString" xml:space="preserve">
-    <value>Ctrl+Plus</value>
-  </data>
-  <data name="zoomIn.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Oemplus</value>
-  </data>
-  <data name="zoomIn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 22</value>
-  </data>
-  <data name="zoomIn.Text" xml:space="preserve">
-    <value>Zoom &amp;In</value>
-  </data>
-  <data name="zoomOut.ShortcutKeyDisplayString" xml:space="preserve">
-    <value>Ctrl+Minus</value>
-  </data>
-  <data name="zoomOut.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+OemMinus</value>
-  </data>
-  <data name="zoomOut.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 22</value>
-  </data>
-  <data name="zoomOut.Text" xml:space="preserve">
-    <value>Zoom &amp;Out</value>
-  </data>
-  <data name="restoreDefaultZoom.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
-  </data>
-  <data name="restoreDefaultZoom.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+0</value>
-  </data>
-  <data name="restoreDefaultZoom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 22</value>
-  </data>
-  <data name="restoreDefaultZoom.Text" xml:space="preserve">
-    <value>&amp;Restore Default Zoom</value>
-  </data>
-  <data name="viewZoom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 22</value>
-  </data>
-  <data name="viewZoom.Text" xml:space="preserve">
-    <value>&amp;Zoom</value>
-  </data>
-  <data name="viewStatusBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 22</value>
-  </data>
-  <data name="viewStatusBar.Text" xml:space="preserve">
-    <value>&amp;Status Bar</value>
-  </data>
-  <data name="viewMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="viewMenu.Text" xml:space="preserve">
-    <value>&amp;View</value>
-  </data>
-  <data name="helpViewHelp.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>F1</value>
-  </data>
-  <data name="helpViewHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="helpViewHelp.Text" xml:space="preserve">
-    <value>View &amp;Help</value>
-  </data>
-  <data name="helpSendFeedback.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="helpSendFeedback.Text" xml:space="preserve">
-    <value>Send &amp;Feedback</value>
-  </data>
-  <data name="helpSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 6</value>
-  </data>
-  <data name="helpAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
-  <data name="helpAbout.Text" xml:space="preserve">
-    <value>&amp;About Bortpad</value>
-  </data>
-  <data name="helpMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="helpMenu.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="darkMode.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="darkMode.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Alt+D</value>
-  </data>
-  <data name="darkMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="darkMode.Text" xml:space="preserve">
-    <value>🌙</value>
-  </data>
-  <data name="darkMode.ToolTipText" xml:space="preserve">
-    <value>Dark Mode</value>
-  </data>
-  <data name="holdShiftNotice.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt, style=Bold</value>
-  </data>
-  <data name="holdShiftNotice.ShortcutKeyDisplayString" xml:space="preserve">
-    <value>Shift</value>
-  </data>
-  <data name="holdShiftNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 20</value>
-  </data>
-  <data name="holdShiftNotice.Text" xml:space="preserve">
-    <value>Open in New Window</value>
   </data>
   <data name="holdShiftNotice.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="mainMenu.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="&gt;&gt;fileSeparator2.Name" xml:space="preserve">
+    <value>fileSeparator2</value>
   </data>
-  <data name="mainMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 24</value>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
   </data>
-  <data name="mainMenu.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="filePrint.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
   </data>
-  <data name="mainMenu.Text" xml:space="preserve">
-    <value>Main Menu</value>
+  <data name="fileNewWindow.Text" xml:space="preserve">
+    <value>New &amp;Window</value>
   </data>
-  <data name="&gt;&gt;mainMenu.Name" xml:space="preserve">
-    <value>mainMenu</value>
+  <data name="&gt;&gt;editorCut.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;mainMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="fileExit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 22</value>
   </data>
-  <data name="&gt;&gt;mainMenu.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="formatFont.Text" xml:space="preserve">
+    <value>&amp;Font...</value>
   </data>
-  <data name="&gt;&gt;mainMenu.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="zoomIn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>229, 22</value>
   </data>
-  <metadata name="statusBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>127, 17</value>
-  </metadata>
-  <data name="statusBarLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>523, 20</value>
+  <data name="editFindNext.Text" xml:space="preserve">
+    <value>Find &amp;Next</value>
   </data>
-  <data name="statusBarLeft.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
+  <data name="&gt;&gt;helpSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="readOnlyNotice.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="viewMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
   </data>
-  <data name="readOnlyNotice.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;darkMode.Name" xml:space="preserve">
+    <value>darkMode</value>
   </data>
-  <data name="readOnlyNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>110, 20</value>
+  <data name="&gt;&gt;formatMenu.Name" xml:space="preserve">
+    <value>formatMenu</value>
   </data>
-  <data name="readOnlyNotice.Text" xml:space="preserve">
-    <value>Read-Only</value>
+  <data name="&gt;&gt;editGoTo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="readOnlyNotice.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="position.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="position.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 20</value>
-  </data>
-  <data name="position.Text" xml:space="preserve">
-    <value>Ln 1, Col 1</value>
-  </data>
-  <data name="position.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="zoomLevel.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="zoomLevel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 20</value>
-  </data>
-  <data name="zoomLevel.Text" xml:space="preserve">
-    <value>100%</value>
-  </data>
-  <data name="zoomLevel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="zoomLevel.ToolTipText" xml:space="preserve">
-    <value>Scroll Up: Zoom In
-Scroll Down: Zoom Out
-Double Click: Restore Default Zoom</value>
-  </data>
-  <data name="lineReturnType.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="showLineEndings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 22</value>
-  </data>
-  <data name="showLineEndings.Text" xml:space="preserve">
-    <value>&amp;Show EOL Characters</value>
-  </data>
-  <data name="convertLineEndings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 22</value>
-  </data>
-  <data name="convertLineEndings.Text" xml:space="preserve">
-    <value>&amp;Convert to...</value>
-  </data>
-  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 6</value>
-  </data>
-  <data name="pressingEnterUses.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="pressingEnterUses.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI Semibold, 9.75pt, style=Bold</value>
-  </data>
-  <data name="pressingEnterUses.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 22</value>
-  </data>
-  <data name="pressingEnterUses.Text" xml:space="preserve">
-    <value>Pressing Return uses:</value>
-  </data>
-  <data name="windowsLineFeed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 22</value>
-  </data>
-  <data name="windowsLineFeed.Text" xml:space="preserve">
-    <value>&amp;Windows (CRLF)</value>
-  </data>
-  <data name="linuxLineFeed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 22</value>
-  </data>
-  <data name="linuxLineFeed.Text" xml:space="preserve">
-    <value>&amp;Linux/macOS (LF)</value>
-  </data>
-  <data name="macLineFeed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 22</value>
-  </data>
-  <data name="macLineFeed.Text" xml:space="preserve">
-    <value>Legacy &amp;Mac (CR)</value>
-  </data>
-  <data name="lineReturnType.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="lineReturnType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 23</value>
-  </data>
-  <data name="lineReturnType.Text" xml:space="preserve">
-    <value>Windows (CRLF)</value>
-  </data>
-  <data name="lineReturnType.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="encodingStatus.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="encodingStatus.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="encodingStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 23</value>
-  </data>
-  <data name="encodingStatus.Text" xml:space="preserve">
-    <value>UTF-8</value>
-  </data>
-  <data name="encodingStatus.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="statusBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 536</value>
-  </data>
-  <data name="statusBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 25</value>
-  </data>
-  <data name="statusBar.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="statusBar.Text" xml:space="preserve">
-    <value>Status Bar</value>
-  </data>
-  <data name="&gt;&gt;statusBar.Name" xml:space="preserve">
-    <value>statusBar</value>
-  </data>
-  <data name="&gt;&gt;statusBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;statusBar.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;statusBar.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <metadata name="fontDlg.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>228, 17</value>
-  </metadata>
-  <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>321, 17</value>
-  </metadata>
-  <data name="saveFileDialog1.Filter" xml:space="preserve">
-    <value>Text files|*.txt|All files|*.*</value>
-  </data>
-  <data name="saveFileDialog1.Title" xml:space="preserve">
-    <value>Save File As...</value>
-  </data>
-  <metadata name="printDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>457, 17</value>
-  </metadata>
-  <metadata name="printDocument1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>576, 17</value>
-  </metadata>
-  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>717, 17</value>
-  </metadata>
-  <data name="openFileDialog1.Filter" xml:space="preserve">
-    <value>Text Files|*.txt|All files|*.*</value>
-  </data>
-  <data name="openFileDialog1.Title" xml:space="preserve">
-    <value>Open File...</value>
-  </data>
-  <metadata name="pageSetupDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>857, 17</value>
-  </metadata>
-  <metadata name="editorContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 56</value>
-  </metadata>
-  <data name="editorUndo.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="editorUndo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="editorUndo.Text" xml:space="preserve">
-    <value>&amp;Undo</value>
-  </data>
-  <data name="editorRedo.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="editorRedo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="editorRedo.Text" xml:space="preserve">
-    <value>R&amp;edo</value>
-  </data>
-  <data name="editorSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 6</value>
-  </data>
-  <data name="editorCut.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="editorCut.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="editorCut.Text" xml:space="preserve">
-    <value>Cu&amp;t</value>
-  </data>
-  <data name="editorCopy.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="editorCopy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="editorCopy.Text" xml:space="preserve">
-    <value>&amp;Copy</value>
-  </data>
-  <data name="editorPaste.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="editorPaste.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="editorPaste.Text" xml:space="preserve">
-    <value>&amp;Paste</value>
-  </data>
-  <data name="editorDelete.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="editorDelete.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="editorDelete.Text" xml:space="preserve">
-    <value>&amp;Delete</value>
-  </data>
-  <data name="editorSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 6</value>
-  </data>
-  <data name="editorSelectAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
-  </data>
-  <data name="editorSelectAll.Text" xml:space="preserve">
-    <value>Select &amp;All</value>
-  </data>
-  <data name="editorSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 6</value>
-  </data>
-  <data name="editorSearch.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="editorSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
+  <data name="&gt;&gt;pressingEnterUses.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="editorSearch.Text" xml:space="preserve">
     <value>Search with &amp;Google...</value>
   </data>
-  <data name="editorContextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 198</value>
-  </data>
-  <data name="&gt;&gt;editorContextMenu.Name" xml:space="preserve">
-    <value>editorContextMenu</value>
-  </data>
-  <data name="&gt;&gt;editorContextMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="editor.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="fileNewWindow.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+N</value>
   </data>
   <data name="editor.Font" type="System.Drawing.Font, System.Drawing">
     <value>Consolas, 11.25pt</value>
   </data>
-  <data name="editor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
+  <data name="lineReturnType.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
   </data>
-  <data name="editor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 512</value>
-  </data>
-  <data name="editor.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;editor.Name" xml:space="preserve">
-    <value>editor</value>
-  </data>
-  <data name="&gt;&gt;editor.Type" xml:space="preserve">
-    <value>WilsonUtils.Bortilla, Bortpad, Version=1.0.4.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;editor.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;editor.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 561</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Bortpad</value>
-  </data>
-  <data name="&gt;&gt;fileMenu.Name" xml:space="preserve">
-    <value>fileMenu</value>
-  </data>
-  <data name="&gt;&gt;fileMenu.Type" xml:space="preserve">
+  <data name="&gt;&gt;editDelete.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;fileNew.Name" xml:space="preserve">
-    <value>fileNew</value>
+  <data name="&gt;&gt;saveFileDialog1.Name" xml:space="preserve">
+    <value>saveFileDialog1</value>
   </data>
-  <data name="&gt;&gt;fileNew.Type" xml:space="preserve">
+  <data name="&gt;&gt;pressingEnterUses.Name" xml:space="preserve">
+    <value>pressingEnterUses</value>
+  </data>
+  <data name="editDelete.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="&gt;&gt;editorUndo.Name" xml:space="preserve">
+    <value>editorUndo</value>
+  </data>
+  <data name="editGoTo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 22</value>
+  </data>
+  <data name="&gt;&gt;zoomLevel.Name" xml:space="preserve">
+    <value>zoomLevel</value>
+  </data>
+  <data name="fileOpen.Text" xml:space="preserve">
+    <value>&amp;Open...</value>
+  </data>
+  <data name="&gt;&gt;editSearch.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;fileNewWindow.Name" xml:space="preserve">
-    <value>fileNewWindow</value>
+  <data name="editFind.Text" xml:space="preserve">
+    <value>&amp;Find...</value>
   </data>
-  <data name="&gt;&gt;fileNewWindow.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;fileOpen.Name" xml:space="preserve">
-    <value>fileOpen</value>
-  </data>
-  <data name="&gt;&gt;fileOpen.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;fileSave.Name" xml:space="preserve">
-    <value>fileSave</value>
-  </data>
-  <data name="&gt;&gt;fileSave.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;fileSaveAs.Name" xml:space="preserve">
-    <value>fileSaveAs</value>
-  </data>
-  <data name="&gt;&gt;fileSaveAs.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;fileSeparator1.Name" xml:space="preserve">
-    <value>fileSeparator1</value>
-  </data>
-  <data name="&gt;&gt;fileSeparator1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;filePageSetup.Name" xml:space="preserve">
-    <value>filePageSetup</value>
-  </data>
-  <data name="&gt;&gt;filePageSetup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;filePrint.Name" xml:space="preserve">
-    <value>filePrint</value>
-  </data>
-  <data name="&gt;&gt;filePrint.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;fileSeparator2.Name" xml:space="preserve">
-    <value>fileSeparator2</value>
-  </data>
-  <data name="&gt;&gt;fileSeparator2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;fileExit.Name" xml:space="preserve">
-    <value>fileExit</value>
-  </data>
-  <data name="&gt;&gt;fileExit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editMenu.Name" xml:space="preserve">
-    <value>editMenu</value>
+  <data name="&gt;&gt;saveFileDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;editMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editUndo.Name" xml:space="preserve">
-    <value>editUndo</value>
-  </data>
-  <data name="&gt;&gt;editUndo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editRedo.Name" xml:space="preserve">
-    <value>editRedo</value>
-  </data>
-  <data name="&gt;&gt;editRedo.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;editSeparator1.Name" xml:space="preserve">
     <value>editSeparator1</value>
   </data>
-  <data name="&gt;&gt;editSeparator1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="fileNew.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+N</value>
   </data>
-  <data name="&gt;&gt;editCut.Name" xml:space="preserve">
-    <value>editCut</value>
+  <data name="&gt;&gt;editor.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="&gt;&gt;editCut.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editCopy.Name" xml:space="preserve">
-    <value>editCopy</value>
-  </data>
-  <data name="&gt;&gt;editCopy.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editPaste.Name" xml:space="preserve">
-    <value>editPaste</value>
-  </data>
-  <data name="&gt;&gt;editPaste.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editDelete.Name" xml:space="preserve">
-    <value>editDelete</value>
-  </data>
-  <data name="&gt;&gt;editDelete.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editSeparator2.Name" xml:space="preserve">
-    <value>editSeparator2</value>
-  </data>
-  <data name="&gt;&gt;editSeparator2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editSearch.Name" xml:space="preserve">
-    <value>editSearch</value>
-  </data>
-  <data name="&gt;&gt;editSearch.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editFind.Name" xml:space="preserve">
-    <value>editFind</value>
-  </data>
-  <data name="&gt;&gt;editFind.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editFindNext.Name" xml:space="preserve">
-    <value>editFindNext</value>
-  </data>
-  <data name="&gt;&gt;editFindNext.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editFindPrevious.Name" xml:space="preserve">
-    <value>editFindPrevious</value>
-  </data>
-  <data name="&gt;&gt;editFindPrevious.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editReplace.Name" xml:space="preserve">
-    <value>editReplace</value>
-  </data>
-  <data name="&gt;&gt;editReplace.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editGoTo.Name" xml:space="preserve">
-    <value>editGoTo</value>
-  </data>
-  <data name="&gt;&gt;editGoTo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editSeparator3.Name" xml:space="preserve">
-    <value>editSeparator3</value>
-  </data>
-  <data name="&gt;&gt;editSeparator3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editSelectAll.Name" xml:space="preserve">
-    <value>editSelectAll</value>
-  </data>
-  <data name="&gt;&gt;editSelectAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editTimeDate.Name" xml:space="preserve">
-    <value>editTimeDate</value>
-  </data>
-  <data name="&gt;&gt;editTimeDate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;formatMenu.Name" xml:space="preserve">
-    <value>formatMenu</value>
-  </data>
-  <data name="&gt;&gt;formatMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;formatWordWrap.Name" xml:space="preserve">
-    <value>formatWordWrap</value>
-  </data>
-  <data name="&gt;&gt;formatWordWrap.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;formatFont.Name" xml:space="preserve">
-    <value>formatFont</value>
-  </data>
-  <data name="&gt;&gt;formatFont.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;viewMenu.Name" xml:space="preserve">
-    <value>viewMenu</value>
-  </data>
-  <data name="&gt;&gt;viewMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;viewZoom.Name" xml:space="preserve">
-    <value>viewZoom</value>
-  </data>
-  <data name="&gt;&gt;viewZoom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;zoomIn.Name" xml:space="preserve">
-    <value>zoomIn</value>
-  </data>
-  <data name="&gt;&gt;zoomIn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;zoomOut.Name" xml:space="preserve">
-    <value>zoomOut</value>
-  </data>
-  <data name="&gt;&gt;zoomOut.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;restoreDefaultZoom.Name" xml:space="preserve">
-    <value>restoreDefaultZoom</value>
-  </data>
-  <data name="&gt;&gt;restoreDefaultZoom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;viewStatusBar.Name" xml:space="preserve">
-    <value>viewStatusBar</value>
-  </data>
-  <data name="&gt;&gt;viewStatusBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;helpMenu.Name" xml:space="preserve">
-    <value>helpMenu</value>
-  </data>
-  <data name="&gt;&gt;helpMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;helpViewHelp.Name" xml:space="preserve">
-    <value>helpViewHelp</value>
-  </data>
-  <data name="&gt;&gt;helpViewHelp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;helpSendFeedback.Name" xml:space="preserve">
-    <value>helpSendFeedback</value>
-  </data>
-  <data name="&gt;&gt;helpSendFeedback.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;helpSeparator1.Name" xml:space="preserve">
-    <value>helpSeparator1</value>
-  </data>
-  <data name="&gt;&gt;helpSeparator1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="readOnlyNotice.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 20</value>
   </data>
   <data name="&gt;&gt;helpAbout.Name" xml:space="preserve">
     <value>helpAbout</value>
   </data>
-  <data name="&gt;&gt;helpAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;helpSendFeedback.Name" xml:space="preserve">
+    <value>helpSendFeedback</value>
   </data>
-  <data name="&gt;&gt;darkMode.Name" xml:space="preserve">
-    <value>darkMode</value>
+  <data name="editorSearch.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="&gt;&gt;darkMode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="fileExit.Text" xml:space="preserve">
+    <value>E&amp;xit</value>
   </data>
-  <data name="&gt;&gt;holdShiftNotice.Name" xml:space="preserve">
-    <value>holdShiftNotice</value>
+  <data name="&gt;&gt;statusBar.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;holdShiftNotice.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;statusBarLeft.Name" xml:space="preserve">
-    <value>statusBarLeft</value>
-  </data>
-  <data name="&gt;&gt;statusBarLeft.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;readOnlyNotice.Name" xml:space="preserve">
-    <value>readOnlyNotice</value>
-  </data>
-  <data name="&gt;&gt;readOnlyNotice.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;position.Name" xml:space="preserve">
-    <value>position</value>
-  </data>
-  <data name="&gt;&gt;position.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;zoomLevel.Name" xml:space="preserve">
-    <value>zoomLevel</value>
-  </data>
-  <data name="&gt;&gt;zoomLevel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lineReturnType.Name" xml:space="preserve">
-    <value>lineReturnType</value>
-  </data>
-  <data name="&gt;&gt;lineReturnType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;showLineEndings.Name" xml:space="preserve">
-    <value>showLineEndings</value>
-  </data>
-  <data name="&gt;&gt;showLineEndings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;convertLineEndings.Name" xml:space="preserve">
-    <value>convertLineEndings</value>
-  </data>
-  <data name="&gt;&gt;convertLineEndings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator4.Name" xml:space="preserve">
-    <value>toolStripSeparator4</value>
-  </data>
-  <data name="&gt;&gt;toolStripSeparator4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pressingEnterUses.Name" xml:space="preserve">
-    <value>pressingEnterUses</value>
-  </data>
-  <data name="&gt;&gt;pressingEnterUses.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;windowsLineFeed.Name" xml:space="preserve">
-    <value>windowsLineFeed</value>
-  </data>
-  <data name="&gt;&gt;windowsLineFeed.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linuxLineFeed.Name" xml:space="preserve">
-    <value>linuxLineFeed</value>
-  </data>
-  <data name="&gt;&gt;linuxLineFeed.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;macLineFeed.Name" xml:space="preserve">
-    <value>macLineFeed</value>
-  </data>
-  <data name="&gt;&gt;macLineFeed.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;encodingStatus.Name" xml:space="preserve">
-    <value>encodingStatus</value>
-  </data>
-  <data name="&gt;&gt;encodingStatus.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;fontDlg.Name" xml:space="preserve">
-    <value>fontDlg</value>
-  </data>
-  <data name="&gt;&gt;fontDlg.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;saveFileDialog1.Name" xml:space="preserve">
-    <value>saveFileDialog1</value>
-  </data>
-  <data name="&gt;&gt;saveFileDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="editor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1008, 512</value>
   </data>
   <data name="&gt;&gt;printDialog1.Name" xml:space="preserve">
     <value>printDialog1</value>
   </data>
-  <data name="&gt;&gt;printDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PrintDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="helpMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
   </data>
-  <data name="&gt;&gt;printDocument1.Name" xml:space="preserve">
-    <value>printDocument1</value>
-  </data>
-  <data name="&gt;&gt;printDocument1.Type" xml:space="preserve">
-    <value>System.Drawing.Printing.PrintDocument, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="&gt;&gt;openFileDialog1.Name" xml:space="preserve">
-    <value>openFileDialog1</value>
-  </data>
-  <data name="&gt;&gt;openFileDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pageSetupDialog1.Name" xml:space="preserve">
-    <value>pageSetupDialog1</value>
-  </data>
-  <data name="&gt;&gt;pageSetupDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PageSetupDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editorUndo.Name" xml:space="preserve">
-    <value>editorUndo</value>
-  </data>
-  <data name="&gt;&gt;editorUndo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editorRedo.Name" xml:space="preserve">
-    <value>editorRedo</value>
-  </data>
-  <data name="&gt;&gt;editorRedo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editorSeparator1.Name" xml:space="preserve">
-    <value>editorSeparator1</value>
-  </data>
-  <data name="&gt;&gt;editorSeparator1.Type" xml:space="preserve">
+  <data name="&gt;&gt;editSeparator2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;editorCut.Name" xml:space="preserve">
-    <value>editorCut</value>
+  <data name="linuxLineFeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 22</value>
   </data>
-  <data name="&gt;&gt;editorCut.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="editorSearch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
   </data>
-  <data name="&gt;&gt;editorCopy.Name" xml:space="preserve">
-    <value>editorCopy</value>
+  <data name="&gt;&gt;convertLineEndings.Name" xml:space="preserve">
+    <value>convertLineEndings</value>
   </data>
-  <data name="&gt;&gt;editorCopy.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="fileSave.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 22</value>
   </data>
-  <data name="&gt;&gt;editorPaste.Name" xml:space="preserve">
-    <value>editorPaste</value>
+  <data name="linuxLineFeed.Text" xml:space="preserve">
+    <value>&amp;Linux/macOS (LF)</value>
   </data>
-  <data name="&gt;&gt;editorPaste.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="editorCut.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
   </data>
-  <data name="&gt;&gt;editorDelete.Name" xml:space="preserve">
-    <value>editorDelete</value>
-  </data>
-  <data name="&gt;&gt;editorDelete.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editorSeparator2.Name" xml:space="preserve">
-    <value>editorSeparator2</value>
-  </data>
-  <data name="&gt;&gt;editorSeparator2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editorSelectAll.Name" xml:space="preserve">
-    <value>editorSelectAll</value>
-  </data>
-  <data name="&gt;&gt;editorSelectAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editorSeparator3.Name" xml:space="preserve">
-    <value>editorSeparator3</value>
-  </data>
-  <data name="&gt;&gt;editorSeparator3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editorSearch.Name" xml:space="preserve">
-    <value>editorSearch</value>
-  </data>
-  <data name="&gt;&gt;editorSearch.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>Bortpad</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
+  <metadata name="mainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>717, 17</value>
+  </metadata>
+  <metadata name="pageSetupDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>857, 17</value>
+  </metadata>
+  <metadata name="statusBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>127, 17</value>
+  </metadata>
+  <metadata name="fontDlg.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>228, 17</value>
+  </metadata>
+  <metadata name="printDocument1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>576, 17</value>
+  </metadata>
+  <metadata name="printDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>457, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="editorContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 56</value>
+  </metadata>
+  <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>321, 17</value>
+  </metadata>
 </root>

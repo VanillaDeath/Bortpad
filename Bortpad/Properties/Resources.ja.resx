@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>Au sujet de {0}</value>
+    <value>{0}について</value>
   </data>
   <data name="AssemblyCompany" xml:space="preserve">
     <value>{0}</value>
@@ -127,7 +127,7 @@
     <value>{0}</value>
   </data>
   <data name="AssemblyDescription" xml:space="preserve">
-    <value>Un éditeur de texte de style familier construit en C#.</value>
+    <value>C＃で構築されたおなじみのスタイルのテキストエディタ。</value>
   </data>
   <data name="AssemblyProduct" xml:space="preserve">
     <value>{0}</value>
@@ -136,94 +136,97 @@
     <value>{0}</value>
   </data>
   <data name="AssemblyVersion" xml:space="preserve">
-    <value>Version {0}</value>
+    <value>バージョン {0}</value>
   </data>
   <data name="cancelBtn.Text" xml:space="preserve">
-    <value>Annuler</value>
+    <value>キャンセル</value>
   </data>
   <data name="CannotFind" xml:space="preserve">
-    <value>Ne peux trouver «{0}»</value>
+    <value>「{0}」が見つかりません</value>
   </data>
   <data name="ChooseToEdit" xml:space="preserve">
-    <value>Si vous choisissez de modifier ce fichier, lors de l'enregistrement, vous serez invité à:
-• Désactivez l'indicateur de lecture seule
-• Enregistrer en tant que nouveau document</value>
+    <value>このファイルを編集することを選択した場合、保存するときに次のいずれかを行うように求められます。
+•読み取り専用フラグの設定を解除します
+•新しいドキュメントとして保存</value>
   </data>
   <data name="Col" xml:space="preserve">
-    <value>Col</value>
+    <value>桁</value>
   </data>
   <data name="Confidence" xml:space="preserve">
-    <value>Confiance: {0}%</value>
+    <value>自信: {0}％</value>
+  </data>
+  <data name="ConfigFile" xml:space="preserve">
+    <value>{0}.cfg</value>
   </data>
   <data name="ConvertLineEndings" xml:space="preserve">
-    <value>Convertir tous les caractères de fin de ligne de ce document en {0}?</value>
+    <value>このドキュメントの行末文字をすべて{0}に変換しますか？</value>
   </data>
   <data name="ConvertLineEndingsDesc" xml:space="preserve">
-    <value>Toutes les fins de ligne dans ce document qui ne sont pas déjà {0} seront converties en {0}</value>
+    <value>このドキュメントでまだ{0}になっていない行末は、{0}に変換されます</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Défaut</value>
+    <value>既定</value>
   </data>
   <data name="DefaultFilename" xml:space="preserve">
-    <value>Nouveau Document</value>
+    <value>無題</value>
   </data>
   <data name="Detected" xml:space="preserve">
-    <value>Detected</value>
+    <value>検出されました</value>
   </data>
   <data name="dontSaveBtn.Text" xml:space="preserve">
-    <value>&amp;Ne pas enregistrer</value>
+    <value>保存しないでください</value>
   </data>
   <data name="editBtn.Text" xml:space="preserve">
-    <value>&amp;Éditer</value>
+    <value>編集</value>
   </data>
   <data name="FoundNextBottom" xml:space="preserve">
-    <value>Trouvé à côté du bas</value>
+    <value>下から次に見つける</value>
   </data>
   <data name="FoundNextTop" xml:space="preserve">
-    <value>Trouvé à côté du haut</value>
+    <value>上から次に見つかりました</value>
   </data>
   <data name="GotoLine" xml:space="preserve">
-    <value>Aller à la Ligne</value>
+    <value>後藤ライン</value>
   </data>
   <data name="InvalidSettingName" xml:space="preserve">
-    <value>Aucun nom de réglage valide n'a été fourni.</value>
+    <value>有効な設定名がありません。</value>
   </data>
   <data name="IsMarkedAsReadOnly" xml:space="preserve">
-    <value>{0} est marqué en Lecture Seule</value>
+    <value>{0}は読み取り専用としてマークされています</value>
   </data>
   <data name="LineNumberBeyond" xml:space="preserve">
-    <value>Le numéro de ligne dépasse le nombre total de lignes</value>
+    <value>値が行の総数を超えています</value>
   </data>
   <data name="Ln" xml:space="preserve">
-    <value>Ln</value>
+    <value>行</value>
   </data>
   <data name="okBtn.Text" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="PathNotFound" xml:space="preserve">
-    <value>Le système ne peut pas trouver le chemin spécifié.</value>
+    <value>指定されたパスが見つかりません。</value>
   </data>
   <data name="ReadOnlyOptions" xml:space="preserve">
-    <value>Pour enregistrer ce fichier, soit:
-• Désactivez l'indicateur de lecture seule
-• Enregistrer en tant que nouveau document</value>
+    <value>このファイルを保存するには、次のいずれかを行います
+•読み取り専用フラグの設定を解除します
+•新しいドキュメントとして保存</value>
   </data>
   <data name="saveAsBtn.Text" xml:space="preserve">
-    <value>Enregistrer &amp;Sous...</value>
+    <value>名前を付けて保存...</value>
   </data>
   <data name="saveBtn.Text" xml:space="preserve">
-    <value>&amp;Enregistrer</value>
+    <value>保存</value>
   </data>
   <data name="SaveChangesTo" xml:space="preserve">
-    <value>Voulez-vous enregistrer les modifications apportées à {0}?</value>
+    <value>変更を{0}に保存しますか？</value>
   </data>
   <data name="SettingsKeyNotFound" xml:space="preserve">
-    <value>Paramètre «{1}» introuvable dans le fichier de paramètres (section «{0}»).</value>
+    <value>設定ファイル設定「{1}」が見つかりません（セクション「{0}」）。</value>
   </data>
   <data name="SettingsSectionNotFound" xml:space="preserve">
-    <value>Section «{0}» du fichier de paramètres introuvable.</value>
+    <value>設定ファイルセクション「{0}」が見つかりません。</value>
   </data>
   <data name="unsetAndSaveBtn.Text" xml:space="preserve">
-    <value>&amp;Désactiver et enregistrer</value>
+    <value>設定を解除して保存</value>
   </data>
 </root>

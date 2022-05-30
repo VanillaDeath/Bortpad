@@ -254,4 +254,7 @@
   <data name="ConfigFile" xml:space="preserve">
     <value>{0}.cfg</value>
   </data>
+  <data name="InvalidSettingName" xml:space="preserve">
+    <value>No valid setting key provided.</value>
+  </data>
 </root>

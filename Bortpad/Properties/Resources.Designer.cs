@@ -310,6 +310,15 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No valid setting key provided..
+        /// </summary>
+        public static string InvalidSettingName {
+            get {
+                return ResourceManager.GetString("InvalidSettingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is marked as Read-Only.
         /// </summary>
         public static string IsMarkedAsReadOnly {
