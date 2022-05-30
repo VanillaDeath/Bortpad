@@ -124,7 +124,7 @@
     <value>{0}</value>
   </data>
   <data name="AssemblyCopyright" xml:space="preserve">
-    <value>{0}</value>
+    <value>{0} (令和４年)</value>
   </data>
   <data name="AssemblyDescription" xml:space="preserve">
     <value>C＃で構築されたおなじみのスタイルのテキストエディタ。</value>

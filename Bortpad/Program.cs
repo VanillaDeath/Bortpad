@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-
-// using WilsonUtils;
+using WilsonUtils;
 
 namespace Bortpad
 {
@@ -14,7 +13,7 @@ namespace Bortpad
         private static void Main()
         {
             // DEBUG
-            // LanguageSetter.SetLanguage("ja");
+            LanguageSetter.SetLanguage("ja");
 
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 1 ? args[1] : null;

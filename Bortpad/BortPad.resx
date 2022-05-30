@@ -150,9 +150,6 @@
   <data name="darkMode.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Alt+D</value>
   </data>
-  <data name="helpAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 22</value>
-  </data>
   <data name="editorSelectAll.Text" xml:space="preserve">
     <value>Select &amp;All</value>
   </data>
@@ -183,8 +180,8 @@
   <data name="editPaste.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+V</value>
   </data>
-  <data name="encodingStatus.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="fileNewWindow.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+Shift+N</value>
   </data>
   <data name="&gt;&gt;encodingStatus.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -215,14 +212,17 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;editorCopy.Name" xml:space="preserve">
     <value>editorCopy</value>
   </data>
-  <data name="&gt;&gt;holdShiftNotice.Name" xml:space="preserve">
-    <value>holdShiftNotice</value>
+  <data name="saveFileDialog1.Filter" xml:space="preserve">
+    <value>Text files|*.txt|All files|*.*</value>
   </data>
   <data name="editorPaste.Text" xml:space="preserve">
     <value>&amp;Paste</value>
   </data>
-  <data name="editCopy.ShortcutKeyDisplayString" xml:space="preserve">
-    <value />
+  <data name="&gt;&gt;viewStatusBar.Name" xml:space="preserve">
+    <value>viewStatusBar</value>
+  </data>
+  <data name="encodingStatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 23</value>
   </data>
   <data name="&gt;&gt;windowsLineFeed.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -230,8 +230,11 @@ Double Click: Restore Default Zoom</value>
   <data name="helpViewHelp.Text" xml:space="preserve">
     <value>View &amp;Help</value>
   </data>
-  <data name="&gt;&gt;viewStatusBar.Name" xml:space="preserve">
-    <value>viewStatusBar</value>
+  <data name="editCopy.ShortcutKeyDisplayString" xml:space="preserve">
+    <value />
+  </data>
+  <data name="editorSearch.Text" xml:space="preserve">
+    <value>Search with &amp;Google...</value>
   </data>
   <data name="&gt;&gt;fileNewWindow.Name" xml:space="preserve">
     <value>fileNewWindow</value>
@@ -244,9 +247,6 @@ Double Click: Restore Default Zoom</value>
   </data>
   <data name="&gt;&gt;editorRedo.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;editTimeDate.Name" xml:space="preserve">
-    <value>editTimeDate</value>
   </data>
   <data name="&gt;&gt;editSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -290,14 +290,14 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;editorDelete.Name" xml:space="preserve">
     <value>editorDelete</value>
   </data>
+  <data name="&gt;&gt;darkMode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="lineReturnType.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="lineReturnType.Text" xml:space="preserve">
     <value>Windows (CRLF)</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="convertLineEndings.Size" type="System.Drawing.Size, System.Drawing">
     <value>205, 22</value>
@@ -422,9 +422,6 @@ Double Click: Restore Default Zoom</value>
   <data name="editFindNext.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>F3</value>
   </data>
-  <data name="saveFileDialog1.Filter" xml:space="preserve">
-    <value>Text files|*.txt|All files|*.*</value>
-  </data>
   <data name="statusBarLeft.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
@@ -505,6 +502,9 @@ Double Click: Restore Default Zoom</value>
   </data>
   <data name="filePrint.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 22</value>
+  </data>
+  <data name="viewMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
   </data>
   <data name="&gt;&gt;editorContextMenu.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -590,9 +590,6 @@ Double Click: Restore Default Zoom</value>
   <data name="helpViewHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 22</value>
   </data>
-  <data name="&gt;&gt;mainMenu.Name" xml:space="preserve">
-    <value>mainMenu</value>
-  </data>
   <data name="&gt;&gt;viewMenu.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -608,8 +605,8 @@ Double Click: Restore Default Zoom</value>
   <data name="readOnlyNotice.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;editorSearch.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="encodingStatus.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;editorPaste.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -641,10 +638,16 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;editorUndo.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="statusBar.Text" xml:space="preserve">
+    <value>Status Bar</value>
+  </data>
+  <data name="editReplace.Text" xml:space="preserve">
+    <value>&amp;Replace...</value>
+  </data>
   <data name="&gt;&gt;helpViewHelp.Name" xml:space="preserve">
     <value>helpViewHelp</value>
   </data>
-  <data name="&gt;&gt;darkMode.Type" xml:space="preserve">
+  <data name="&gt;&gt;editorSearch.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;editCut.Name" xml:space="preserve">
@@ -731,6 +734,9 @@ Double Click: Restore Default Zoom</value>
   <data name="mainMenu.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="editCopy.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+C</value>
+  </data>
   <data name="encodingStatus.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
@@ -797,8 +803,8 @@ Double Click: Restore Default Zoom</value>
   <data name="windowsLineFeed.Text" xml:space="preserve">
     <value>&amp;Windows (CRLF)</value>
   </data>
-  <data name="editCopy.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+C</value>
+  <data name="helpAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
   </data>
   <data name="helpSendFeedback.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 22</value>
@@ -847,9 +853,6 @@ Double Click: Restore Default Zoom</value>
   </data>
   <data name="pressingEnterUses.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI Semibold, 9.75pt, style=Bold</value>
-  </data>
-  <data name="&gt;&gt;zoomOut.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;linuxLineFeed.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -926,8 +929,8 @@ Double Click: Restore Default Zoom</value>
   <data name="showLineEndings.Size" type="System.Drawing.Size, System.Drawing">
     <value>205, 22</value>
   </data>
-  <data name="&gt;&gt;editorDelete.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;darkMode.Name" xml:space="preserve">
+    <value>darkMode</value>
   </data>
   <data name="&gt;&gt;editFind.Name" xml:space="preserve">
     <value>editFind</value>
@@ -944,8 +947,11 @@ Double Click: Restore Default Zoom</value>
   <data name="viewZoom.Size" type="System.Drawing.Size, System.Drawing">
     <value>126, 22</value>
   </data>
-  <data name="statusBar.Text" xml:space="preserve">
-    <value>Status Bar</value>
+  <data name="&gt;&gt;editTimeDate.Name" xml:space="preserve">
+    <value>editTimeDate</value>
+  </data>
+  <data name="&gt;&gt;saveFileDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="editFind.ShortcutKeyDisplayString" xml:space="preserve">
     <value />
@@ -995,8 +1001,8 @@ Double Click: Restore Default Zoom</value>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
     <value>202, 6</value>
   </data>
-  <data name="&gt;&gt;editor.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;mainMenu.Name" xml:space="preserve">
+    <value>mainMenu</value>
   </data>
   <data name="editReplace.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+H</value>
@@ -1022,11 +1028,14 @@ Double Click: Restore Default Zoom</value>
   <data name="fileSave.ShortcutKeyDisplayString" xml:space="preserve">
     <value />
   </data>
-  <data name="editReplace.Text" xml:space="preserve">
-    <value>&amp;Replace...</value>
+  <data name="&gt;&gt;editor.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="lineReturnType.Size" type="System.Drawing.Size, System.Drawing">
     <value>120, 23</value>
+  </data>
+  <data name="&gt;&gt;editorDelete.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;editorSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1037,8 +1046,8 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;editCopy.Name" xml:space="preserve">
     <value>editCopy</value>
   </data>
-  <data name="statusBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 536</value>
+  <data name="&gt;&gt;holdShiftNotice.Name" xml:space="preserve">
+    <value>holdShiftNotice</value>
   </data>
   <data name="mainMenu.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1081,9 +1090,6 @@ Double Click: Restore Default Zoom</value>
   </data>
   <data name="&gt;&gt;pageSetupDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.PageSetupDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="encodingStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 23</value>
   </data>
   <data name="openFileDialog1.Filter" xml:space="preserve">
     <value>Text Files|*.txt|All files|*.*</value>
@@ -1172,14 +1178,14 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;helpSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="viewMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="&gt;&gt;darkMode.Name" xml:space="preserve">
-    <value>darkMode</value>
-  </data>
   <data name="&gt;&gt;formatMenu.Name" xml:space="preserve">
     <value>formatMenu</value>
+  </data>
+  <data name="&gt;&gt;editor.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="editorSearch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 22</value>
   </data>
   <data name="&gt;&gt;editGoTo.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1187,11 +1193,8 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;pressingEnterUses.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="editorSearch.Text" xml:space="preserve">
-    <value>Search with &amp;Google...</value>
-  </data>
-  <data name="fileNewWindow.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+N</value>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="editor.Font" type="System.Drawing.Font, System.Drawing">
     <value>Consolas, 11.25pt</value>
@@ -1220,8 +1223,8 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;zoomLevel.Name" xml:space="preserve">
     <value>zoomLevel</value>
   </data>
-  <data name="fileOpen.Text" xml:space="preserve">
-    <value>&amp;Open...</value>
+  <data name="&gt;&gt;zoomOut.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;editSearch.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1229,8 +1232,8 @@ Double Click: Restore Default Zoom</value>
   <data name="editFind.Text" xml:space="preserve">
     <value>&amp;Find...</value>
   </data>
-  <data name="&gt;&gt;saveFileDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="statusBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 536</value>
   </data>
   <data name="&gt;&gt;editMenu.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1241,8 +1244,8 @@ Double Click: Restore Default Zoom</value>
   <data name="fileNew.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+N</value>
   </data>
-  <data name="&gt;&gt;editor.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="fileOpen.Text" xml:space="preserve">
+    <value>&amp;Open...</value>
   </data>
   <data name="readOnlyNotice.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 20</value>
@@ -1276,9 +1279,6 @@ Double Click: Restore Default Zoom</value>
   </data>
   <data name="linuxLineFeed.Size" type="System.Drawing.Size, System.Drawing">
     <value>205, 22</value>
-  </data>
-  <data name="editorSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 22</value>
   </data>
   <data name="&gt;&gt;convertLineEndings.Name" xml:space="preserve">
     <value>convertLineEndings</value>

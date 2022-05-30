@@ -118,48 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="fileMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 20</value>
-  </data>
-  <data name="fileMenu.Text" xml:space="preserve">
-    <value>ファイル</value>
-  </data>
-  <data name="editMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 20</value>
-  </data>
-  <data name="editMenu.Text" xml:space="preserve">
-    <value>編集</value>
-  </data>
-  <data name="formatMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 20</value>
-  </data>
-  <data name="formatMenu.Text" xml:space="preserve">
-    <value>フォーマット</value>
-  </data>
-  <data name="viewMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
-  </data>
-  <data name="viewMenu.Text" xml:space="preserve">
-    <value>ビュー</value>
-  </data>
-  <data name="helpMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
-  </data>
-  <data name="helpMenu.Text" xml:space="preserve">
-    <value>ヘルプ</value>
-  </data>
-  <data name="darkMode.ToolTipText" xml:space="preserve">
-    <value>ダークモード</value>
-  </data>
-  <data name="holdShiftNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
-  </data>
-  <data name="holdShiftNotice.Text" xml:space="preserve">
-    <value>新しいウィンドウで開きます</value>
-  </data>
-  <data name="mainMenu.Text" xml:space="preserve">
-    <value>メインメニュー</value>
-  </data>
   <data name="fileNew.Size" type="System.Drawing.Size, System.Drawing">
     <value>251, 22</value>
   </data>
@@ -213,6 +171,12 @@
   </data>
   <data name="fileExit.Text" xml:space="preserve">
     <value>クローズ</value>
+  </data>
+  <data name="fileMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 20</value>
+  </data>
+  <data name="fileMenu.Text" xml:space="preserve">
+    <value>ファイル</value>
   </data>
   <data name="editUndo.Size" type="System.Drawing.Size, System.Drawing">
     <value>202, 22</value>
@@ -307,6 +271,12 @@
   <data name="editTimeDate.Text" xml:space="preserve">
     <value>日時</value>
   </data>
+  <data name="editMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 20</value>
+  </data>
+  <data name="editMenu.Text" xml:space="preserve">
+    <value>編集</value>
+  </data>
   <data name="formatWordWrap.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 22</value>
   </data>
@@ -319,11 +289,11 @@
   <data name="formatFont.Text" xml:space="preserve">
     <value>フォント...</value>
   </data>
-  <data name="viewZoom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 22</value>
+  <data name="formatMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 20</value>
   </data>
-  <data name="viewZoom.Text" xml:space="preserve">
-    <value>ズーム</value>
+  <data name="formatMenu.Text" xml:space="preserve">
+    <value>フォーマット</value>
   </data>
   <data name="zoomIn.Size" type="System.Drawing.Size, System.Drawing">
     <value>243, 22</value>
@@ -343,11 +313,23 @@
   <data name="restoreDefaultZoom.Text" xml:space="preserve">
     <value>デフォルトのズームを復元</value>
   </data>
+  <data name="viewZoom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 22</value>
+  </data>
+  <data name="viewZoom.Text" xml:space="preserve">
+    <value>ズーム</value>
+  </data>
   <data name="viewStatusBar.Size" type="System.Drawing.Size, System.Drawing">
     <value>146, 22</value>
   </data>
   <data name="viewStatusBar.Text" xml:space="preserve">
     <value>ステータスバー</value>
+  </data>
+  <data name="viewMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 20</value>
+  </data>
+  <data name="viewMenu.Text" xml:space="preserve">
+    <value>ビュー</value>
   </data>
   <data name="helpViewHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>195, 22</value>
@@ -370,8 +352,23 @@
   <data name="helpAbout.Text" xml:space="preserve">
     <value>Bortpadについて</value>
   </data>
-  <data name="statusBar.Text" xml:space="preserve">
-    <value>ステータスバー</value>
+  <data name="helpMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 20</value>
+  </data>
+  <data name="helpMenu.Text" xml:space="preserve">
+    <value>ヘルプ</value>
+  </data>
+  <data name="darkMode.ToolTipText" xml:space="preserve">
+    <value>ダークモード</value>
+  </data>
+  <data name="holdShiftNotice.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 20</value>
+  </data>
+  <data name="holdShiftNotice.Text" xml:space="preserve">
+    <value>新しいウィンドウで開きます</value>
+  </data>
+  <data name="mainMenu.Text" xml:space="preserve">
+    <value>メインメニュー</value>
   </data>
   <data name="readOnlyNotice.Text" xml:space="preserve">
     <value>読み取り専用</value>
@@ -422,6 +419,81 @@
   </data>
   <data name="macLineFeed.Text" xml:space="preserve">
     <value>レガシー&amp;Mac (CR)</value>
+  </data>
+  <data name="statusBar.Text" xml:space="preserve">
+    <value>ステータスバー</value>
+  </data>
+  <data name="saveFileDialog1.Filter" xml:space="preserve">
+    <value>テキストファイル|*.txt|すべてのファイル|*.*</value>
+  </data>
+  <data name="saveFileDialog1.Title" xml:space="preserve">
+    <value>ファイルを名前を付けて保存...</value>
+  </data>
+  <data name="openFileDialog1.Filter" xml:space="preserve">
+    <value>テキストファイル|*.txt|すべてのファイル|*.*</value>
+  </data>
+  <data name="openFileDialog1.Title" xml:space="preserve">
+    <value>ファイルを開く...</value>
+  </data>
+  <data name="editorUndo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="editorUndo.Text" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="editorRedo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="editorRedo.Text" xml:space="preserve">
+    <value>やり直し</value>
+  </data>
+  <data name="editorSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 6</value>
+  </data>
+  <data name="editorCut.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="editorCut.Text" xml:space="preserve">
+    <value>カット</value>
+  </data>
+  <data name="editorCopy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="editorCopy.Text" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="editorPaste.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="editorPaste.Text" xml:space="preserve">
+    <value>ペースト</value>
+  </data>
+  <data name="editorDelete.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="editorDelete.Text" xml:space="preserve">
+    <value>消去</value>
+  </data>
+  <data name="editorSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 6</value>
+  </data>
+  <data name="editorSelectAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="editorSelectAll.Text" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
+  <data name="editorSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 6</value>
+  </data>
+  <data name="editorSearch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="editorSearch.Text" xml:space="preserve">
+    <value>グーグルで検索...</value>
+  </data>
+  <data name="editorContextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>163, 198</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
