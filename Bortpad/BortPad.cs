@@ -59,12 +59,12 @@ public partial class Bortpad : Form
     public string ConfigFile
     {
         get; private set;
-    }
+    } = _DEFAULT_CONFIG_FILE;
 
     public bool DarkMode
     {
         get; private set;
-    }
+    } = false;
 
     public Encoding EncodingSetting
     {
@@ -75,7 +75,7 @@ public partial class Bortpad : Form
     public Eol EolSetting
     {
         get; private set;
-    }
+    } = _DEFAULT_EOL;
 
     public string FileName
     {
@@ -97,7 +97,7 @@ public partial class Bortpad : Form
     public string MainStatus
     {
         get; private set;
-    }
+    } = "";
 
     public FileInfo OpenFilesInfo => IsFile ? new(_filename) : null;
 
@@ -114,12 +114,12 @@ public partial class Bortpad : Form
     public bool StatusBar
     {
         get; private set;
-    }
+    } = true;
 
     public bool ViewEol
     {
         get; private set;
-    }
+    } = false;
 
     #endregion Properties
 
@@ -131,7 +131,7 @@ public partial class Bortpad : Form
 
         FileName = filenameSpecified;
 
-        ConfigFile = $"{ProgramName}.cfg";
+        ConfigFile = string.Format(Resources.ConfigFile ?? _DEFAULT_CONFIG_FILE, ProgramName);
         EncodingSetting = Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")); // Default for new files
         editor.Font = GetSetting<Font>("Font");
         editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
@@ -140,9 +140,9 @@ public partial class Bortpad : Form
         windowsLineFeed.Tag = _CRLF;
         linuxLineFeed.Tag = _LF;
         macLineFeed.Tag = _CR;
+        lineReturnType.Tag = _DEFAULT_EOL;
         ViewEol = GetSetting<bool>("ShowLineEndings");
         EolSetting = GetSetting<Eol>("LineEnding");
-        SetEolStatus(EolSetting);
 
         Text = $"{Resources.DefaultFilename ?? _DEFAULT_FILENAME} - {ProgramName}";
     }

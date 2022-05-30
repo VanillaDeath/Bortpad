@@ -251,4 +251,7 @@
   <data name="SettingsSectionNotFound" xml:space="preserve">
     <value>Settings file section "{0}" not found.</value>
   </data>
+  <data name="ConfigFile" xml:space="preserve">
+    <value>{0}.cfg</value>
+  </data>
 </root>

@@ -211,6 +211,15 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}.cfg.
+        /// </summary>
+        public static string ConfigFile {
+            get {
+                return ResourceManager.GetString("ConfigFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Convert all End of Line characters in this document to {0}?.
         /// </summary>
         public static string ConvertLineEndings {
