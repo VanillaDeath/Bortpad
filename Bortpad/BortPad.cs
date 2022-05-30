@@ -848,8 +848,10 @@ public partial class Bortpad : Form
 
     private void Edit_DropDownClosed(object sender, EventArgs e)
     {
-        // This is just a workaround to make the Ctrl+E shortcut work reliably
-        editSearch.Enabled = true;
+        foreach (ToolStripMenuItem item in editMenu.DropDownItems.OfType<ToolStripMenuItem>())
+        {
+            item.Enabled = true;
+        }
     }
 
     private void LineReturnType_DropDownOpening(object sender, EventArgs e)
@@ -862,7 +864,8 @@ public partial class Bortpad : Form
         switch (((ToolStripMenuItem)sender).Name)
         {
             case "editMenu":
-                bool isSelected = editor.SelectionLength > 0;
+                bool isSelected = editor.HasSelection;
+                bool canRepeatFind = CanRepeatFind();
                 editCut.Enabled = isSelected;
                 editCopy.Enabled = isSelected;
                 editDelete.Enabled = isSelected;
@@ -870,6 +873,9 @@ public partial class Bortpad : Form
                 editPaste.Enabled = editor.CanPaste;
                 editUndo.Enabled = editor.CanUndo;
                 editRedo.Enabled = editor.CanRedo;
+                editFind.Enabled = editor.HasText;
+                editFindNext.Enabled = canRepeatFind;
+                editFindPrevious.Enabled = canRepeatFind;
                 break;
 
             case "viewMenu":
@@ -1066,9 +1072,9 @@ public partial class Bortpad : Form
 
     private void Modified(object sender, EventArgs e)
     {
-        editFind.Enabled = editor.HasText;
-        editFindNext.Enabled = CanRepeatFind();
-        editFindPrevious.Enabled = CanRepeatFind();
+        // editFind.Enabled = editor.HasText;
+        // editFindNext.Enabled = CanRepeatFind();
+        // editFindPrevious.Enabled = CanRepeatFind();
         // replaceToolStripMenuItem.Enabled = editor.HasText;
         // goToToolStripMenuItem.Enabled = editor.HasText;
         // selectAllToolStripMenuItem.Enabled = editor.HasText;

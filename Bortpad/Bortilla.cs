@@ -11,6 +11,9 @@ public class Bortilla : Scintilla
     }
 
     public int Col => GetColumn(CurrentPosition) + 1;
+
+    public bool HasSelection => SelectionLength > 0;
+
     public bool HasText => TextLength > 0;
 
     public int Ln
