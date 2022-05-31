@@ -172,6 +172,15 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to load any settings from configuration file..
+        /// </summary>
+        public static string CantLoadSettings {
+            get {
+                return ResourceManager.GetString("CantLoadSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap check {
@@ -405,6 +414,15 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset configuration file to defaults?.
+        /// </summary>
+        public static string ResetConfigFile {
+            get {
+                return ResourceManager.GetString("ResetConfigFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save &amp;As....
         /// </summary>
         public static string saveAsBtn_Text {
@@ -437,6 +455,24 @@ namespace Bortpad.Properties {
         public static string SettingsKeyNotFound {
             get {
                 return ResourceManager.GetString("SettingsKeyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuration reset failed..
+        /// </summary>
+        public static string SettingsResetFailed {
+            get {
+                return ResourceManager.GetString("SettingsResetFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Possible reasons include: Program is in a protected directory that cannot be written to by a non-elevated program, configuration file is locked by another process, program is unable to access filesystem due to antimalware, antivirus, or other security software..
+        /// </summary>
+        public static string SettingsResetFailedDesc {
+            get {
+                return ResourceManager.GetString("SettingsResetFailedDesc", resourceCulture);
             }
         }
         

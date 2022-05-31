@@ -1,0 +1,63 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Bortpad.Properties" GeneratedClassName="Defaults">
+  <Profiles />
+  <Settings>
+    <Setting Name="General_DefaultEncoding" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">65001</Value>
+    </Setting>
+    <Setting Name="General_Font" Type="System.Drawing.Font" Scope="Application">
+      <Value Profile="(Default)">Consolas, 11.25pt</Value>
+    </Setting>
+    <Setting Name="General_StatusBar" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="General_WordWrap" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="General_DarkMode" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="General_LineEnding" Type="ScintillaNET.Eol" Scope="Application">
+      <Value Profile="(Default)">CrLf</Value>
+    </Setting>
+    <Setting Name="General_ShowLineEndings" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Find_Search" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Find_Replace" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Find_Up" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Find_MatchCase" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Find_WrapAround" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="FeedbackURL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://stevenwilson.ca/contact</Value>
+    </Setting>
+    <Setting Name="HelpURL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://stevenwilson.ca/bortpad/help</Value>
+    </Setting>
+    <Setting Name="DefaultEOL" Type="ScintillaNET.Eol" Scope="Application">
+      <Value Profile="(Default)">CrLf</Value>
+    </Setting>
+    <Setting Name="SearchURI" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://google.com/search?q=</Value>
+    </Setting>
+    <Setting Name="DefaultFilename" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Untitled</Value>
+    </Setting>
+    <Setting Name="DefaultSection" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">General</Value>
+    </Setting>
+    <Setting Name="DefaultConfigFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Bortpad.cfg</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

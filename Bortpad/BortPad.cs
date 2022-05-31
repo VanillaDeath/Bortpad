@@ -1,7 +1,6 @@
 ﻿using Bortpad.Properties;
 using PropertyChanged;
 using ScintillaNET;
-using SharpConfig;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,23 +20,6 @@ namespace Bortpad;
 [AddINotifyPropertyChangedInterface]
 public partial class Bortpad : Form
 {
-    #region _CONSTANTS
-
-    internal const Eol _CR = Eol.Cr;
-    internal const Eol _CRLF = Eol.CrLf;
-    internal const int _DEFAULT_CODEPAGE = 65001;
-    internal const string _DEFAULT_CONFIG_FILE = "Bortpad.cfg";
-    internal const Eol _DEFAULT_EOL = _CRLF;
-    internal const string _DEFAULT_FILENAME = "Untitled";
-    internal const string _DEFAULT_FONT = "Consolas, 11.25pt";
-    internal const string _DEFAULT_SECTION = "General";
-    internal const string _FEEDBACK_URL = "https://stevenwilson.ca/contact";
-    internal const string _HELP_URL = "https://stevenwilson.ca/bortpad/help";
-    internal const Eol _LF = Eol.Lf;
-    internal const string _SEARCH_URI = "https://google.com/search?q=";
-
-    #endregion _CONSTANTS
-
     #region _fields
 
     private Encoding _encodingSetting;
@@ -56,30 +38,30 @@ public partial class Bortpad : Form
         .ThenBy(e => e.Name)
         .ToArray();
 
-    public string ConfigFile
+    public Settings Config
     {
         get; private set;
-    } = _DEFAULT_CONFIG_FILE;
+    } = new();
 
     public bool DarkMode
     {
         get; private set;
-    } = false;
+    } = Defaults.Default.General_DarkMode;
 
     public Encoding EncodingSetting
     {
-        get => _encodingSetting ?? Encoding.GetEncoding(GetSetting<int>("DefaultEncoding")) ?? Encoding.GetEncoding(_DEFAULT_CODEPAGE);
+        get => _encodingSetting ?? Encoding.GetEncoding(Config.Get<int>("DefaultEncoding")) ?? Encoding.GetEncoding(Defaults.Default.General_DefaultEncoding);
         private set => _encodingSetting = value;
     }
 
     public Eol EolSetting
     {
         get; private set;
-    } = _DEFAULT_EOL;
+    } = Defaults.Default.DefaultEOL;
 
     public string FileName
     {
-        get => _filename ?? Resources.DefaultFilename ?? _DEFAULT_FILENAME;
+        get => _filename ?? Resources.DefaultFilename ?? Defaults.Default.DefaultFilename;
         private set => _filename = value;
     }
 
@@ -106,20 +88,15 @@ public partial class Bortpad : Form
         get;
     } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
 
-    public Configuration Settings
-    {
-        get; private set;
-    }
-
     public bool StatusBar
     {
         get; private set;
-    } = true;
+    } = Defaults.Default.General_StatusBar;
 
     public bool ViewEol
     {
         get; private set;
-    } = false;
+    } = Defaults.Default.General_ShowLineEndings;
 
     #endregion Properties
 
@@ -131,20 +108,21 @@ public partial class Bortpad : Form
 
         FileName = filenameSpecified;
 
-        ConfigFile = string.Format(Resources.ConfigFile ?? _DEFAULT_CONFIG_FILE, ProgramName);
-        EncodingSetting = null; // Default for new files
-        editor.Font = GetSetting<Font>("Font");
-        editor.WrapMode = GetSetting<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
-        StatusBar = GetSetting<bool>("StatusBar");
-        DarkMode = GetSetting<bool>("DarkMode");
-        windowsLineFeed.Tag = _CRLF;
-        linuxLineFeed.Tag = _LF;
-        macLineFeed.Tag = _CR;
-        lineReturnType.Tag = _DEFAULT_EOL;
-        ViewEol = GetSetting<bool>("ShowLineEndings");
-        EolSetting = GetSetting<Eol>("LineEnding");
+        Config = new(string.Format(Resources.ConfigFile, ProgramName));
 
-        Text = $"{Resources.DefaultFilename ?? _DEFAULT_FILENAME} - {ProgramName}";
+        EncodingSetting = null; // Default for new files
+        editor.Font = Config.Get<Font>("Font");
+        editor.WrapMode = Config.Get<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
+        StatusBar = Config.Get<bool>("StatusBar");
+        DarkMode = Config.Get<bool>("DarkMode");
+        windowsLineFeed.Tag = Eol.CrLf;
+        linuxLineFeed.Tag = Eol.Lf;
+        macLineFeed.Tag = Eol.Cr;
+        lineReturnType.Tag = Defaults.Default.DefaultEOL;
+        ViewEol = Config.Get<bool>("ShowLineEndings");
+        EolSetting = Config.Get<Eol>("LineEnding");
+
+        Text = $"{Resources.DefaultFilename ?? Defaults.Default.DefaultFilename} - {ProgramName}";
     }
 
     #endregion Constructors
@@ -180,90 +158,6 @@ public partial class Bortpad : Form
     }
 
     #endregion Static Methods
-
-    #region Instance Methods: Settings
-
-    private T GetSetting<T>(string key, string section = _DEFAULT_SECTION)
-    {
-        try
-        {
-            if (Settings is null || !Settings.Any())
-            {
-                LoadSettings();
-            }
-            if (!Settings.Contains(section ??= _DEFAULT_SECTION))
-            {
-                throw new KeyNotFoundException(string.Format(Resources.SettingsSectionNotFound, section));
-            }
-            if (!Settings[section].Contains(key ??= ""))
-            {
-                throw new KeyNotFoundException(string.Format(Resources.SettingsKeyNotFound, section, key));
-            }
-            return Settings[section][key].GetValue<T>();
-        }
-        catch (Exception e)
-        {
-            ErrorBox(e);
-            return default;
-        }
-    }
-
-    private bool LoadSettings()
-    {
-        if (File.Exists(ConfigFile))
-        {
-            Settings = Configuration.LoadFromFile(ConfigFile);
-            return true;
-        }
-        Settings = new Configuration();
-        SetSetting("DefaultEncoding", _DEFAULT_CODEPAGE, save: false);
-        SetSetting("Font", _DEFAULT_FONT, save: false);
-        SetSetting("StatusBar", true, save: false);
-        SetSetting("WordWrap", false, save: false);
-        SetSetting("DarkMode", false, save: false);
-        SetSetting("LineEnding", _DEFAULT_EOL, save: false);
-        SetSetting("ShowLineEndings", false, save: false);
-        SetSetting("Search", "", "Find", false);
-        SetSetting("Replace", "", "Find", false);
-        SetSetting("Up", false, "Find", false);
-        SetSetting("MatchCase", false, "Find", false);
-        SetSetting("WrapAround", false, "Find", false);
-        SaveSettings();
-        return false;
-    }
-
-    private void SaveSettings()
-    {
-        Settings.SaveToFile(ConfigFile);
-    }
-
-    private void SetSetting<T>(string key, T value, string section = _DEFAULT_SECTION, bool save = true)
-    {
-        try
-        {
-            if (key is null || key.Trim().Length == 0)
-            {
-                throw new ArgumentException(Resources.InvalidSettingName);
-            }
-            Settings[section ?? _DEFAULT_SECTION][key].SetValue(value);
-            if (save)
-            {
-                SaveSettings();
-            }
-        }
-        catch (Exception e)
-        {
-            ErrorBox(e);
-        }
-    }
-
-    private bool ToggleSetting(string key, string section = _DEFAULT_SECTION)
-    {
-        SetSetting(key, !GetSetting<bool>(key, section), section);
-        return GetSetting<bool>(key, section);
-    }
-
-    #endregion Instance Methods: Settings
 
     #region Instance Methods: Document
 
@@ -402,7 +296,7 @@ public partial class Bortpad : Form
                         Name = "dontSaveBtn",
                         Text = Resources.dontSaveBtn_Text,
                         DialogResult = DialogResult.No
-                    }); ;
+                    });
             }
             DialogResult rod = MsgBox.Show(
                 string.Format(Resources.IsMarkedAsReadOnly, Path.GetFileName(FileName)),
@@ -511,7 +405,7 @@ public partial class Bortpad : Form
         fontDlg.Font = editor.Font;
         if (fontDlg.ShowDialog() == DialogResult.OK)
         {
-            SetSetting("Font", editor.Font = fontDlg.Font);
+            Config.Set("Font", editor.Font = fontDlg.Font);
             editor.StyleClearAll();
         }
     }
@@ -522,7 +416,7 @@ public partial class Bortpad : Form
 
     private bool CanRepeatFind()
     {
-        return GetSetting<string>("Search", "Find").Length > 0 && editor.HasText;
+        return Config.Get<string>("Search", "Find").Length > 0 && editor.HasText;
     }
 
     private void Find()
@@ -534,10 +428,10 @@ public partial class Bortpad : Form
             return;
         }
         find = new(
-            GetSetting<string>("Search", "Find"),
-            GetSetting<bool>("Up", "Find"),
-            GetSetting<bool>("MatchCase", "Find"),
-            GetSetting<bool>("WrapAround", "Find"));
+            Config.Get<string>("Search", "Find"),
+            Config.Get<bool>("Up", "Find"),
+            Config.Get<bool>("MatchCase", "Find"),
+            Config.Get<bool>("WrapAround", "Find"));
         find.FindClick += FindFromPrompt;
         find.Show();
     }
@@ -545,12 +439,10 @@ public partial class Bortpad : Form
     private void FindFromPrompt(object sender, EventArgs args)
     {
         FindPrompt thisPrompt = (FindPrompt)sender;
-        SetSetting("Search", thisPrompt.SearchQuery, "Find");
-        SetSetting("Up", thisPrompt.Up, "Find");
-        SetSetting("MatchCase", thisPrompt.MatchCase, "Find");
-        SetSetting("WrapAround", thisPrompt.WrapAround, "Find");
-        // editFindNext.Enabled = CanRepeatFind();
-        // editFindPrevious.Enabled = editFindNext.Enabled;
+        Config.Set("Search", thisPrompt.SearchQuery, "Find");
+        Config.Set("Up", thisPrompt.Up, "Find");
+        Config.Set("MatchCase", thisPrompt.MatchCase, "Find");
+        Config.Set("WrapAround", thisPrompt.WrapAround, "Find");
 
         FindNextPrev(thisPrompt.Up);
     }
@@ -562,15 +454,15 @@ public partial class Bortpad : Form
 
     private void FindNextPrev(bool prev = false)
     {
-        string searchQuery = GetSetting<string>("Search", "Find");
-        bool searchMatchCase = GetSetting<bool>("MatchCase", "Find");
+        string searchQuery = Config.Get<string>("Search", "Find");
+        bool searchMatchCase = Config.Get<bool>("MatchCase", "Find");
         int current = editor.SelectionStart;
         int length = editor.SelectionLength;
         int pos =
             (prev && current == 0)
             ? -1
             : OmniIndexOf(searchQuery, editor.Text, prev, current + (prev ? -1 : length), searchMatchCase);
-        if (pos == -1 && GetSetting<bool>("WrapAround", "Find"))
+        if (pos == -1 && Config.Get<bool>("WrapAround", "Find"))
         {
             pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
             MainStatus = pos == -1 ? "" : string.Format(prev ? Resources.FoundNextBottom : Resources.FoundNextTop);
@@ -614,7 +506,7 @@ public partial class Bortpad : Form
 
     private void ReplaceAll(object sender, EventArgs args)
     {
-        ReplaceFromPrompt(sender, args, true);
+        ReplaceFromPrompt(sender, args, replaceAll: true);
     }
 
     private void ReplaceFromPrompt(object sender, EventArgs args, bool replaceAll = false)
@@ -624,10 +516,10 @@ public partial class Bortpad : Form
         string replaceString = replacePrompt.ReplaceWith;
         bool matchCase = replacePrompt.MatchCase;
         bool wrapAround = replacePrompt.WrapAround;
-        SetSetting("Search", query, "Find");
-        SetSetting("Replace", replaceString, "Find");
-        SetSetting("MatchCase", matchCase, "Find");
-        SetSetting("WrapAround", wrapAround, "Find");
+        Config.Set("Search", query, "Find");
+        Config.Set("Replace", replaceString, "Find");
+        Config.Set("MatchCase", matchCase, "Find");
+        Config.Set("WrapAround", wrapAround, "Find");
 
         if (replaceAll)
         {
@@ -651,7 +543,7 @@ public partial class Bortpad : Form
 
     private void ReplaceOne(object sender, EventArgs args)
     {
-        ReplaceFromPrompt(sender, args, false);
+        ReplaceFromPrompt(sender, args, replaceAll: false);
     }
 
     private void ReplacePrompt()
@@ -663,10 +555,10 @@ public partial class Bortpad : Form
             return;
         }
         replace = new(
-            GetSetting<string>("Search", "Find"),
-            GetSetting<string>("Replace", "Find"),
-            GetSetting<bool>("MatchCase", "Find"),
-            GetSetting<bool>("WrapAround", "Find"));
+            Config.Get<string>("Search", "Find"),
+            Config.Get<string>("Replace", "Find"),
+            Config.Get<bool>("MatchCase", "Find"),
+            Config.Get<bool>("WrapAround", "Find"));
         replace.FindClick += FindNext;
         replace.ReplaceClick += ReplaceOne;
         replace.ReplaceAllClick += ReplaceAll;
@@ -686,7 +578,7 @@ public partial class Bortpad : Form
 
         ToolStripMenuItem[] items = CodePages.Select(e =>
             {
-                bool defaultEnc = e.CodePage == _DEFAULT_CODEPAGE;
+                bool defaultEnc = e.CodePage == Config.Get<int>("DefaultEncoding");
                 bool currentEnc = Equals(e.GetEncoding(), encoding);
                 ToolStripMenuItem i = new()
                 {
@@ -704,11 +596,11 @@ public partial class Bortpad : Form
             }
         )
             .OrderByDescending(i => i.Checked)
-            .ThenByDescending(i => ((EncodingInfo)(i.Tag))?.CodePage == _DEFAULT_CODEPAGE)
+            .ThenByDescending(i => ((EncodingInfo)(i.Tag))?.CodePage == Config.Get<int>("DefaultEncoding"))
             .ThenBy(i => i.Text)
             .ToArray();
         encodingStatus.DropDownItems.AddRange(items);
-        encodingStatus.DropDownItems.Insert(encoding?.CodePage == _DEFAULT_CODEPAGE ? 1 : 2, new ToolStripSeparator());
+        encodingStatus.DropDownItems.Insert(encoding?.CodePage == Config.Get<int>("DefaultEncoding") ? 1 : 2, new ToolStripSeparator());
     }
 
     private void SetEolStatus(Eol eolMode)
@@ -810,11 +702,11 @@ public partial class Bortpad : Form
 
     private void ContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        bool isSelected = editor.HasSelection;
-        editorCut.Enabled = isSelected;
-        editorCopy.Enabled = isSelected;
-        editorDelete.Enabled = isSelected;
-        editorSearch.Enabled = isSelected;
+        bool hasSelection = editor.HasSelection;
+        editorCut.Enabled = hasSelection;
+        editorCopy.Enabled = hasSelection;
+        editorDelete.Enabled = hasSelection;
+        editorSearch.Enabled = hasSelection;
         editorPaste.Enabled = editor.CanPaste;
         editorUndo.Enabled = editor.CanUndo;
         editorRedo.Enabled = editor.CanRedo;
@@ -863,12 +755,12 @@ public partial class Bortpad : Form
         switch (((ToolStripMenuItem)sender).Name)
         {
             case "editMenu":
-                bool isSelected = editor.HasSelection;
+                bool hasSelection = editor.HasSelection;
                 bool canRepeatFind = CanRepeatFind();
-                editCut.Enabled = isSelected;
-                editCopy.Enabled = isSelected;
-                editDelete.Enabled = isSelected;
-                editSearch.Enabled = isSelected;
+                editCut.Enabled = hasSelection;
+                editCopy.Enabled = hasSelection;
+                editDelete.Enabled = hasSelection;
+                editSearch.Enabled = hasSelection;
                 editPaste.Enabled = editor.CanPaste;
                 editUndo.Enabled = editor.CanUndo;
                 editRedo.Enabled = editor.CanRedo;
@@ -964,7 +856,7 @@ public partial class Bortpad : Form
             case "editSearch":
             case "editorSearch":
                 _ = editor.HasSelection
-                    ? Process.Start(_SEARCH_URI + WebUtility.UrlEncode(editor.SelectedText))
+                    ? Process.Start(Defaults.Default.SearchURI + WebUtility.UrlEncode(editor.SelectedText))
                     : null;
                 break;
 
@@ -1006,7 +898,7 @@ public partial class Bortpad : Form
             #region Format Menu
 
             case "formatWordWrap":
-                editor.WrapMode = ToggleSetting("WordWrap")
+                editor.WrapMode = Config.Toggle("WordWrap")
                     ? WrapMode.Word
                     : WrapMode.None;
                 ((ToolStripMenuItem)sender).Checked = editor.WrapMode == WrapMode.Word;
@@ -1048,11 +940,11 @@ public partial class Bortpad : Form
             #region Help Menu
 
             case "helpViewHelp":
-                Process.Start(_HELP_URL);
+                Process.Start(Defaults.Default.HelpURL);
                 break;
 
             case "helpSendFeedback":
-                Process.Start(_FEEDBACK_URL);
+                Process.Start(Defaults.Default.FeedbackURL);
                 break;
 
             case "helpAbout":
@@ -1117,7 +1009,7 @@ public partial class Bortpad : Form
         {
             case "StatusBar":
                 bool statusBarValue = (bool)after;
-                SetSetting("StatusBar", statusBar.Visible = statusBarValue);
+                Config.Set("StatusBar", statusBar.Visible = statusBarValue);
                 viewStatusBar.Checked = statusBar.Visible;
                 if (statusBarValue) { UpdatePos(); }
                 break;
@@ -1137,13 +1029,13 @@ public partial class Bortpad : Form
                 readOnlyNotice.Image = darkModeValue ? Resources.readonlyw : Resources._readonly;
 
                 darkMode.Checked = darkModeValue;
-                SetSetting("DarkMode", darkModeValue);
+                Config.Set("DarkMode", darkModeValue);
                 break;
 
             case "EolSetting":
                 Eol eolSetting = (Eol)after;
                 editor.EolMode = eolSetting;
-                SetSetting("LineEnding", eolSetting);
+                Config.Set("LineEnding", eolSetting);
                 SetEolStatus(eolSetting);
                 break;
 
@@ -1163,7 +1055,7 @@ public partial class Bortpad : Form
             case "ViewEol":
                 editor.ViewEol = (bool)after;
                 showLineEndings.Checked = editor.ViewEol;
-                SetSetting("ShowLineEndings", editor.ViewEol);
+                Config.Set("ShowLineEndings", editor.ViewEol);
                 break;
         }
     }
@@ -1196,7 +1088,7 @@ public partial class Bortpad : Form
 
     private void SetEncoding(object sender, EventArgs e)
     {
-        SetEncodingStatus(EncodingSetting = ((EncodingInfo)((ToolStripMenuItem)sender).Tag).GetEncoding(), false);
+        SetEncodingStatus(EncodingSetting = ((EncodingInfo)((ToolStripMenuItem)sender).Tag).GetEncoding(), detected: false);
     }
 
     private void SetEOL(object sender, EventArgs e)
