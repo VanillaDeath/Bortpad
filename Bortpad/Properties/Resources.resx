@@ -245,12 +245,6 @@
   <data name="AssemblyTitle" xml:space="preserve">
     <value>{0}</value>
   </data>
-  <data name="SettingsKeyNotFound" xml:space="preserve">
-    <value>Settings file setting "{1}" not found (section "{0}").</value>
-  </data>
-  <data name="SettingsSectionNotFound" xml:space="preserve">
-    <value>Settings file section "{0}" not found.</value>
-  </data>
   <data name="ConfigFile" xml:space="preserve">
     <value>{0}.cfg</value>
   </data>
@@ -262,11 +256,5 @@
   </data>
   <data name="ResetConfigFile" xml:space="preserve">
     <value>Reset configuration file to defaults?</value>
-  </data>
-  <data name="SettingsResetFailed" xml:space="preserve">
-    <value>Configuration reset failed.</value>
-  </data>
-  <data name="SettingsResetFailedDesc" xml:space="preserve">
-    <value>Possible reasons include: Program is in a protected directory that cannot be written to by a non-elevated program, configuration file is locked by another process, program is unable to access filesystem due to antimalware, antivirus, or other security software.</value>
   </data>
 </root>

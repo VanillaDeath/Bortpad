@@ -450,42 +450,6 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Settings file setting &quot;{1}&quot; not found (section &quot;{0}&quot;)..
-        /// </summary>
-        public static string SettingsKeyNotFound {
-            get {
-                return ResourceManager.GetString("SettingsKeyNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Configuration reset failed..
-        /// </summary>
-        public static string SettingsResetFailed {
-            get {
-                return ResourceManager.GetString("SettingsResetFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Possible reasons include: Program is in a protected directory that cannot be written to by a non-elevated program, configuration file is locked by another process, program is unable to access filesystem due to antimalware, antivirus, or other security software..
-        /// </summary>
-        public static string SettingsResetFailedDesc {
-            get {
-                return ResourceManager.GetString("SettingsResetFailedDesc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Settings file section &quot;{0}&quot; not found..
-        /// </summary>
-        public static string SettingsSectionNotFound {
-            get {
-                return ResourceManager.GetString("SettingsSectionNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap shift {

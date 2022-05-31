@@ -9,6 +9,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -41,7 +42,11 @@ public partial class Bortpad : Form
     public Settings Config
     {
         get; private set;
-    } = new();
+    } = new(
+        string.Format(Resources.ConfigFile, ProgramName),
+        Defaults.Default,
+        ProgramName
+        );
 
     public bool DarkMode
     {
@@ -83,10 +88,10 @@ public partial class Bortpad : Form
 
     public FileInfo OpenFilesInfo => IsFile ? new(_filename) : null;
 
-    public string ProgramName
+    public static string ProgramName
     {
         get;
-    } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+    } = Assembly.GetExecutingAssembly().GetName().Name;
 
     public bool StatusBar
     {
@@ -108,7 +113,7 @@ public partial class Bortpad : Form
 
         FileName = filenameSpecified;
 
-        Config = new(string.Format(Resources.ConfigFile, ProgramName));
+        Config ??= new(string.Format(Resources.ConfigFile, ProgramName), Defaults.Default, ProgramName);
 
         EncodingSetting = null; // Default for new files
         editor.Font = Config.Get<Font>("Font");
