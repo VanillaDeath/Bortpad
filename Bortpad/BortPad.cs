@@ -39,13 +39,13 @@ public partial class Bortpad : Form
         .ThenBy(e => e.Name)
         .ToArray();
 
-    public Settings Config
+    public Config Conf
     {
         get; private set;
-    } = new(
-        string.Format(Resources.ConfigFile, ProgramName),
-        Defaults.Default,
-        ProgramName
+    } = Config.Load(
+        configFile: string.Format(Resources.ConfigFile, ProgramName),
+        defaults: Defaults.Default,
+        programName: ProgramName
         );
 
     public bool DarkMode
@@ -55,7 +55,7 @@ public partial class Bortpad : Form
 
     public Encoding EncodingSetting
     {
-        get => _encodingSetting ?? Encoding.GetEncoding(Config.Get<int>("DefaultEncoding")) ?? Encoding.GetEncoding(Defaults.Default.General_DefaultEncoding);
+        get => _encodingSetting ?? Encoding.GetEncoding(Conf.Get<int>("DefaultEncoding")) ?? Encoding.GetEncoding(Defaults.Default.General_DefaultEncoding);
         private set => _encodingSetting = value;
     }
 
@@ -105,32 +105,54 @@ public partial class Bortpad : Form
 
     #endregion Properties
 
-    #region Constructors
+    #region Constructors and Initializers
 
-    public Bortpad(string filenameSpecified = null)
+    public Bortpad(string filenameSpecified)
     {
         InitializeComponent();
 
-        FileName = filenameSpecified;
-
-        Config ??= new(string.Format(Resources.ConfigFile, ProgramName), Defaults.Default, ProgramName);
-
-        EncodingSetting = null; // Default for new files
-        editor.Font = Config.Get<Font>("Font");
-        editor.WrapMode = Config.Get<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
-        StatusBar = Config.Get<bool>("StatusBar");
-        DarkMode = Config.Get<bool>("DarkMode");
-        windowsLineFeed.Tag = Eol.CrLf;
-        linuxLineFeed.Tag = Eol.Lf;
-        macLineFeed.Tag = Eol.Cr;
-        lineReturnType.Tag = Defaults.Default.DefaultEOL;
-        ViewEol = Config.Get<bool>("ShowLineEndings");
-        EolSetting = Config.Get<Eol>("LineEnding");
-
-        Text = $"{Resources.DefaultFilename ?? Defaults.Default.DefaultFilename} - {ProgramName}";
+        if (!Init(filenameSpecified))
+        {
+            Close();
+        }
     }
 
-    #endregion Constructors
+    public Bortpad() : this(null)
+    {
+    }
+
+    public bool Init(string filenameSpecified)
+    {
+        try
+        {
+            FileName = filenameSpecified;
+
+            Conf ??= Config.Load(string.Format(Resources.ConfigFile, ProgramName), Defaults.Default, ProgramName);
+
+            EncodingSetting = null; // Default for new files
+            editor.Font = Conf.Get<Font>("Font");
+            editor.WrapMode = Conf.Get<bool>("WordWrap") ? WrapMode.Word : WrapMode.None;
+            StatusBar = Conf.Get<bool>("StatusBar");
+            DarkMode = Conf.Get<bool>("DarkMode");
+            windowsLineFeed.Tag = Eol.CrLf;
+            linuxLineFeed.Tag = Eol.Lf;
+            macLineFeed.Tag = Eol.Cr;
+            lineReturnType.Tag = Defaults.Default.DefaultEOL;
+            ViewEol = Conf.Get<bool>("ShowLineEndings");
+            EolSetting = Conf.Get<Eol>("LineEnding");
+
+            Text = $"{Resources.DefaultFilename ?? Defaults.Default.DefaultFilename} - {ProgramName}";
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            ErrorBox(e);
+            return false;
+        }
+    }
+
+    #endregion Constructors and Initializers
 
     #region Static Methods
 
@@ -179,12 +201,14 @@ public partial class Bortpad : Form
     {
         if (!saveFirst || SaveConfirmPrompt(force: false, pendingAction: true))
         {
+            SetEncodingStatus(EncodingSetting = null);
+
             editor.Reset();
             readOnlyNotice.Visible = false;
             editor.EmptyUndoBuffer();
 
             FileName = null;
-            SetEncodingStatus(EncodingSetting = null);
+
             editor.SetSavePoint();
             editor.Select();
             return true;
@@ -219,10 +243,14 @@ public partial class Bortpad : Form
             }
             DetectionDetail getEncoding = CharsetDetector.DetectFromFile(openFileName)?.Detected;
             SetEncodingStatus(EncodingSetting = getEncoding?.Encoding, true, getEncoding?.Confidence ?? 0);
+
             editor.Reset();
             readOnlyNotice.Visible = false;
+
             editor.Text = File.ReadAllText(openFileName, EncodingSetting);
+
             FileName = openFileName;
+
             editor.EmptyUndoBuffer();
             editor.ReadOnly = IsReadOnly;
             readOnlyNotice.Visible = editor.ReadOnly;
@@ -319,7 +347,7 @@ public partial class Bortpad : Form
                     return SaveDocument();
 
                 case DialogResult.OK:
-                    if (SaveDocument(true))
+                    if (SaveDocument(saveAs: true))
                     {
                         editor.ReadOnly = IsReadOnly;
                         readOnlyNotice.Visible = editor.ReadOnly;
@@ -410,7 +438,7 @@ public partial class Bortpad : Form
         fontDlg.Font = editor.Font;
         if (fontDlg.ShowDialog() == DialogResult.OK)
         {
-            Config.Set("Font", editor.Font = fontDlg.Font);
+            Conf.Set("Font", editor.Font = fontDlg.Font);
             editor.StyleClearAll();
         }
     }
@@ -421,7 +449,7 @@ public partial class Bortpad : Form
 
     private bool CanRepeatFind()
     {
-        return Config.Get<string>("Search", "Find").Length > 0 && editor.HasText;
+        return Conf.Get<string>("Search", "Find").Length > 0 && editor.HasText;
     }
 
     private void Find()
@@ -433,10 +461,10 @@ public partial class Bortpad : Form
             return;
         }
         find = new(
-            Config.Get<string>("Search", "Find"),
-            Config.Get<bool>("Up", "Find"),
-            Config.Get<bool>("MatchCase", "Find"),
-            Config.Get<bool>("WrapAround", "Find"));
+            Conf.Get<string>("Search", "Find"),
+            Conf.Get<bool>("Up", "Find"),
+            Conf.Get<bool>("MatchCase", "Find"),
+            Conf.Get<bool>("WrapAround", "Find"));
         find.FindClick += FindFromPrompt;
         find.Show();
     }
@@ -444,33 +472,34 @@ public partial class Bortpad : Form
     private void FindFromPrompt(object sender, EventArgs args)
     {
         FindPrompt thisPrompt = (FindPrompt)sender;
-        Config.Set("Search", thisPrompt.SearchQuery, "Find");
-        Config.Set("Up", thisPrompt.Up, "Find");
-        Config.Set("MatchCase", thisPrompt.MatchCase, "Find");
-        Config.Set("WrapAround", thisPrompt.WrapAround, "Find");
+        Conf.Set("Search", thisPrompt.SearchQuery, "Find", save: false);
+        Conf.Set("Up", thisPrompt.Up, "Find", save: false);
+        Conf.Set("MatchCase", thisPrompt.MatchCase, "Find", save: false);
+        Conf.Set("WrapAround", thisPrompt.WrapAround, "Find", save: false);
+        Conf.Save();
 
-        FindNextPrev(thisPrompt.Up);
+        FindNextPrev(previous: thisPrompt.Up);
     }
 
     private void FindNext(object sender, EventArgs args)
     {
-        FindNextPrev(false);
+        FindNextPrev(previous: false);
     }
 
-    private void FindNextPrev(bool prev = false)
+    private void FindNextPrev(bool previous = false)
     {
-        string searchQuery = Config.Get<string>("Search", "Find");
-        bool searchMatchCase = Config.Get<bool>("MatchCase", "Find");
+        string searchQuery = Conf.Get<string>("Search", "Find");
+        bool searchMatchCase = Conf.Get<bool>("MatchCase", "Find");
         int current = editor.SelectionStart;
         int length = editor.SelectionLength;
         int pos =
-            (prev && current == 0)
+            (previous && current == 0)
             ? -1
-            : OmniIndexOf(searchQuery, editor.Text, prev, current + (prev ? -1 : length), searchMatchCase);
-        if (pos == -1 && Config.Get<bool>("WrapAround", "Find"))
+            : OmniIndexOf(searchQuery, editor.Text, previous, current + (previous ? -1 : length), searchMatchCase);
+        if (pos == -1 && Conf.Get<bool>("WrapAround", "Find"))
         {
-            pos = OmniIndexOf(searchQuery, editor.Text, prev, prev ? editor.Text.Length - 1 : 0, searchMatchCase);
-            MainStatus = pos == -1 ? "" : string.Format(prev ? Resources.FoundNextBottom : Resources.FoundNextTop);
+            pos = OmniIndexOf(searchQuery, editor.Text, previous, previous ? editor.Text.Length - 1 : 0, searchMatchCase);
+            MainStatus = pos == -1 ? "" : string.Format(previous ? Resources.FoundNextBottom : Resources.FoundNextTop);
         }
         else
         {
@@ -481,7 +510,14 @@ public partial class Bortpad : Form
 
     private void FindPrev(object sender, EventArgs args)
     {
-        FindNextPrev(true);
+        FindNextPrev(previous: true);
+    }
+
+    private void GoTo()
+    {
+        using GoToPrompt gt = new(editor.Ln);
+        gt.GoToClick += GoToLineFromPrompt;
+        _ = gt.ShowDialog();
     }
 
     private void GoToLineFromPrompt(object sender, EventArgs args)
@@ -521,10 +557,11 @@ public partial class Bortpad : Form
         string replaceString = replacePrompt.ReplaceWith;
         bool matchCase = replacePrompt.MatchCase;
         bool wrapAround = replacePrompt.WrapAround;
-        Config.Set("Search", query, "Find");
-        Config.Set("Replace", replaceString, "Find");
-        Config.Set("MatchCase", matchCase, "Find");
-        Config.Set("WrapAround", wrapAround, "Find");
+        Conf.Set("Search", query, "Find", save: false);
+        Conf.Set("Replace", replaceString, "Find", save: false);
+        Conf.Set("MatchCase", matchCase, "Find", save: false);
+        Conf.Set("WrapAround", wrapAround, "Find", save: false);
+        Conf.Save();
 
         if (replaceAll)
         {
@@ -560,10 +597,10 @@ public partial class Bortpad : Form
             return;
         }
         replace = new(
-            Config.Get<string>("Search", "Find"),
-            Config.Get<string>("Replace", "Find"),
-            Config.Get<bool>("MatchCase", "Find"),
-            Config.Get<bool>("WrapAround", "Find"));
+            Conf.Get<string>("Search", "Find"),
+            Conf.Get<string>("Replace", "Find"),
+            Conf.Get<bool>("MatchCase", "Find"),
+            Conf.Get<bool>("WrapAround", "Find"));
         replace.FindClick += FindNext;
         replace.ReplaceClick += ReplaceOne;
         replace.ReplaceAllClick += ReplaceAll;
@@ -583,7 +620,7 @@ public partial class Bortpad : Form
 
         ToolStripMenuItem[] items = CodePages.Select(e =>
             {
-                bool defaultEnc = e.CodePage == Config.Get<int>("DefaultEncoding");
+                bool defaultEnc = e.CodePage == Conf.Get<int>("DefaultEncoding");
                 bool currentEnc = Equals(e.GetEncoding(), encoding);
                 ToolStripMenuItem i = new()
                 {
@@ -601,11 +638,11 @@ public partial class Bortpad : Form
             }
         )
             .OrderByDescending(i => i.Checked)
-            .ThenByDescending(i => ((EncodingInfo)(i.Tag))?.CodePage == Config.Get<int>("DefaultEncoding"))
+            .ThenByDescending(i => ((EncodingInfo)(i.Tag))?.CodePage == Conf.Get<int>("DefaultEncoding"))
             .ThenBy(i => i.Text)
             .ToArray();
         encodingStatus.DropDownItems.AddRange(items);
-        encodingStatus.DropDownItems.Insert(encoding?.CodePage == Config.Get<int>("DefaultEncoding") ? 1 : 2, new ToolStripSeparator());
+        encodingStatus.DropDownItems.Insert(encoding?.CodePage == Conf.Get<int>("DefaultEncoding") ? 1 : 2, new ToolStripSeparator());
     }
 
     private void SetEolStatus(Eol eolMode)
@@ -634,7 +671,8 @@ public partial class Bortpad : Form
         {
             return;
         }
-        position.Text = $"{Resources.Ln} {editor.Ln}, {Resources.Col} {editor.Col}";
+        position.Text = $"{Resources.Ln} {editor.Ln}, {Resources.Col} {editor.Col}"; // + $", {Resources.Pos} {editor.Pos}";
+        position.ToolTipText = $"{Resources.Line}: {editor.Ln} \n{Resources.Column}: {editor.Col} \n{Resources.Position}: {editor.Pos} ";
     }
 
     #endregion Instance Methods: Status Bar
@@ -653,7 +691,7 @@ public partial class Bortpad : Form
             {
                 if (first && (e.KeyState & 4) != 4)
                 {
-                    OpenDocument(true, file);
+                    OpenDocument(saveFirst: true, fileName: file);
                     first = false;
                     continue;
                 }
@@ -699,9 +737,9 @@ public partial class Bortpad : Form
 
     private void BortForm_Shown(object sender, EventArgs e)
     {
-        if (_filename is null || !OpenDocument(false, _filename))
+        if (_filename is null || !OpenDocument(saveFirst: false, fileName: _filename))
         {
-            _ = NewDocument(false);
+            _ = NewDocument(saveFirst: false);
         }
     }
 
@@ -747,6 +785,10 @@ public partial class Bortpad : Form
 
     private void ErrorBox(Exception e)
     {
+        Trace.TraceError(e.Message);
+        Trace.Indent();
+        Trace.TraceError(e.StackTrace);
+        Trace.Unindent();
         _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
@@ -882,11 +924,7 @@ public partial class Bortpad : Form
                 break;
 
             case "editGoTo":
-                using (GoToPrompt gt = new(editor.Ln))
-                {
-                    gt.GoToClick += GoToLineFromPrompt;
-                    _ = gt.ShowDialog();
-                }
+                GoTo();
                 break;
 
             case "editSelectAll":
@@ -903,7 +941,7 @@ public partial class Bortpad : Form
             #region Format Menu
 
             case "formatWordWrap":
-                editor.WrapMode = Config.Toggle("WordWrap")
+                editor.WrapMode = Conf.Toggle("WordWrap")
                     ? WrapMode.Word
                     : WrapMode.None;
                 ((ToolStripMenuItem)sender).Checked = editor.WrapMode == WrapMode.Word;
@@ -972,7 +1010,7 @@ public partial class Bortpad : Form
         {
             new()
             {
-                Name = "editBtn",
+                Name = "okBtn",
                 Text = editor.ReadOnly ? Resources.editBtn_Text : Resources.okBtn_Text,
                 DialogResult = DialogResult.OK
             }
@@ -992,7 +1030,7 @@ public partial class Bortpad : Form
             ProgramName,
             buttons,
             null,
-            editor.ReadOnly ? "cancelBtn" : "editBtn");
+            editor.ReadOnly ? "cancelBtn" : "okBtn");
         if (ro == DialogResult.OK && editor.ReadOnly)
         {
             editor.ReadOnly = false;
@@ -1014,7 +1052,7 @@ public partial class Bortpad : Form
         {
             case "StatusBar":
                 bool statusBarValue = (bool)after;
-                Config.Set("StatusBar", statusBar.Visible = statusBarValue);
+                Conf.Set("StatusBar", statusBar.Visible = statusBarValue);
                 viewStatusBar.Checked = statusBar.Visible;
                 if (statusBarValue) { UpdatePos(); }
                 break;
@@ -1034,13 +1072,13 @@ public partial class Bortpad : Form
                 readOnlyNotice.Image = darkModeValue ? Resources.readonlyw : Resources._readonly;
 
                 darkMode.Checked = darkModeValue;
-                Config.Set("DarkMode", darkModeValue);
+                Conf.Set("DarkMode", darkModeValue);
                 break;
 
             case "EolSetting":
                 Eol eolSetting = (Eol)after;
                 editor.EolMode = eolSetting;
-                Config.Set("LineEnding", eolSetting);
+                Conf.Set("LineEnding", eolSetting);
                 SetEolStatus(eolSetting);
                 break;
 
@@ -1060,7 +1098,7 @@ public partial class Bortpad : Form
             case "ViewEol":
                 editor.ViewEol = (bool)after;
                 showLineEndings.Checked = editor.ViewEol;
-                Config.Set("ShowLineEndings", editor.ViewEol);
+                Conf.Set("ShowLineEndings", editor.ViewEol);
                 break;
         }
     }
@@ -1135,6 +1173,11 @@ public partial class Bortpad : Form
     private void ZoomLevel_MouseLeave(object sender, EventArgs e)
     {
         statusBar.MouseWheel -= ScrollZoom;
+    }
+
+    private void Position_DoubleClick(object sender, EventArgs e)
+    {
+        GoTo();
     }
 
     #endregion Instance Methods: Events

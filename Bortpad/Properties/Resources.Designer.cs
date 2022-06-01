@@ -211,6 +211,15 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Column.
+        /// </summary>
+        public static string Column {
+            get {
+                return ResourceManager.GetString("Column", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confidence: {0}%.
         /// </summary>
         public static string Confidence {
@@ -337,6 +346,15 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Line.
+        /// </summary>
+        public static string Line {
+            get {
+                return ResourceManager.GetString("Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The line number is beyond the total number of lines.
         /// </summary>
         public static string LineNumberBeyond {
@@ -389,6 +407,24 @@ namespace Bortpad.Properties {
         public static string PathNotFound {
             get {
                 return ResourceManager.GetString("PathNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pos.
+        /// </summary>
+        public static string Pos {
+            get {
+                return ResourceManager.GetString("Pos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position.
+        /// </summary>
+        public static string Position {
+            get {
+                return ResourceManager.GetString("Position", resourceCulture);
             }
         }
         

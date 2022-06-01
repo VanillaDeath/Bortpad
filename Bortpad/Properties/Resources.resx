@@ -257,4 +257,16 @@
   <data name="ResetConfigFile" xml:space="preserve">
     <value>Reset configuration file to defaults?</value>
   </data>
+  <data name="Column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="Pos" xml:space="preserve">
+    <value>Pos</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Position</value>
+  </data>
 </root>

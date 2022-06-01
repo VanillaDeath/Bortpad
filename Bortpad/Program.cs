@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 // using WilsonUtils;
@@ -14,6 +15,12 @@ namespace Bortpad
         private static void Main()
         {
             // DEBUG
+            _ = Trace.Listeners.Add(new TextWriterTraceListener(
+                $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.log",
+                "ErrorLog"));
+            Trace.Listeners["ErrorLog"].TraceOutputOptions |= TraceOptions.DateTime;
+            Trace.AutoFlush = true;
+            // Trace.TraceInformation("Application start.");
             // LanguageSetter.SetLanguage("ja");
 
             string[] args = Environment.GetCommandLineArgs();
@@ -23,6 +30,9 @@ namespace Bortpad
             Application.SetCompatibleTextRenderingDefault(false);
 
             Application.Run(new Bortpad(filename));
+
+            // Trace.TraceInformation("Application end.");
+            Trace.Close();
         }
     }
 }

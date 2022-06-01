@@ -33,7 +33,7 @@ public class Bortilla : Scintilla
 
     public int Pos
     {
-        get => CurrentPosition;
+        get => CurrentPosition + 1;
         internal set
         {
             if (value > TextLength || value < 0)
