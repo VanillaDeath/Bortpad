@@ -1157,7 +1157,7 @@ public partial class Bortpad : Form
 
     private void Zoom_Changed(object sender, EventArgs e)
     {
-        zoomLevel.Text = (100 + (editor.Zoom * 10)) + "%";
+        zoomLevel.Text = (100 + (editor.Zoom * 10)) + Resources.Percent;
     }
 
     private void ZoomLevel_DoubleClick(object sender, EventArgs e)

@@ -269,4 +269,7 @@
   <data name="Position" xml:space="preserve">
     <value>Position</value>
   </data>
+  <data name="Percent" xml:space="preserve">
+    <value>%</value>
+  </data>
 </root>

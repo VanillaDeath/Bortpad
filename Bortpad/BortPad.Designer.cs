@@ -249,12 +249,14 @@ namespace Bortpad
             // 
             this.editCut.Name = "editCut";
             resources.ApplyResources(this.editCut, "editCut");
+            this.editCut.Tag = "NeedsSelection";
             this.editCut.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // editCopy
             // 
             this.editCopy.Name = "editCopy";
             resources.ApplyResources(this.editCopy, "editCopy");
+            this.editCopy.Tag = "NeedsSelection";
             this.editCopy.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // editPaste
@@ -267,6 +269,7 @@ namespace Bortpad
             // 
             this.editDelete.Name = "editDelete";
             resources.ApplyResources(this.editDelete, "editDelete");
+            this.editDelete.Tag = "NeedsSelection";
             this.editDelete.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // editSeparator2
@@ -278,6 +281,7 @@ namespace Bortpad
             // 
             this.editSearch.Name = "editSearch";
             resources.ApplyResources(this.editSearch, "editSearch");
+            this.editSearch.Tag = "NeedsSelection";
             this.editSearch.Click += new System.EventHandler(this.MenuItem_Click);
             // 
             // editFind
@@ -439,7 +443,6 @@ namespace Bortpad
             // 
             this.holdShiftNotice.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             resources.ApplyResources(this.holdShiftNotice, "holdShiftNotice");
-            this.holdShiftNotice.Image = global::Bortpad.Properties.Resources.shift;
             this.holdShiftNotice.Name = "holdShiftNotice";
             // 
             // statusBar
@@ -466,7 +469,6 @@ namespace Bortpad
             // 
             this.readOnlyNotice.ActiveLinkColor = System.Drawing.Color.LightCoral;
             resources.ApplyResources(this.readOnlyNotice, "readOnlyNotice");
-            this.readOnlyNotice.Image = global::Bortpad.Properties.Resources._readonly;
             this.readOnlyNotice.IsLink = true;
             this.readOnlyNotice.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.readOnlyNotice.LinkColor = System.Drawing.SystemColors.ControlText;
@@ -507,7 +509,6 @@ namespace Bortpad
             this.windowsLineFeed,
             this.linuxLineFeed,
             this.macLineFeed});
-            this.lineReturnType.Image = global::Bortpad.Properties.Resources.windows;
             this.lineReturnType.Name = "lineReturnType";
             this.lineReturnType.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lineReturnType.ShowDropDownArrow = false;
@@ -540,25 +541,22 @@ namespace Bortpad
             // 
             this.windowsLineFeed.Checked = true;
             this.windowsLineFeed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.windowsLineFeed.Image = global::Bortpad.Properties.Resources.windows;
-            this.windowsLineFeed.Name = "windowsLineFeed";
             resources.ApplyResources(this.windowsLineFeed, "windowsLineFeed");
+            this.windowsLineFeed.Name = "windowsLineFeed";
             this.windowsLineFeed.Tag = "CRLF";
             this.windowsLineFeed.Click += new System.EventHandler(this.SetEOL);
             // 
             // linuxLineFeed
             // 
-            this.linuxLineFeed.Image = global::Bortpad.Properties.Resources.macos;
-            this.linuxLineFeed.Name = "linuxLineFeed";
             resources.ApplyResources(this.linuxLineFeed, "linuxLineFeed");
+            this.linuxLineFeed.Name = "linuxLineFeed";
             this.linuxLineFeed.Tag = "LF";
             this.linuxLineFeed.Click += new System.EventHandler(this.SetEOL);
             // 
             // macLineFeed
             // 
-            this.macLineFeed.Image = global::Bortpad.Properties.Resources.os9;
-            this.macLineFeed.Name = "macLineFeed";
             resources.ApplyResources(this.macLineFeed, "macLineFeed");
+            this.macLineFeed.Name = "macLineFeed";
             this.macLineFeed.Tag = "CR";
             this.macLineFeed.Click += new System.EventHandler(this.SetEOL);
             // 
@@ -713,7 +711,6 @@ namespace Bortpad
             this.Controls.Add(this.editor);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.mainMenu);
-            this.Icon = global::Bortpad.Properties.Resources.bortpad;
             this.MainMenuStrip = this.mainMenu;
             this.Name = "Bortpad";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BortForm_FormClosing);

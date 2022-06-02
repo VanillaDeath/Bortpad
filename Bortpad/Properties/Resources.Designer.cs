@@ -411,6 +411,15 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to %.
+        /// </summary>
+        public static string Percent {
+            get {
+                return ResourceManager.GetString("Percent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pos.
         /// </summary>
         public static string Pos {

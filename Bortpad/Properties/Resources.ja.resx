@@ -206,6 +206,9 @@
   <data name="PathNotFound" xml:space="preserve">
     <value>指定されたパスが見つかりません。</value>
   </data>
+  <data name="Percent" xml:space="preserve">
+    <value>％</value>
+  </data>
   <data name="ReadOnlyOptions" xml:space="preserve">
     <value>このファイルを保存するには、次のいずれかを行います
 •読み取り専用フラグの設定を解除します

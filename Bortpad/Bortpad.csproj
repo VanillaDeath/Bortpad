@@ -17,7 +17,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.4.%2a</ApplicationVersion>
+    <ApplicationVersion>1.0.5.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -68,11 +68,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
       <DependentUpon>Defaults.settings</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -126,10 +121,6 @@
     <None Update="Properties\Defaults.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Defaults.Designer.cs</LastGenOutput>
-    </None>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Update="Resources\bortpad.png">
       <Pack>True</Pack>
