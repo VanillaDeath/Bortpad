@@ -91,12 +91,7 @@ namespace Bortpad
             this.linuxLineFeed = new System.Windows.Forms.ToolStripMenuItem();
             this.macLineFeed = new System.Windows.Forms.ToolStripMenuItem();
             this.encodingStatus = new System.Windows.Forms.ToolStripDropDownButton();
-            this.fontDlg = new System.Windows.Forms.FontDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.printDoc = new System.Drawing.Printing.PrintDocument();
             this.editorContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editorUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.editorRedo = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,9 +105,11 @@ namespace Bortpad
             this.editorSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.editorSearch = new System.Windows.Forms.ToolStripMenuItem();
             this.editor = new WilsonUtils.Bortilla();
+            this.docContents = new System.Windows.Forms.BindingSource(this.components);
             this.mainMenu.SuspendLayout();
             this.statusBar.SuspendLayout();
             this.editorContextMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.docContents)).BeginInit();
             this.SuspendLayout();
             // 
             // mainMenu
@@ -569,34 +566,10 @@ namespace Bortpad
             this.encodingStatus.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.encodingStatus.ShowDropDownArrow = false;
             // 
-            // fontDlg
+            // printDoc
             // 
-            this.fontDlg.ShowEffects = false;
-            this.fontDlg.ShowHelp = true;
-            // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.DefaultExt = "txt";
-            resources.ApplyResources(this.saveFileDialog1, "saveFileDialog1");
-            // 
-            // printDialog1
-            // 
-            this.printDialog1.AllowSelection = true;
-            this.printDialog1.Document = this.printDocument1;
-            this.printDialog1.UseEXDialog = true;
-            // 
-            // printDocument1
-            // 
-            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintPage);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.DefaultExt = "txt";
-            resources.ApplyResources(this.openFileDialog1, "openFileDialog1");
-            // 
-            // pageSetupDialog1
-            // 
-            this.pageSetupDialog1.Document = this.printDocument1;
+            this.printDoc.DocumentName = "FileName";
+            this.printDoc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintPage);
             // 
             // editorContextMenu
             // 
@@ -725,6 +698,7 @@ namespace Bortpad
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
             this.editorContextMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.docContents)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -774,12 +748,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem helpAbout;
         private System.Windows.Forms.ToolStripStatusLabel position;
         private System.Windows.Forms.ToolStripStatusLabel zoomLevel;
-        private System.Windows.Forms.FontDialog fontDlg;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.PrintDialog printDialog1;
-        private System.Drawing.Printing.PrintDocument printDocument1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
+        private System.Drawing.Printing.PrintDocument printDoc;
         private System.Windows.Forms.ToolStripStatusLabel statusBarLeft;
         internal System.Windows.Forms.ToolStripMenuItem editFind;
         internal System.Windows.Forms.ToolStripMenuItem editFindNext;
@@ -811,6 +780,7 @@ namespace Bortpad
         private System.Windows.Forms.ToolStripMenuItem pressingEnterUses;
         private System.Windows.Forms.ToolStripStatusLabel readOnlyNotice;
         internal WilsonUtils.Bortilla editor;
+        private System.Windows.Forms.BindingSource docContents;
     }
 }
 

@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>Au sujet de {0}</value>
   </data>
+  <data name="AllFiles" xml:space="preserve">
+    <value>Tous les fichiers</value>
+  </data>
   <data name="AssemblyCompany" xml:space="preserve">
     <value>{0}</value>
   </data>
@@ -200,6 +203,9 @@
   <data name="okBtn.Text" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="openDlg.Title" xml:space="preserve">
+    <value>Ouvrir un fichier...</value>
+  </data>
   <data name="PathNotFound" xml:space="preserve">
     <value>Le système ne peut pas trouver le chemin spécifié.</value>
   </data>
@@ -217,11 +223,17 @@
   <data name="SaveChangesTo" xml:space="preserve">
     <value>Voulez-vous enregistrer les modifications apportées à {0}?</value>
   </data>
+  <data name="saveDlg.Title" xml:space="preserve">
+    <value>Enregistrer le fichier sous...</value>
+  </data>
   <data name="SettingsKeyNotFound" xml:space="preserve">
     <value>Paramètre «{1}» introuvable dans le fichier de paramètres (section «{0}»).</value>
   </data>
   <data name="SettingsSectionNotFound" xml:space="preserve">
     <value>Section «{0}» du fichier de paramètres introuvable.</value>
+  </data>
+  <data name="TextFiles" xml:space="preserve">
+    <value>Fichiers texte</value>
   </data>
   <data name="unsetAndSaveBtn.Text" xml:space="preserve">
     <value>&amp;Désactiver et enregistrer</value>

@@ -272,4 +272,16 @@
   <data name="Percent" xml:space="preserve">
     <value>%</value>
   </data>
+  <data name="AllFiles" xml:space="preserve">
+    <value>All Files</value>
+  </data>
+  <data name="openDlg.Title" xml:space="preserve">
+    <value>Open File...</value>
+  </data>
+  <data name="saveDlg.Title" xml:space="preserve">
+    <value>Save File As...</value>
+  </data>
+  <data name="TextFiles" xml:space="preserve">
+    <value>Text Files</value>
+  </data>
 </root>

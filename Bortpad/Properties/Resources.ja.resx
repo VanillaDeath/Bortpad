@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>{0}について</value>
   </data>
+  <data name="AllFiles" xml:space="preserve">
+    <value>すべてのファイル</value>
+  </data>
   <data name="AssemblyCompany" xml:space="preserve">
     <value>{0}</value>
   </data>
@@ -203,6 +206,9 @@
   <data name="okBtn.Text" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="openDlg.Title" xml:space="preserve">
+    <value>ファイルを開く...</value>
+  </data>
   <data name="PathNotFound" xml:space="preserve">
     <value>指定されたパスが見つかりません。</value>
   </data>
@@ -223,11 +229,17 @@
   <data name="SaveChangesTo" xml:space="preserve">
     <value>変更を{0}に保存しますか？</value>
   </data>
+  <data name="saveDlg.Title" xml:space="preserve">
+    <value>ファイルを名前を付けて保存...</value>
+  </data>
   <data name="SettingsKeyNotFound" xml:space="preserve">
     <value>設定ファイル設定「{1}」が見つかりません（セクション「{0}」）。</value>
   </data>
   <data name="SettingsSectionNotFound" xml:space="preserve">
     <value>設定ファイルセクション「{0}」が見つかりません。</value>
+  </data>
+  <data name="TextFiles" xml:space="preserve">
+    <value>テキストファイル</value>
   </data>
   <data name="unsetAndSaveBtn.Text" xml:space="preserve">
     <value>設定を解除して保存</value>

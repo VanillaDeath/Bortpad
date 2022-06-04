@@ -21,7 +21,37 @@ namespace Bortpad;
 [AddINotifyPropertyChangedInterface]
 public partial class Bortpad : Form
 {
+    #region _CONSTANTS
+
+    internal const Eol _CR = Eol.Cr;
+    internal const Eol _CRLF = Eol.CrLf;
+    internal const Eol _LF = Eol.Lf;
+
+    #endregion _CONSTANTS
+
     #region _fields
+
+    internal static readonly Dictionary<string, object> _DEFAULTS = new()
+    {
+        { "General_DefaultEncoding", 65001 },
+        { "General_Font", new Font("Consolas", 11.25f) },
+        { "General_StatusBar", true },
+        { "General_WordWrap", false },
+        { "General_DarkMode", false },
+        { "General_LineEnding", _CRLF },
+        { "General_ShowLineEndings", false },
+        { "Find_Search", "" },
+        { "Find_Replace", "" },
+        { "Find_Up", false },
+        { "Find_MatchCase", false },
+        { "Find_WrapAround", false },
+        { "Filename", "Untitled" },
+        { "Section", "General" },
+        { "ConfigFile", $"{ProgramName}.cfg" },
+        { "SearchURI", "https://google.com/search?q="},
+        { "HelpURL", "https://stevenwilson.ca/bortpad/help" },
+        { "FeedbackURL", "https://stevenwilson.ca/contact" }
+    };
 
     private Encoding _encodingSetting;
     private string _filename;
@@ -44,29 +74,29 @@ public partial class Bortpad : Form
         get; private set;
     } = Config.Load(
         configFile: string.Format(Resources.ConfigFile, ProgramName),
-        defaults: Defaults.Default,
+        defaults: _DEFAULTS,
         programName: ProgramName
         );
 
     public bool DarkMode
     {
         get; private set;
-    } = Defaults.Default.General_DarkMode;
+    } = (bool)_DEFAULTS["General_DarkMode"];
 
     public Encoding EncodingSetting
     {
-        get => _encodingSetting ?? Encoding.GetEncoding(Conf.Get<int>("DefaultEncoding")) ?? Encoding.GetEncoding(Defaults.Default.General_DefaultEncoding);
+        get => _encodingSetting ?? Encoding.GetEncoding(Conf.Get<int>("DefaultEncoding")) ?? Encoding.GetEncoding((int)_DEFAULTS["General_DefaultEncoding"]);
         private set => _encodingSetting = value;
     }
 
     public Eol EolSetting
     {
         get; private set;
-    } = Defaults.Default.DefaultEOL;
+    } = (Eol)_DEFAULTS["General_LineEnding"];
 
     public string FileName
     {
-        get => _filename ?? Resources.DefaultFilename ?? Defaults.Default.DefaultFilename;
+        get => _filename ?? Resources.DefaultFilename ?? (string)_DEFAULTS["Filename"];
         private set => _filename = value;
     }
 
@@ -96,12 +126,12 @@ public partial class Bortpad : Form
     public bool StatusBar
     {
         get; private set;
-    } = Defaults.Default.General_StatusBar;
+    } = (bool)_DEFAULTS["General_StatusBar"];
 
     public bool ViewEol
     {
         get; private set;
-    } = Defaults.Default.General_ShowLineEndings;
+    } = (bool)_DEFAULTS["General_ShowLineEndings"];
 
     #endregion Properties
 
@@ -127,7 +157,7 @@ public partial class Bortpad : Form
         {
             FileName = filenameSpecified;
 
-            Conf ??= Config.Load(string.Format(Resources.ConfigFile, ProgramName), Defaults.Default, ProgramName);
+            Conf ??= Config.Load(string.Format(Resources.ConfigFile, ProgramName), _DEFAULTS, ProgramName);
 
             EncodingSetting = null; // Default for new files
             editor.Font = Conf.Get<Font>("Font");
@@ -137,11 +167,12 @@ public partial class Bortpad : Form
             windowsLineFeed.Tag = Eol.CrLf;
             linuxLineFeed.Tag = Eol.Lf;
             macLineFeed.Tag = Eol.Cr;
-            lineReturnType.Tag = Defaults.Default.DefaultEOL;
+            lineReturnType.Tag = _DEFAULTS["General_LineEnding"];
             ViewEol = Conf.Get<bool>("ShowLineEndings");
             EolSetting = Conf.Get<Eol>("LineEnding");
 
-            Text = $"{Resources.DefaultFilename ?? Defaults.Default.DefaultFilename} - {ProgramName}";
+            // Resources.DefaultFilename for language-dependent new file name
+            Text = $"{Resources.DefaultFilename ?? _DEFAULTS["Filename"]} - {ProgramName}";
 
             return true;
         }
@@ -225,17 +256,26 @@ public partial class Bortpad : Form
         }
         try
         {
+            string openFileName;
             // If no filename as param, get filename from Open Dialog
-            string openFileName
-                = fileName
-                ?? (openFileDialog1.ShowDialog() == DialogResult.OK
-                    ? openFileDialog1.FileName
-                    : null);
-            if (openFileName is null)
+            if (fileName is null)
             {
-                // No filename as param and Open Dialog cancelled?
-                return false;
+                using OpenFileDialog openDlg = new()
+                {
+                    Title = Resources.openDlg_Title,
+                    DefaultExt = "txt",
+                    Filter = $"{Resources.TextFiles}|*.txt|{Resources.AllFiles}|*.*"
+                };
+                if (openDlg.ShowDialog() != DialogResult.OK || (openFileName = openDlg.FileName) is null)
+                {
+                    return false;
+                }
             }
+            else
+            {
+                openFileName = fileName;
+            }
+
             if (!File.Exists(openFileName))
             {
                 // Where is file? :(
@@ -272,18 +312,36 @@ public partial class Bortpad : Form
 
     private void PageSetup()
     {
-        if (pageSetupDialog1.ShowDialog() == DialogResult.OK)
+        using PageSetupDialog setupDlg = new()
         {
-            // TODO
+            Document = printDoc
+        };
+        if (setupDlg.ShowDialog() != DialogResult.OK)
+        {
+            return;
         }
+        printDoc.DefaultPageSettings = setupDlg.PageSettings;
+        printDoc.PrinterSettings = setupDlg.PrinterSettings;
     }
 
     private void Print()
     {
-        if (printDialog1.ShowDialog() == DialogResult.OK)
+        using WebBrowser webBrowser = new()
         {
-            printDocument1.Print();
+            Visible = false,
+            
+        };
+        using PrintDialog printDlg = new()
+        {
+            AllowSelection = true,
+            Document = printDoc,
+            UseEXDialog = true
+        };
+        if (printDlg.ShowDialog() != DialogResult.OK)
+        {
+            return;
         }
+        printDoc.Print();
     }
 
     private bool SaveConfirmPrompt(bool force = false, bool pendingAction = false)
@@ -410,13 +468,18 @@ public partial class Bortpad : Form
         }
         else
         {
-            saveFileDialog1.FileName = Path.GetFileName(FileName);
-            saveFileDialog1.InitialDirectory = Path.GetDirectoryName(FileName);
-            if (saveFileDialog1.ShowDialog() != DialogResult.OK)
+            using SaveFileDialog saveDlg = new()
+            {
+                Title = Resources.saveDlg_Title,
+                DefaultExt = "txt",
+                Filter = $"{Resources.TextFiles}|*.txt|{Resources.AllFiles}|*.*",
+                FileName = Path.GetFileName(FileName),
+                InitialDirectory = Path.GetDirectoryName(FileName)
+            };
+            if (saveDlg.ShowDialog() != DialogResult.OK || (fileName = saveDlg.FileName) is null)
             {
                 return false;
             }
-            fileName = saveFileDialog1.FileName;
         }
 
         try
@@ -435,12 +498,17 @@ public partial class Bortpad : Form
 
     private void SetFont()
     {
-        fontDlg.Font = editor.Font;
-        if (fontDlg.ShowDialog() == DialogResult.OK)
+        using FontDialog fontDlg = new()
         {
-            Conf.Set("Font", editor.Font = fontDlg.Font);
-            editor.StyleClearAll();
+            Font = editor.Font,
+            ShowEffects = false
+        };
+        if (fontDlg.ShowDialog() != DialogResult.OK)
+        {
+            return;
         }
+        Conf.Set("Font", editor.Font = fontDlg.Font);
+        editor.StyleClearAll();
     }
 
     #endregion Instance Methods: Document
@@ -745,11 +813,12 @@ public partial class Bortpad : Form
 
     private void ContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        bool hasSelection = editor.HasSelection;
-        editorCut.Enabled = hasSelection;
-        editorCopy.Enabled = hasSelection;
-        editorDelete.Enabled = hasSelection;
-        editorSearch.Enabled = hasSelection;
+        editorCut.Enabled
+            = editorCopy.Enabled
+            = editorDelete.Enabled
+            = editorSearch.Enabled
+            = editor.HasSelection;
+
         editorPaste.Enabled = editor.CanPaste;
         editorUndo.Enabled = editor.CanUndo;
         editorRedo.Enabled = editor.CanRedo;
@@ -777,10 +846,26 @@ public partial class Bortpad : Form
 
     private void Edit_DropDownClosed(object sender, EventArgs e)
     {
+        /*
+        // Less mess, but iterates over every Edit menu item.
         foreach (ToolStripMenuItem item in editMenu.DropDownItems.OfType<ToolStripMenuItem>())
         {
             item.Enabled = true;
         }
+        */
+        // Only enables items that were possibly previously disabled.
+        // No iteration. More performant?
+        editCut.Enabled
+            = editCopy.Enabled
+            = editDelete.Enabled
+            = editSearch.Enabled
+            = editPaste.Enabled
+            = editUndo.Enabled
+            = editRedo.Enabled
+            = editFind.Enabled
+            = editFindNext.Enabled
+            = editFindPrevious.Enabled
+            = true;
     }
 
     private void ErrorBox(Exception e)
@@ -802,18 +887,24 @@ public partial class Bortpad : Form
         switch (((ToolStripMenuItem)sender).Name)
         {
             case "editMenu":
-                bool hasSelection = editor.HasSelection;
-                bool canRepeatFind = CanRepeatFind();
-                editCut.Enabled = hasSelection;
-                editCopy.Enabled = hasSelection;
-                editDelete.Enabled = hasSelection;
-                editSearch.Enabled = hasSelection;
-                editPaste.Enabled = editor.CanPaste;
-                editUndo.Enabled = editor.CanUndo;
-                editRedo.Enabled = editor.CanRedo;
-                editFind.Enabled = editor.HasText;
-                editFindNext.Enabled = canRepeatFind;
-                editFindPrevious.Enabled = canRepeatFind;
+                editCut.Enabled
+                    = editCopy.Enabled
+                    = editDelete.Enabled
+                    = editSearch.Enabled
+                    = editor.HasSelection;
+
+                editPaste.Enabled
+                    = editor.CanPaste;
+                editUndo.Enabled
+                    = editor.CanUndo;
+                editRedo.Enabled
+                    = editor.CanRedo;
+                editFind.Enabled
+                    = editor.HasText;
+
+                editFindNext.Enabled
+                    = editFindPrevious.Enabled
+                    = CanRepeatFind();
                 break;
 
             case "viewMenu":
@@ -903,7 +994,7 @@ public partial class Bortpad : Form
             case "editSearch":
             case "editorSearch":
                 _ = editor.HasSelection
-                    ? Process.Start(Defaults.Default.SearchURI + WebUtility.UrlEncode(editor.SelectedText))
+                    ? Process.Start(_DEFAULTS["SearchURI"] + WebUtility.UrlEncode(editor.SelectedText))
                     : null;
                 break;
 
@@ -941,7 +1032,8 @@ public partial class Bortpad : Form
             #region Format Menu
 
             case "formatWordWrap":
-                editor.WrapMode = Conf.Toggle("WordWrap")
+                editor.WrapMode
+                    = Conf.Toggle("WordWrap")
                     ? WrapMode.Word
                     : WrapMode.None;
                 ((ToolStripMenuItem)sender).Checked = editor.WrapMode == WrapMode.Word;
@@ -983,11 +1075,11 @@ public partial class Bortpad : Form
             #region Help Menu
 
             case "helpViewHelp":
-                Process.Start(Defaults.Default.HelpURL);
+                Process.Start((string)_DEFAULTS["HelpURL"]);
                 break;
 
             case "helpSendFeedback":
-                Process.Start(Defaults.Default.FeedbackURL);
+                Process.Start((string)_DEFAULTS["FeedbackURL"]);
                 break;
 
             case "helpAbout":

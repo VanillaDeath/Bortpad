@@ -792,7 +792,7 @@
     <value>127, 17</value>
   </metadata>
   <data name="statusBarLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>372, 20</value>
+    <value>513, 20</value>
   </data>
   <data name="statusBarLeft.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -2038,38 +2038,11 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;statusBar.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="fontDlg.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="printDoc.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>228, 17</value>
   </metadata>
-  <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>321, 17</value>
-  </metadata>
-  <data name="saveFileDialog1.Filter" xml:space="preserve">
-    <value>Text files|*.txt|All files|*.*</value>
-  </data>
-  <data name="saveFileDialog1.Title" xml:space="preserve">
-    <value>Save File As...</value>
-  </data>
-  <metadata name="printDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>457, 17</value>
-  </metadata>
-  <metadata name="printDocument1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>576, 17</value>
-  </metadata>
-  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>717, 17</value>
-  </metadata>
-  <data name="openFileDialog1.Filter" xml:space="preserve">
-    <value>Text Files|*.txt|All files|*.*</value>
-  </data>
-  <data name="openFileDialog1.Title" xml:space="preserve">
-    <value>Open File...</value>
-  </data>
-  <metadata name="pageSetupDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>857, 17</value>
-  </metadata>
   <metadata name="editorContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 56</value>
+    <value>327, 17</value>
   </metadata>
   <data name="editorUndo.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2185,8 +2158,14 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;editor.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <metadata name="docContents.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>485, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>50</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
@@ -3480,41 +3459,11 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;encodingStatus.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;fontDlg.Name" xml:space="preserve">
-    <value>fontDlg</value>
+  <data name="&gt;&gt;printDoc.Name" xml:space="preserve">
+    <value>printDoc</value>
   </data>
-  <data name="&gt;&gt;fontDlg.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;saveFileDialog1.Name" xml:space="preserve">
-    <value>saveFileDialog1</value>
-  </data>
-  <data name="&gt;&gt;saveFileDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;printDialog1.Name" xml:space="preserve">
-    <value>printDialog1</value>
-  </data>
-  <data name="&gt;&gt;printDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PrintDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;printDocument1.Name" xml:space="preserve">
-    <value>printDocument1</value>
-  </data>
-  <data name="&gt;&gt;printDocument1.Type" xml:space="preserve">
+  <data name="&gt;&gt;printDoc.Type" xml:space="preserve">
     <value>System.Drawing.Printing.PrintDocument, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="&gt;&gt;openFileDialog1.Name" xml:space="preserve">
-    <value>openFileDialog1</value>
-  </data>
-  <data name="&gt;&gt;openFileDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pageSetupDialog1.Name" xml:space="preserve">
-    <value>pageSetupDialog1</value>
-  </data>
-  <data name="&gt;&gt;pageSetupDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PageSetupDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;editorUndo.Name" xml:space="preserve">
     <value>editorUndo</value>
@@ -3581,6 +3530,12 @@ Double Click: Restore Default Zoom</value>
   </data>
   <data name="&gt;&gt;editorSearch.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;docContents.Name" xml:space="preserve">
+    <value>docContents</value>
+  </data>
+  <data name="&gt;&gt;docContents.Type" xml:space="preserve">
+    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Bortpad</value>

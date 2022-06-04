@@ -80,6 +80,15 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Files.
+        /// </summary>
+        public static string AllFiles {
+            get {
+                return ResourceManager.GetString("AllFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}.
         /// </summary>
         public static string AssemblyCompany {
@@ -392,6 +401,15 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open File....
+        /// </summary>
+        public static string openDlg_Title {
+            get {
+                return ResourceManager.GetString("openDlg.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap os9 {
@@ -495,12 +513,30 @@ namespace Bortpad.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save File As....
+        /// </summary>
+        public static string saveDlg_Title {
+            get {
+                return ResourceManager.GetString("saveDlg.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap shift {
             get {
                 object obj = ResourceManager.GetObject("shift", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text Files.
+        /// </summary>
+        public static string TextFiles {
+            get {
+                return ResourceManager.GetString("TextFiles", resourceCulture);
             }
         }
         
