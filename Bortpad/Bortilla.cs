@@ -10,7 +10,31 @@ public class Bortilla : Scintilla
     {
     }
 
-    public int Col => GetColumn(CurrentPosition) + 1;
+    public int Col
+    {
+        get => GetColumn(CurrentPosition) + 1;
+        internal set
+        {
+            // if < 1, go to start of line
+            if (value < 1)
+            {
+                Lines[CurrentLine].Goto();
+                return;
+            }
+
+            // Get (0-based) position on current line based on (1-based) column given
+            int newPos = Lines[CurrentLine].Position + value - 1;
+            // If beyond end of line, go to end of line
+            if (LineFromPosition(newPos) > CurrentLine)
+            {
+                GotoPosition(Lines[CurrentLine].Position + Lines[CurrentLine].Length);
+                return;
+            }
+
+            // Otherwise, go to column position as calculated
+            GotoPosition(newPos);
+        }
+    }
 
     public bool HasSelection => SelectionLength > 0;
 
@@ -21,8 +45,14 @@ public class Bortilla : Scintilla
         get => CurrentLine + 1;
         internal set
         {
-            if (value > NumLines || value < 1)
+            if (value > NumLines)
             {
+                Lines[NumLines - 1].Goto();
+                return;
+            }
+            if (value < 1)
+            {
+                Lines[0].Goto();
                 return;
             }
             Lines[value - 1].Goto();

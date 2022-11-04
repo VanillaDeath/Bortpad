@@ -23,15 +23,15 @@ public partial class Bortpad : Form
 {
     #region _CONSTANTS
 
-    internal const Eol _CR = Eol.Cr;
-    internal const Eol _CRLF = Eol.CrLf;
-    internal const Eol _LF = Eol.Lf;
+    public const Eol _CR = Eol.Cr;
+    public const Eol _CRLF = Eol.CrLf;
+    public const Eol _LF = Eol.Lf;
 
     #endregion _CONSTANTS
 
     #region _fields
 
-    internal static readonly Dictionary<string, object> _DEFAULTS = new()
+    private static readonly Dictionary<string, object> _defaults = new()
     {
         { "General_DefaultEncoding", 65001 },
         { "General_Font", new Font("Consolas", 11.25f) },
@@ -55,12 +55,13 @@ public partial class Bortpad : Form
 
     private Encoding _encodingSetting;
     private string _filename;
+    private string _printString;
 
     #endregion _fields
 
     #region Properties
 
-    public EncodingInfo[] CodePages
+    public static EncodingInfo[] CodePages
     {
         get;
     } = Encoding
@@ -69,34 +70,44 @@ public partial class Bortpad : Form
         .ThenBy(e => e.Name)
         .ToArray();
 
+    public static Dictionary<string, object> Defaults
+    {
+        get;
+    } = _defaults;
+
+    public static string ProgramName
+    {
+        get;
+    } = Assembly.GetExecutingAssembly().GetName().Name;
+
     public Config Conf
     {
         get; private set;
     } = Config.Load(
         configFile: string.Format(Resources.ConfigFile, ProgramName),
-        defaults: _DEFAULTS,
+        defaults: Defaults,
         programName: ProgramName
         );
 
     public bool DarkMode
     {
         get; private set;
-    } = (bool)_DEFAULTS["General_DarkMode"];
+    } = (bool)Defaults["General_DarkMode"];
 
     public Encoding EncodingSetting
     {
-        get => _encodingSetting ?? Encoding.GetEncoding(Conf.Get<int>("DefaultEncoding")) ?? Encoding.GetEncoding((int)_DEFAULTS["General_DefaultEncoding"]);
+        get => _encodingSetting ?? Encoding.GetEncoding(Conf.Get<int>("DefaultEncoding")) ?? Encoding.GetEncoding((int)Defaults["General_DefaultEncoding"]);
         private set => _encodingSetting = value;
     }
 
     public Eol EolSetting
     {
         get; private set;
-    } = (Eol)_DEFAULTS["General_LineEnding"];
+    } = (Eol)Defaults["General_LineEnding"];
 
     public string FileName
     {
-        get => _filename ?? Resources.DefaultFilename ?? (string)_DEFAULTS["Filename"];
+        get => _filename ?? Resources.DefaultFilename ?? (string)Defaults["Filename"];
         private set => _filename = value;
     }
 
@@ -118,20 +129,15 @@ public partial class Bortpad : Form
 
     public FileInfo OpenFilesInfo => IsFile ? new(_filename) : null;
 
-    public static string ProgramName
-    {
-        get;
-    } = Assembly.GetExecutingAssembly().GetName().Name;
-
     public bool StatusBar
     {
         get; private set;
-    } = (bool)_DEFAULTS["General_StatusBar"];
+    } = (bool)Defaults["General_StatusBar"];
 
     public bool ViewEol
     {
         get; private set;
-    } = (bool)_DEFAULTS["General_ShowLineEndings"];
+    } = (bool)Defaults["General_ShowLineEndings"];
 
     #endregion Properties
 
@@ -157,7 +163,7 @@ public partial class Bortpad : Form
         {
             FileName = filenameSpecified;
 
-            Conf ??= Config.Load(string.Format(Resources.ConfigFile, ProgramName), _DEFAULTS, ProgramName);
+            Conf ??= Config.Load(string.Format(Resources.ConfigFile, ProgramName), Defaults, ProgramName);
 
             EncodingSetting = null; // Default for new files
             editor.Font = Conf.Get<Font>("Font");
@@ -167,12 +173,12 @@ public partial class Bortpad : Form
             windowsLineFeed.Tag = Eol.CrLf;
             linuxLineFeed.Tag = Eol.Lf;
             macLineFeed.Tag = Eol.Cr;
-            lineReturnType.Tag = _DEFAULTS["General_LineEnding"];
+            lineReturnType.Tag = Defaults["General_LineEnding"];
             ViewEol = Conf.Get<bool>("ShowLineEndings");
             EolSetting = Conf.Get<Eol>("LineEnding");
 
             // Resources.DefaultFilename for language-dependent new file name
-            Text = $"{Resources.DefaultFilename ?? _DEFAULTS["Filename"]} - {ProgramName}";
+            Text = $"{Resources.DefaultFilename ?? Defaults["Filename"]} - {ProgramName}";
 
             return true;
         }
@@ -199,6 +205,15 @@ public partial class Bortpad : Form
         item.ForeColor = mode ? SystemColors.Control : SystemColors.ControlText;
     }
 
+    public static void ErrorBox(Exception e, MessageBoxIcon? icon = MessageBoxIcon.Error)
+    {
+        Trace.TraceError(e.Message);
+        Trace.Indent();
+        Trace.TraceError(e.StackTrace);
+        Trace.Unindent();
+        _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, icon);
+    }
+
     public static StringComparison GetComparisonType(bool matchCase = false)
     {
         return matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
@@ -218,15 +233,6 @@ public partial class Bortpad : Form
     #endregion Static Methods
 
     #region Instance Methods: Document
-
-    private void FileNotFound()
-    {
-        _ = MsgBox.Show(
-            Resources.PathNotFound,
-            ProgramName,
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Warning);
-    }
 
     private bool NewDocument(bool saveFirst = true)
     {
@@ -300,7 +306,11 @@ public partial class Bortpad : Form
         }
         catch (FileNotFoundException)
         {
-            FileNotFound();
+            _ = MsgBox.Show(
+                Resources.PathNotFound,
+                ProgramName,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
             return default;
         }
         catch (Exception e)
@@ -326,11 +336,6 @@ public partial class Bortpad : Form
 
     private void Print()
     {
-        using WebBrowser webBrowser = new()
-        {
-            Visible = false,
-            
-        };
         using PrintDialog printDlg = new()
         {
             AllowSelection = true,
@@ -341,6 +346,8 @@ public partial class Bortpad : Form
         {
             return;
         }
+        printDoc.PrinterSettings = printDlg.PrinterSettings;
+        _printString = editor.Text;
         printDoc.Print();
     }
 
@@ -352,6 +359,7 @@ public partial class Bortpad : Form
             // true = we're good to proceed and launch open dialog/new/exit
             return true;
         }
+        // READ-ONLY files
         if (IsReadOnly)
         {
             if (!readOnlyNotice.Visible)
@@ -389,14 +397,14 @@ public partial class Bortpad : Form
                         DialogResult = DialogResult.No
                     });
             }
-            DialogResult rod = MsgBox.Show(
+
+            switch (MsgBox.Show(
                 string.Format(Resources.IsMarkedAsReadOnly, Path.GetFileName(FileName)),
                 Resources.ReadOnlyOptions,
                 ProgramName,
                 buttons,
                 null,
-                "saveAsBtn");
-            switch (rod)
+                "saveAsBtn"))
             {
                 case DialogResult.Yes:
                     IsReadOnly = false;
@@ -420,6 +428,8 @@ public partial class Bortpad : Form
                     return false;
             }
         }
+
+        // Non READ-ONLY files
         DialogResult scp = MsgBox.Show(
             string.Format(Resources.SaveChangesTo, Path.GetFileName(FileName)),
             "",
@@ -522,8 +532,8 @@ public partial class Bortpad : Form
 
     private void Find()
     {
-        FindPrompt find = Application.OpenForms.OfType<FindPrompt>().FirstOrDefault();
-        if (find is not null)
+        FindPrompt find;
+        if ((find = Application.OpenForms.OfType<FindPrompt>().FirstOrDefault()) is not null)
         {
             find.BringToFront();
             return;
@@ -560,8 +570,8 @@ public partial class Bortpad : Form
         bool searchMatchCase = Conf.Get<bool>("MatchCase", "Find");
         int current = editor.SelectionStart;
         int length = editor.SelectionLength;
-        int pos =
-            (previous && current == 0)
+        int pos
+            = (previous && current == 0)
             ? -1
             : OmniIndexOf(searchQuery, editor.Text, previous, current + (previous ? -1 : length), searchMatchCase);
         if (pos == -1 && Conf.Get<bool>("WrapAround", "Find"))
@@ -607,7 +617,7 @@ public partial class Bortpad : Form
             _ = MsgBox.Show(string.Format(Resources.CannotFind, q), ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Information);
             return;
         }
-        editor.Pos = pos;
+        editor.GotoPosition(pos);
         editor.SetSelection(pos, pos + q.Length);
         editor.ScrollCaret();
         UpdatePos();
@@ -658,8 +668,8 @@ public partial class Bortpad : Form
 
     private void ReplacePrompt()
     {
-        ReplacePrompt replace = Application.OpenForms.OfType<ReplacePrompt>().FirstOrDefault();
-        if (replace is not null)
+        ReplacePrompt replace;
+        if ((replace = Application.OpenForms.OfType<ReplacePrompt>().FirstOrDefault()) is not null)
         {
             replace.BringToFront();
             return;
@@ -756,10 +766,10 @@ public partial class Bortpad : Form
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             bool first = true;
             foreach (string file in files)
-            {
+            {               // Not holding shift
                 if (first && (e.KeyState & 4) != 4)
                 {
-                    OpenDocument(saveFirst: true, fileName: file);
+                    _ = OpenDocument(saveFirst: true, fileName: file);
                     first = false;
                     continue;
                 }
@@ -779,6 +789,7 @@ public partial class Bortpad : Form
         if (e.Data.GetDataPresent(DataFormats.FileDrop))
         {
             holdShiftNotice.Visible = true;
+            // Not holding shift
             if ((e.KeyState & 4) != 4)
             {
                 e.Effect = DragDropEffects.Copy;
@@ -805,10 +816,11 @@ public partial class Bortpad : Form
 
     private void BortForm_Shown(object sender, EventArgs e)
     {
-        if (_filename is null || !OpenDocument(saveFirst: false, fileName: _filename))
+        if (_filename is not null && OpenDocument(saveFirst: false, fileName: _filename))
         {
-            _ = NewDocument(saveFirst: false);
+            return;
         }
+        _ = NewDocument(saveFirst: false);
     }
 
     private void ContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -833,10 +845,11 @@ public partial class Bortpad : Form
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question,
                 MessageBoxDefaultButton.Button2)
-            == DialogResult.Yes)
+            != DialogResult.Yes)
         {
-            editor.ConvertEols(editor.EolMode);
+            return;
         }
+        editor.ConvertEols(editor.EolMode);
     }
 
     private void CursorPosition_Changed(object sender, UpdateUIEventArgs e)
@@ -866,15 +879,6 @@ public partial class Bortpad : Form
             = editFindNext.Enabled
             = editFindPrevious.Enabled
             = true;
-    }
-
-    private void ErrorBox(Exception e)
-    {
-        Trace.TraceError(e.Message);
-        Trace.Indent();
-        Trace.TraceError(e.StackTrace);
-        Trace.Unindent();
-        _ = MsgBox.Show(e.Message, ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
     private void LineReturnType_DropDownOpening(object sender, EventArgs e)
@@ -924,7 +928,7 @@ public partial class Bortpad : Form
             #region File Menu
 
             case "fileNew":
-                NewDocument();
+                _ = NewDocument();
                 break;
 
             case "fileNewWindow":
@@ -932,7 +936,7 @@ public partial class Bortpad : Form
                 break;
 
             case "fileOpen":
-                OpenDocument();
+                _ = OpenDocument();
                 break;
 
             case "fileSave":
@@ -942,7 +946,7 @@ public partial class Bortpad : Form
                 break;
 
             case "fileSaveAs":
-                SaveDocument(true);
+                _ = SaveDocument(saveAs: true);
                 break;
 
             case "filePageSetup":
@@ -994,7 +998,7 @@ public partial class Bortpad : Form
             case "editSearch":
             case "editorSearch":
                 _ = editor.HasSelection
-                    ? Process.Start(_DEFAULTS["SearchURI"] + WebUtility.UrlEncode(editor.SelectedText))
+                    ? Process.Start(Defaults["SearchURI"] + WebUtility.UrlEncode(editor.SelectedText))
                     : null;
                 break;
 
@@ -1075,11 +1079,11 @@ public partial class Bortpad : Form
             #region Help Menu
 
             case "helpViewHelp":
-                Process.Start((string)_DEFAULTS["HelpURL"]);
+                _ = Process.Start((string)Defaults["HelpURL"]);
                 break;
 
             case "helpSendFeedback":
-                Process.Start((string)_DEFAULTS["FeedbackURL"]);
+                _ = Process.Start((string)Defaults["FeedbackURL"]);
                 break;
 
             case "helpAbout":
@@ -1089,10 +1093,10 @@ public partial class Bortpad : Form
                 }
                 break;
 
+            #endregion Help Menu
+
             default:
                 break;
-
-                #endregion Help Menu
         }
     }
 
@@ -1130,10 +1134,7 @@ public partial class Bortpad : Form
         }
     }
 
-#pragma warning disable IDE0051 // Remove unused private members
-
     private void OnPropertyChanged(string propertyName, object before, object after)
-#pragma warning restore IDE0051 // Remove unused private members
     {
         // Side effects of property changes performed here
         if (Equals(before, after))
@@ -1195,9 +1196,28 @@ public partial class Bortpad : Form
         }
     }
 
+    private void Position_DoubleClick(object sender, EventArgs e)
+    {
+        GoTo();
+    }
+
     private void PrintPage(object sender, PrintPageEventArgs e)
     {
-        e.Graphics.DrawString(editor.Text, editor.Font, Brushes.Black, 20, 20);
+        // Sets the value of charactersOnPage to the number of characters
+        // of stringToPrint that will fit within the bounds of the page.
+        _ = e.Graphics.MeasureString(_printString, editor.Font,
+            e.MarginBounds.Size, StringFormat.GenericTypographic,
+            out int charactersOnPage, out _); // linesPerPage unused
+
+        // Draws the string within the bounds of the page
+        e.Graphics.DrawString(_printString, editor.Font, Brushes.Black,
+            e.MarginBounds, StringFormat.GenericTypographic);
+
+        // Remove the portion of the string that has been printed.
+        _printString = _printString.Substring(charactersOnPage);
+
+        // Check to see if more pages are to be printed.
+        e.HasMorePages = _printString.Length > 0;
     }
 
     private void ReadOnlyNotice_Click(object sender, EventArgs e)
@@ -1232,14 +1252,14 @@ public partial class Bortpad : Form
         EolSetting = (Eol)clickedItem.Tag;
     }
 
-    private void ToggleShowLineEndings(object sender, EventArgs e)
-    {
-        ViewEol = !ViewEol;
-    }
-
     private void ToggleDarkMode(object sender, EventArgs e)
     {
         DarkMode = !DarkMode;
+    }
+
+    private void ToggleShowLineEndings(object sender, EventArgs e)
+    {
+        ViewEol = !ViewEol;
     }
 
     private void UpdateTitle(object sender, EventArgs e)
@@ -1265,11 +1285,6 @@ public partial class Bortpad : Form
     private void ZoomLevel_MouseLeave(object sender, EventArgs e)
     {
         statusBar.MouseWheel -= ScrollZoom;
-    }
-
-    private void Position_DoubleClick(object sender, EventArgs e)
-    {
-        GoTo();
     }
 
     #endregion Instance Methods: Events

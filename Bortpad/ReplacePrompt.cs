@@ -74,10 +74,10 @@ namespace Bortpad
 
         private void SearchQuery_TextChanged(object sender, EventArgs e)
         {
-            bool hasText = SearchQuery.Length > 0;
-            findNextButton.Enabled = hasText;
-            replaceButton.Enabled = hasText;
-            replaceAllButton.Enabled = hasText;
+            findNextButton.Enabled
+                = replaceButton.Enabled
+                = replaceAllButton.Enabled
+                = SearchQuery.Length > 0;
         }
     }
 }

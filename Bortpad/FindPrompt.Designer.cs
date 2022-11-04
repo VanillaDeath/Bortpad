@@ -70,9 +70,9 @@
             // 
             // direction
             // 
-            resources.ApplyResources(this.direction, "direction");
             this.direction.Controls.Add(this.down);
             this.direction.Controls.Add(this.up);
+            resources.ApplyResources(this.direction, "direction");
             this.direction.Name = "direction";
             this.direction.TabStop = false;
             // 
@@ -123,7 +123,6 @@
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.TopMost = true;
-            this.Shown += new System.EventHandler(this.FindPrompt_Shown);
             this.VisibleChanged += new System.EventHandler(this.FindPrompt_VisibleChanged);
             this.direction.ResumeLayout(false);
             this.direction.PerformLayout();

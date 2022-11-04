@@ -453,13 +453,13 @@
     <value>&amp;Restore Default Zoom</value>
   </data>
   <data name="viewZoom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="viewZoom.Text" xml:space="preserve">
     <value>&amp;Zoom</value>
   </data>
   <data name="viewStatusBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="viewStatusBar.Text" xml:space="preserve">
     <value>&amp;Status Bar</value>
@@ -2158,9 +2158,6 @@ Double Click: Restore Default Zoom</value>
   <data name="&gt;&gt;editor.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <metadata name="docContents.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>485, 17</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -3530,12 +3527,6 @@ Double Click: Restore Default Zoom</value>
   </data>
   <data name="&gt;&gt;editorSearch.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;docContents.Name" xml:space="preserve">
-    <value>docContents</value>
-  </data>
-  <data name="&gt;&gt;docContents.Type" xml:space="preserve">
-    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Bortpad</value>

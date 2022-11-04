@@ -17,7 +17,11 @@ namespace Bortpad
         public bool Up
         {
             get => up.Checked;
-            private set => up.Checked = value;
+            private set
+            {
+                up.Checked = value;
+                down.Checked = !value;
+            }
         }
 
         public bool MatchCase
@@ -48,13 +52,7 @@ namespace Bortpad
 
         private void FindNext_Click(object sender, EventArgs e)
         {
-            // findNext();
             FindClick?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void FindPrompt_Shown(object sender, EventArgs e)
-        {
-            // BortParent = (BortForm)Owner;
         }
 
         private void FindPrompt_VisibleChanged(object sender, EventArgs e)

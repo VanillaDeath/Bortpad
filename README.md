@@ -11,11 +11,6 @@ It is primarily a C# learning project for myself.
 📚 Multi-file drag-and-drop to open  
 
 
-## Known Issues
-⛔ Page Setup doesn't work (throws exception).  
-⏳ Print dialog takes a long time to appear  
-🖨️ No word wrap when printing  
-
 ---
 
 ## Technical Details
@@ -30,12 +25,18 @@ Bortpad is a C# WinForms application, built on .NET Framework 4.8, designed to c
 - Search web for selection is hard-coded to *Google* instead of a competitor's search engine.  
 - Supports command-line argument to open file.  
 - Supports text drag-and-drop on editor, file drag-and-drop on window.  
-- Localized to English and French (v1.0.4).  
-- Printing is still a work in progress.  
+- Localized to English, French, and Japanese (v1.0.5).  
 
 ---
 
 ## Releases
+* ### [v1.0.6](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.6)
+> - Fixed printing
+* ### [v1.0.5](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.5)
+> - French localization
+> - Japanese localization
+* ### v1.0.4
+> Skipped (due to compiler error that needed version increase to fix)
 * ### [v1.0.3](https://github.com/VanillaDeath/Bortpad/releases/tag/v1.0.3)
 > - Reverted to .NET Framework 4.8 since the Scintilla custom control wouldn't co-operate with .NET Core's designer
 > - A lot of code clean-up

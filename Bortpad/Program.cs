@@ -2,26 +2,29 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 
-// using WilsonUtils;
-
 namespace Bortpad
 {
     internal static class Program
     {
+        internal static readonly bool DEBUG = false;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         private static void Main()
         {
-            // DEBUG
             _ = Trace.Listeners.Add(new TextWriterTraceListener(
                 $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.log",
                 "ErrorLog"));
             Trace.Listeners["ErrorLog"].TraceOutputOptions |= TraceOptions.DateTime;
             Trace.AutoFlush = true;
-            // Trace.TraceInformation("Application start.");
-            // LanguageSetter.SetLanguage("ja");
+            if (DEBUG)
+            {
+                string[] lang = { "en", "fr", "ja" };
+                Trace.TraceInformation("Application start.");
+                WilsonUtils.LanguageSetter.SetLanguage(lang[2]);
+            }
 
             string[] args = Environment.GetCommandLineArgs();
             string filename = args.Length > 1 ? args[1] : null;
@@ -31,7 +34,10 @@ namespace Bortpad
 
             Application.Run(new Bortpad(filename));
 
-            // Trace.TraceInformation("Application end.");
+            if (DEBUG)
+            {
+                Trace.TraceInformation("Application end.");
+            }
             Trace.Close();
         }
     }
